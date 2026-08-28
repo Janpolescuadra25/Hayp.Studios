@@ -125,3 +125,28 @@ Verification (agent-browser + VLM):
 
 Stage Summary:
 - Gamer hex-badge logo live across all surfaces; background is now autonomous light sweeps (no cursor dependence, no snake feel) with all animations intact; all identity copy is pure Vortex brand advertising; motto updated to "Less friction. More momentum."
+
+---
+Task ID: 5
+Agent: Main Agent (Super Z)
+Task: Per user feedback — confirm cursor-snake is gone from the background (keep the hex "snake octagon" light sweeps); replace the hero headline "Ready-made digital products, done properly." without using the phrase "Digital products".
+
+Work Log:
+- Audited current state: cursor token/attraction was already removed in commit cc968b2; grep confirmed the only pointer code left is the Magnetic button hover (UI affordance) and the pointerdown click-shockwave (no tracking). Last commit before this session touched worklog only, so served code = de-snaked code.
+- Headline rewrite: hero H1 line 2 "digital products," → "software," — headline now reads "Ready-made / software, / done *properly.*" (keeps 3-line masked reveal + serif gradient finale)
+- Consistency sweep of the exact phrase "digital products" (now zero matches in src/):
+  - layout.tsx: title + OG title → "Vortex.studio — Ready-Made Software"; keyword "digital products" → "ready-made software"
+  - vortex-landing-story.tsx Ch.1 caption: "a single obsession: software that feels effortless."
+  - vortex-data.ts changelog day-one entry: "ship complete, ready-to-use software…"
+  - Deliberately kept the studio descriptor phrases ("A digital product studio — est. 2025" overline, footer "independent digital product studio") — different phrase, user-approved positioning
+- Verification (agent-browser + VLM at 1440x900):
+  - Headline verified: "Ready-made software, done properly." renders in the hero
+  - Cursor test: mouse moved to (300,450), (1150,200), (720,480) with screenshots — VLM confirmed NO marker/ring/diamond/player-token at any cursor position; backgrounds identical in nature across shots
+  - Animation alive: streaks/trails moved between frames (VLM confirmed)
+  - Click shockwave: ring + radial hex ignition still fires on click (VLM confirmed)
+  - Zero console errors/warnings; tsc clean for src/
+- Committed as 3a91b2b; verification screenshots cleaned from /tmp
+
+Stage Summary:
+- Background is fully autonomous: hex lattice + light sweeps + cell ignition + sparks + click shockwaves, with zero cursor dependence (user should hard-refresh if they still see the old token — browser cache)
+- Hero headline and all site copy now use "software" instead of "digital products"; metadata title/OG/keywords updated to match
