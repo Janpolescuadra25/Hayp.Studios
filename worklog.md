@@ -180,3 +180,28 @@ Verification (agent-browser + VLM at 1440x900, pinned section at 380vh):
 
 Stage Summary:
 - Chapter 3 is now "The Circuit — 5 lanes. One standard." with vortex-voiced blurbs and a forward-motion outro; the section's racing language matches the neon racer background instead of generic catalog copy
+
+---
+Task ID: 7
+Agent: Main Agent (Super Z)
+Task: Per user feedback — (1) lighten the click shockwave (too dark), (2) remove the moving snake-line streak animation from the background entirely.
+
+Work Log:
+- Full rewrite of vortex-background.tsx ("HEX ARCADE FIELD — the calm cut"):
+  - REMOVED: all racer code (Racer interface, SPEEDS, makeRacer, respawn, stepRacers, angDelta, edge steering, nitro boosts, trail shedding, wrap logic, racer clamping in onResize) — the moving neon snake lines are gone
+  - Background is now a STILL hexagonal lattice; the dynamic canvas animates only on click/tap
+  - Lightened the click shockwave: main ring dark teal [13,148,136] @ alpha 0.5 / 2.5px → bright teal [45,212,191] @ alpha 0.3 / 2px; echo ring cyan alpha 0.24 → 0.14
+  - Palette swapped to lighter set (bright teal / cyan / emerald — dropped dark & deep teal); hex ignition fill cap 0.11 → 0.10, stroke 0.09 → 0.08; sparks alpha 0.85 → 0.7, cap 110 → 60, click burst 10 → 8
+  - fadeFrame 0.07 → 0.12 — cleaner residue-free ring afterglow
+  - Reduced-motion still frame recomposed: gentle ring of lit cells around center + a few sparks (was warmed-up racers)
+  - Kept: static hex lattice, brand tints, grain, vignette, click shockwave + radial hex ignition + sparks, DPR cap, visibilitychange pause, passive listeners
+
+Verification (agent-browser + VLM, 1440x900 + 390px):
+- Idle frames 1.6s apart: VLM confirmed background is a completely still hex grid, zero streaks/snake lines; frames identical
+- Click: shockwave ring + radial hex ignition present; VLM confirmed color reads "light and subtle (pale bright teal) rather than dark or saturated"
+- Mid-scroll content over the calm background: clean, text/cards legible
+- Mobile 390px: no horizontal overflow, no layout breaks; zero console errors
+- tsc clean for src/; committed as 9d05d2f; screenshots cleaned
+
+Stage Summary:
+- The background is now a calm, still hex board that reacts only to clicks with a light bright-teal shockwave + cell ignition + sparks — no roaming lines, no cursor dependence, nothing dark
