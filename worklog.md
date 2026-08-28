@@ -205,3 +205,32 @@ Verification (agent-browser + VLM, 1440x900 + 390px):
 
 Stage Summary:
 - The background is now a calm, still hex board that reacts only to clicks with a light bright-teal shockwave + cell ignition + sparks — no roaming lines, no cursor dependence, nothing dark
+
+---
+Task ID: 8
+Agent: Main Agent (Super Z)
+Task: Per user feedback — (1) rewrite the four Chapter 2 craft rows so they relate to what Vortex is about, (2) review ALL site wordings for logical correctness and fix where needed.
+
+Work Log:
+- Full-copy audit across hero, story chapters, showcase, hub, whatsnew, chrome, data layer, metadata. Verified as CORRECT: counts (2 live / 7 pipeline / 5 categories everywhere), changelog chronology vs product dates (founded 2025-11-01 → games 2026-08-10 → milestone 2026-08-25), motto consistency, marquee, circuit card meta lines, no founder/solo phrasing, zero "digital products" phrase.
+- CRAFT_ROWS rewritten (vortex-landing-story.tsx):
+  1. "Ships whole, always" — "Every product leaves the vortex complete — screens, flows, states, edge cases and docs included. Not a starter kit, not a promising beta. A finished thing, running live." (was "you can launch the same afternoon" — template-seller speak contradicting Vortex's own live products)
+  2. "One system, one voice" — "…crafted as one system, under one roof. Nothing gets lost between disciplines — so the product speaks with a single voice, end to end." (was "teams that don't talk" — generic corporate jab)
+  3. "Effortless is the bar" — kept the ledger/feed/game-HUD line; "isn't just the motto" → "isn't a slogan on a wall here"
+  4. "Dependable by default" — "Clean code, honest docs and support that answers. From live ledgers to worlds still loading… it has to work — and keep working." (was "accountability… isn't a department")
+- Logic fixes found by the audit:
+  - Footer brand blurb + metadata description/OG: "Ready-made websites, tools and platforms" → "Ready-made software — tools, platforms and game worlds…" (catalog contains ZERO websites — factually wrong claim)
+  - Featured section label "In the Wild" → "The Lineup" (Zypra is In development — not "in the wild"; lineup = accurate for live + upcoming)
+  - FinalCta overline "Spin one up" → "Take one for a spin" (imperative told the VISITOR to create a product — visitors adopt, the studio spins up) + closing line "for whoever launches next" → "one lane at a time." (agency-vibe ambiguity, ties to Circuit)
+  - Hub header "Two products live, seven more spinning" hardcoded → dynamic {LIVE_COUNT}/{PIPELINE_COUNT}
+  - Hub footer note "Head back to the story to see what's coming next" → "…to see where the momentum comes from." ("what's coming next" is What's New's job; the story explains the studio)
+  - Hub live-product toast "This catalog is a live preview. Product links open from the public hub." → "This hub is a live preview — public product links arrive at launch." (old copy confused: we ARE in the hub)
+
+Verification (agent-browser + VLM + DOM):
+- Craft rows 02/03 + "04 — THE LINEUP" + card statuses (Haypbooks LIVE, Qyra LIVE, Zypra IN DEVELOPMENT) quoted exactly by VLM
+- DOM asserts all green: all 4 new craft row titles+bodies, The Lineup label, "Take one for a spin", "one lane at a time.", footer blurb swap
+- Hub header renders "2 products live, 7 more spinning…" (dynamic); CTA panel visually verified clean with all new copy; zero console errors; tsc clean for src/
+- Committed as 2eac12e; screenshots cleaned
+
+Stage Summary:
+- Craft rows now speak pure Vortex (whole-shipping, one-voice, effortless bar, dependability) and every factual/logical copy error found in the site-wide audit is fixed — most notably the false "websites" claim and the mislabeled "In the Wild" section
