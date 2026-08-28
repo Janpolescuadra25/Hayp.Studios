@@ -153,7 +153,7 @@ export function VortexHero({
 
         <h1 className="font-display text-[clamp(2.9rem,8.6vw,7.6rem)] font-bold leading-[0.98] tracking-[-0.035em] text-vortex-ink">
           {line("Ready-made", introDelay + 0.05)}
-          {line("digital products,", introDelay + 0.17)}
+          {line("software,", introDelay + 0.17)}
           {line(
             <>
               done{" "}

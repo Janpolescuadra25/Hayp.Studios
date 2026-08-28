@@ -67,7 +67,7 @@ export function ChapterOne() {
             style={{ opacity: captionOpacity, y: captionY }}
           >
             Vortex is momentum made visible — an independent studio built on
-            a single obsession: digital products that feel effortless.
+            a single obsession: software that feels effortless.
             Strategy, design, engineering and motion spin here as one force.
             No templates, no shortcuts, no settling. What leaves the vortex
             lands ahead of expectation — every time.

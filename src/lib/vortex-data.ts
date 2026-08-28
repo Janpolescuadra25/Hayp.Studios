@@ -221,7 +221,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     kind: "milestone",
     title: "Vortex.studio is Founded",
     date: "2025-11-01",
-    body: "Day one: Vortex opens its doors with a single mission — ship complete, ready-to-use digital products with no templates and no shortcuts.",
+    body: "Day one: Vortex opens its doors with a single mission — ship complete, ready-to-use software with no templates and no shortcuts.",
   },
   {
     id: "cl-02",
