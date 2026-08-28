@@ -7,16 +7,15 @@ import { useEffect, useRef } from "react";
 /*  A white-void arena that behaves like a game board.                 */
 /*                                                                     */
 /*  • Hexagonal strategy lattice — the arena floor                     */
-/*  • Neon light-cycle racers sweep the void with glowing afterglow    */
-/*    and occasional nitro boosts                                      */
-/*  • Hex cells ignite under every trail — the board powers up         */
-/*  • Pixel sparks (rotating diamonds) scatter off the racers          */
-/*  • The cursor is the player token — trails steer toward you         */
+/*  • Neon light streaks sweep the void in long clean arcs with        */
+/*    glowing afterglow and occasional nitro boosts                    */
+/*  • Hex cells ignite under every streak — the board powers up        */
+/*  • Pixel sparks (rotating diamonds) scatter off the streaks         */
 /*  • Click / tap casts a shockwave that ignites cells in a radial     */
 /*    wave, MOBA-ability style                                         */
 /*                                                                     */
 /*  Two canvases: a static lattice layer (redrawn only on resize) and  */
-/*  a dynamic layer whose trails are faded each frame with             */
+/*  a dynamic layer whose streaks are faded each frame with            */
 /*  destination-out compositing — silky neon afterglow on the white    */
 /*  base for free. Honors prefers-reduced-motion (one composed still   */
 /*  frame) and pauses when the tab is hidden.                          */
@@ -86,7 +85,6 @@ interface Racer {
   cooldown: number;
   sparkIn: number;
 }
-
 interface Spark {
   x: number;
   y: number;
@@ -135,7 +133,6 @@ export function VortexBackground() {
     if (!lctx || !dctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const finePtr = window.matchMedia("(pointer: fine)").matches;
 
     let w = 0;
     let h = 0;
@@ -148,9 +145,6 @@ export function VortexBackground() {
     const waves: Wave[] = [];
     const pulses = new Map<string, Pulse>();
 
-    const ptr = { x: 0.5, y: 0.42, tx: 0.5, ty: 0.42, active: false, speed: 0 };
-    const token = { x: 0.5, y: 0.42 };
-
     /* ---------------- setup ---------------- */
 
     const makeRacer = (i: number): Racer => {
@@ -161,7 +155,7 @@ export function VortexBackground() {
         py: 0,
         heading: 0,
         speedF: SPEEDS[i % SPEEDS.length],
-        turn: 0.75 + Math.random() * 0.7,
+        turn: 0.28 + Math.random() * 0.3,
         seed: Math.random() * 100,
         color: PALETTE[i % PALETTE.length],
         coreW: i % 2 === 0 ? 2.2 : 3,
@@ -287,15 +281,15 @@ export function VortexBackground() {
 
     const stepRacers = (dt: number, t: number) => {
       const B = 90; // steering band — keep the action mid-screen
-      const R = minDim * 0.34; // cursor attraction range
 
       for (const r of racers) {
         r.px = r.x;
         r.py = r.y;
 
-        // wander — layered sines give gentle S-curves
+        // gentle wander — slow, wide S-curves read as light sweeps,
+        // not wriggling creatures
         r.heading +=
-          (Math.sin(t * 0.5 + r.seed) + Math.sin(t * 0.23 + r.seed * 2.7)) *
+          (Math.sin(t * 0.3 + r.seed) + Math.sin(t * 0.13 + r.seed * 2.7)) *
           0.5 *
           r.turn *
           dt;
@@ -303,19 +297,7 @@ export function VortexBackground() {
         // steer back toward the middle near edges
         if (r.x < B || r.x > w - B || r.y < B || r.y > h - B) {
           const desired = Math.atan2(h / 2 - r.y, w / 2 - r.x);
-          r.heading += angDelta(r.heading, desired) * Math.min(1, dt * 0.9);
-        }
-
-        // trails lean toward the player token
-        if (ptr.active) {
-          const dx = ptr.x * w - r.x;
-          const dy = ptr.y * h - r.y;
-          const d = Math.hypot(dx, dy);
-          if (d < R && d > 36) {
-            const desired = Math.atan2(dy, dx);
-            r.heading +=
-              angDelta(r.heading, desired) * Math.min(1, dt * 0.55 * (1 - d / R));
-          }
+          r.heading += angDelta(r.heading, desired) * Math.min(1, dt * 1.1);
         }
 
         // nitro boosts
@@ -334,7 +316,7 @@ export function VortexBackground() {
         r.x += Math.cos(r.heading) * speed * dt;
         r.y += Math.sin(r.heading) * speed * dt;
 
-        // draw trail segment — halo then crisp core
+        // draw streak segment — halo then crisp core; bright leading edge
         const boost = r.boost > 0;
         dctx.lineCap = "round";
         dctx.strokeStyle = rgba(r.color, boost ? 0.17 : 0.1);
@@ -351,17 +333,7 @@ export function VortexBackground() {
         dctx.lineTo(r.x, r.y);
         dctx.stroke();
 
-        // head glow
-        dctx.fillStyle = rgba(r.color, boost ? 0.22 : 0.15);
-        dctx.beginPath();
-        dctx.arc(r.x, r.y, boost ? 12 : 7, 0, Math.PI * 2);
-        dctx.fill();
-        dctx.fillStyle = rgba(r.color, 0.92);
-        dctx.beginPath();
-        dctx.arc(r.x, r.y, boost ? 3.4 : 2.4, 0, Math.PI * 2);
-        dctx.fill();
-
-        // cell under the head powers up
+        // cell under the streak powers up
         ignite(r.x, r.y, boost ? 0.68 : 0.45, r.color);
 
         // pixel sparks shed from the trail
@@ -440,65 +412,16 @@ export function VortexBackground() {
         dctx.arc(wv.x, wv.y, wv.r * 0.62, 0, Math.PI * 2);
         dctx.stroke();
       }
-
-      // player token — follows the cursor with a spring
-      if (finePtr && ptr.active) {
-        token.x += (ptr.tx - token.x) * Math.min(1, dt * 8);
-        token.y += (ptr.ty - token.y) * Math.min(1, dt * 8);
-        const tx = token.x * w;
-        const ty = token.y * h;
-        const haloR = 24 + ptr.speed * 14;
-
-        const g = dctx.createRadialGradient(tx, ty, 0, tx, ty, haloR);
-        g.addColorStop(0, rgba(PALETTE[0], 0.13));
-        g.addColorStop(1, rgba(PALETTE[0], 0));
-        dctx.fillStyle = g;
-        dctx.beginPath();
-        dctx.arc(tx, ty, haloR, 0, Math.PI * 2);
-        dctx.fill();
-
-        dctx.strokeStyle = rgba(PALETTE[0], 0.45);
-        dctx.lineWidth = 1.2;
-        dctx.beginPath();
-        dctx.arc(tx, ty, 12, 0, Math.PI * 2);
-        dctx.stroke();
-
-        // slowly rotating pickup diamond
-        dctx.save();
-        dctx.translate(tx, ty);
-        dctx.rotate(Math.PI / 4 + t * 0.7);
-        dctx.fillStyle = rgba(PALETTE[0], 0.9);
-        dctx.fillRect(-4, -4, 8, 8);
-        dctx.fillStyle = "rgba(251, 253, 253, 0.95)";
-        dctx.fillRect(-1.5, -1.5, 3, 3);
-        dctx.restore();
-
-        // orbiting satellite dot
-        const sa = t * 3.2;
-        dctx.fillStyle = rgba(PALETTE[2], 0.85);
-        dctx.beginPath();
-        dctx.arc(tx + Math.cos(sa) * 17, ty + Math.sin(sa) * 17, 1.8, 0, Math.PI * 2);
-        dctx.fill();
-      }
     };
 
     const fadeFrame = () => {
       dctx.globalCompositeOperation = "destination-out";
-      dctx.fillStyle = "rgba(0, 0, 0, 0.085)";
+      dctx.fillStyle = "rgba(0, 0, 0, 0.07)";
       dctx.fillRect(0, 0, w, h);
       dctx.globalCompositeOperation = "source-over";
     };
 
     /* ---------------- events ---------------- */
-
-    const onMove = (e: PointerEvent) => {
-      const nx = e.clientX / window.innerWidth;
-      const ny = e.clientY / window.innerHeight;
-      ptr.speed = Math.min(1, ptr.speed + Math.hypot(nx - ptr.tx, ny - ptr.ty) * 14);
-      ptr.tx = nx;
-      ptr.ty = ny;
-      ptr.active = true;
-    };
 
     const onDown = (e: PointerEvent) => {
       const x = (e.clientX / window.innerWidth) * w;
@@ -538,7 +461,6 @@ export function VortexBackground() {
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      ptr.speed = Math.max(0, ptr.speed - dt * 1.4);
       fadeFrame();
       stepRacers(dt, now / 1000);
       drawEffects(dt, now / 1000);
@@ -573,7 +495,6 @@ export function VortexBackground() {
       drawEffects(0, 2.4);
     } else {
       start();
-      window.addEventListener("pointermove", onMove, { passive: true });
       window.addEventListener("pointerdown", onDown, { passive: true });
     }
     window.addEventListener("resize", onResize);
@@ -581,7 +502,6 @@ export function VortexBackground() {
 
     return () => {
       stop();
-      window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
@@ -615,7 +535,7 @@ export function VortexBackground() {
       {/* hex strategy lattice — the arena floor */}
       <canvas ref={latticeRef} className="absolute inset-0 h-full w-full" />
 
-      {/* neon racers, cell pulses, sparks, shockwaves, player token */}
+      {/* neon streaks, cell pulses, sparks, shockwaves */}
       <canvas ref={dynRef} className="absolute inset-0 h-full w-full" />
 
       {/* film grain */}

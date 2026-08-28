@@ -6,6 +6,7 @@ import { Menu, X, ArrowUpRight, Github, Twitter, Mail } from "lucide-react";
 import { VortexWordmark } from "./vortex-logo";
 import { EASE } from "./vortex-shared";
 import type { VortexView } from "./vortex-transition";
+import { CATEGORIES } from "@/lib/vortex-data";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS: { view: VortexView; label: string }[] = [
@@ -160,10 +161,10 @@ export function VortexNavbar({
               transition={{ delay: 0.36 }}
             >
               <p className="font-serif-accent text-xl italic text-vortex-navy/60">
-                Less clicks. More results.
+                Less friction. More momentum.
               </p>
               <p className="label-editorial mt-3 text-[10px] text-vortex-ink/40">
-                vortex.studio — founder-built
+                vortex.studio — independent studio
               </p>
             </motion.div>
           </motion.div>
@@ -185,8 +186,9 @@ export function VortexFooter({ onNavigate }: { onNavigate: (v: VortexView) => vo
           <div>
             <VortexWordmark size="md" animated={false} />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-vortex-navy/65">
-              A solo-founded digital product studio. Ready-made websites and
-              digital tools — designed, built and shipped by one person.
+              An independent digital product studio. Ready-made websites,
+              tools and platforms — designed, engineered and shipped with
+              momentum.
             </p>
             <div className="mt-6 flex gap-2.5">
               {[
@@ -226,13 +228,13 @@ export function VortexFooter({ onNavigate }: { onNavigate: (v: VortexView) => vo
           <div>
             <h3 className="label-editorial text-vortex-teal">Categories</h3>
             <ul className="mt-5 space-y-3">
-              {["SaaS", "E-Commerce", "Portfolio", "Blog", "Fintech", "Health"].map((c) => (
-                <li key={c}>
+              {CATEGORIES.map((c) => (
+                <li key={c.name}>
                   <button
                     onClick={() => onNavigate("hub")}
                     className="text-sm font-medium text-vortex-navy/70 transition-colors duration-300 hover:text-vortex-teal focus-visible:outline-2 focus-visible:outline-vortex-teal"
                   >
-                    {c}
+                    {c.name}
                   </button>
                 </li>
               ))}
@@ -244,15 +246,15 @@ export function VortexFooter({ onNavigate }: { onNavigate: (v: VortexView) => vo
             <div>
               <h3 className="label-editorial text-vortex-teal">Motto</h3>
               <p className="mt-5 font-display text-2xl font-bold leading-tight tracking-tight text-vortex-ink">
-                Less Clicks.
+                Less Friction.
                 <br />
                 <span className="font-serif-accent font-normal italic text-vortex-gradient">
-                  More Results.
+                  More Momentum.
                 </span>
               </p>
             </div>
             <p className="border-l-2 border-vortex-teal/40 pl-4 text-xs leading-relaxed text-vortex-navy/60">
-              100% founder-built. No outsourcing, no shortcuts — since day one.
+              Precision-built. No templates, no shortcuts — since day one.
             </p>
           </div>
         </div>
@@ -260,7 +262,7 @@ export function VortexFooter({ onNavigate }: { onNavigate: (v: VortexView) => vo
         {/* bottom bar */}
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t hairline pt-6 sm:flex-row">
           <p className="text-xs text-vortex-navy/50">
-            © {new Date().getFullYear()} Vortex.studio — all products founder-built.
+            © {new Date().getFullYear()} Vortex.studio — designed, built and shipped with momentum.
           </p>
           <p className="label-editorial text-[10px] text-vortex-navy/40">
             spin up · ship · repeat

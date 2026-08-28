@@ -66,11 +66,11 @@ export function ChapterOne() {
             className="mt-10 max-w-md border-l-2 border-vortex-teal/50 pl-5 text-[15px] leading-relaxed text-vortex-navy/75"
             style={{ opacity: captionOpacity, y: captionY }}
           >
-            From Haypbooks and Qyra — live today — to Zypra, Cirqa, Lumora
-            and whole game worlds on the roadmap: design, code, copy and
-            motion all come from one pair of hands. No committees diluting
-            decisions, no outsourcing diluting quality. What you see is what
-            one studio builds when it refuses to cut corners.
+            Vortex is momentum made visible — an independent studio built on
+            a single obsession: digital products that feel effortless.
+            Strategy, design, engineering and motion spin here as one force.
+            No templates, no shortcuts, no settling. What leaves the vortex
+            lands ahead of expectation — every time.
           </motion.p>
         </div>
       </div>
@@ -89,15 +89,15 @@ const CRAFT_ROWS = [
   },
   {
     title: "Designed end-to-end",
-    body: "Identity, interface, motion and copy all come from the same pair of hands, so nothing gets lost between teams that don't talk.",
+    body: "Identity, interface, motion and copy are crafted as one system — nothing gets lost in translation, because nothing is split across teams that don't talk.",
   },
   {
     title: "Effortless by design",
-    body: "Every screen — a ledger, a feed or a game HUD — is tuned around one question: does it feel effortless? Less clicks, more results isn't just the motto; it's the acceptance test.",
+    body: "Every screen — a ledger, a feed or a game HUD — is tuned around one question: does it feel effortless? Less friction, more momentum isn't just the motto; it's the acceptance test.",
   },
   {
     title: "Documented & supported",
-    body: "Clean code, honest READMEs and a founder who actually answers — because there is nobody else to hide behind.",
+    body: "Clean code, honest docs and support that actually answers — accountability here isn't a department, it's the standard.",
   },
 ];
 
@@ -126,7 +126,7 @@ export function ChapterTwo() {
           </FadeUp>
           <FadeUp delay={0.35} className="mt-9">
             <p className="font-serif-accent text-2xl italic leading-snug text-vortex-ink/80">
-              &ldquo;No outsourcing.
+              &ldquo;No templates.
               <br />
               No shortcuts.&rdquo;
             </p>

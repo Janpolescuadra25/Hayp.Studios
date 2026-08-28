@@ -149,7 +149,7 @@ export function MottoSection() {
             className="font-display text-[clamp(3rem,9vw,8.5rem)] font-bold leading-[1.02] tracking-[-0.035em] text-vortex-ink"
             style={{ opacity: line1Opacity, y: line1Y }}
           >
-            Less clicks.
+            Less friction.
           </motion.h2>
 
           {/* hairline that draws itself between the lines */}
@@ -163,7 +163,7 @@ export function MottoSection() {
             className="font-display text-[clamp(3rem,9vw,8.5rem)] font-bold leading-[1.02] tracking-[-0.035em]"
             style={{ opacity: line2Opacity, y: line2Y }}
           >
-            <span className="text-vortex-gradient">More results.</span>
+            <span className="text-vortex-gradient">More momentum.</span>
           </motion.h2>
         </div>
 
@@ -231,7 +231,8 @@ export function FinalCta({ onEnterHub }: { onEnterHub: () => void }) {
           </div>
 
           <p className="mt-8 font-serif-accent text-base italic text-vortex-navy/55">
-            Designed and built by one founder — for whoever launches next.
+            Designed, engineered and shipped with momentum — for whoever
+            launches next.
           </p>
         </div>
       </FadeUp>

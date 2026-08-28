@@ -6,7 +6,7 @@ import { FeaturedTeaser, MottoSection, FinalCta } from "./vortex-landing-showcas
 
 /**
  * The Vortex landing page — a scroll-driven story:
- * Hero → Marquee → Ch.1 Solo Vision → Ch.2 Ready to Ship →
+ * Hero → Marquee → Ch.1 The Studio → Ch.2 The Craft →
  * Ch.3 Horizontal Catalog Fly-through → Stats → Featured → Motto → CTA
  */
 export function VortexLanding({

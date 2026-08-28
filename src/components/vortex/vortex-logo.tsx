@@ -3,58 +3,23 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Generates a logarithmic-ish spiral path centered at (cx, cy).
- * Radius grows from startR to endR over `turns` full rotations.
+ * The Vortex mark — an esports-grade badge.
+ *
+ * A sharp faceted "V" (twin blades meeting in a point) forged inside a
+ * hexagonal frame — the same hex language as the arcade-field lattice.
+ * Animated mode adds a slowly rotating dashed reticle hex with a comet
+ * dot, like a game HUD target lock.
  */
-function spiralPath(
-  cx: number,
-  cy: number,
-  turns = 2.4,
-  startR = 2.5,
-  endR = 20,
-  dir = 1
-): string {
-  const steps = 140;
-  const pts: string[] = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps;
-    const angle = dir * t * turns * Math.PI * 2 - Math.PI / 2;
-    const r = startR * Math.pow(endR / startR, t);
-    const x = cx + r * Math.cos(angle);
-    const y = cy + r * Math.sin(angle);
-    pts.push(`${i === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`);
-  }
-  return pts.join(" ");
-}
 
-/** Splits the spiral into tapered segments (thin at center → thick at outer edge) */
-function spiralSegments(
-  cx: number,
-  cy: number,
-  segments = 10,
-  turns = 2.4,
-  startR = 2.5,
-  endR = 20,
-  dir = 1
-): { d: string; width: number }[] {
-  const segs: { d: string; width: number }[] = [];
-  const steps = 140;
-  for (let s = 0; s < segments; s++) {
-    const i0 = Math.floor((s / segments) * steps);
-    const i1 = Math.floor(((s + 1) / segments) * steps);
-    const pts: string[] = [];
-    for (let i = i0; i <= i1; i++) {
-      const t = i / steps;
-      const angle = dir * t * turns * Math.PI * 2 - Math.PI / 2;
-      const r = startR * Math.pow(endR / startR, t);
-      const x = cx + r * Math.cos(angle);
-      const y = cy + r * Math.sin(angle);
-      pts.push(`${i === i0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`);
-    }
-    const width = 1.1 + 5.2 * (s / (segments - 1));
-    segs.push({ d: pts.join(" "), width });
+/** Pointy-top hexagon path centered at (cx, cy) with circumradius R */
+function hexPoints(cx: number, cy: number, R: number): string {
+  const pts: string[] = [];
+  for (let i = 0; i < 6; i++) {
+    // start at top vertex, go clockwise
+    const a = (Math.PI / 3) * i - Math.PI / 2;
+    pts.push(`${(cx + R * Math.cos(a)).toFixed(2)}, ${(cy + R * Math.sin(a)).toFixed(2)}`);
   }
-  return segs;
+  return `M ${pts.join(" L ")} Z`;
 }
 
 interface VortexMarkProps {
@@ -65,10 +30,6 @@ interface VortexMarkProps {
   idPrefix?: string;
 }
 
-/**
- * The Vortex mark — a bold curved "V" whose arms curl into a rotating
- * tapered spiral (the vortex), wrapped in two counter-rotating orbit rings.
- */
 export function VortexMark({
   size = 64,
   animated = true,
@@ -76,8 +37,11 @@ export function VortexMark({
   className,
   idPrefix = "vx",
 }: VortexMarkProps) {
-  const spiral = spiralSegments(60, 37, 10, 2.35, 2.5, 20.5, 1);
-  void spiralPath;
+  // hex frame: center (60,60), circumradius 52 → top (60,8), bottom (60,112),
+  // left/right walls at x = 60 ± 45
+  const frame = hexPoints(60, 60, 52);
+  // outer rotating reticle hex (slightly larger, dashed)
+  const reticle = hexPoints(60, 60, 55);
 
   return (
     <svg
@@ -91,23 +55,27 @@ export function VortexMark({
       aria-label="Vortex Studios logo"
     >
       <defs>
-        <linearGradient id={`${idPrefix}-arm`} x1="8" y1="10" x2="112" y2="104" gradientUnits="userSpaceOnUse">
+        {/* blade fill — teal forging into cyan edge */}
+        <linearGradient id={`${idPrefix}-blade`} x1="30" y1="26" x2="92" y2="98" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#0f766e" />
+          <stop offset="0.45" stopColor="#0d9488" />
+          <stop offset="0.75" stopColor="#10b981" />
+          <stop offset="1" stopColor="#06b6d4" />
+        </linearGradient>
+        {/* frame stroke — emerald into cyan */}
+        <linearGradient id={`${idPrefix}-frame`} x1="15" y1="8" x2="105" y2="112" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="#0d9488" />
           <stop offset="0.5" stopColor="#10b981" />
           <stop offset="1" stopColor="#06b6d4" />
         </linearGradient>
-        <linearGradient id={`${idPrefix}-spiral`} x1="40" y1="17" x2="80" y2="57" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#06b6d4" />
-          <stop offset="0.55" stopColor="#10b981" />
-          <stop offset="1" stopColor="#0d9488" />
-        </linearGradient>
-        <radialGradient id={`${idPrefix}-core`} cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#10b981" stopOpacity="0.55" />
-          <stop offset="0.6" stopColor="#0d9488" stopOpacity="0.16" />
+        {/* inner aura */}
+        <radialGradient id={`${idPrefix}-core`} cx="0.5" cy="0.62" r="0.55">
+          <stop offset="0" stopColor="#10b981" stopOpacity="0.5" />
+          <stop offset="0.65" stopColor="#0d9488" stopOpacity="0.14" />
           <stop offset="1" stopColor="#0d9488" stopOpacity="0" />
         </radialGradient>
         <filter id={`${idPrefix}-glow`} x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="2.6" result="blur" />
+          <feGaussianBlur stdDeviation="2.4" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -115,69 +83,83 @@ export function VortexMark({
         </filter>
       </defs>
 
-      {/* soft vortex aura */}
-      <circle cx="60" cy="37" r="34" fill={`url(#${idPrefix}-core)`} />
+      {/* soft energy aura behind the badge */}
+      <circle cx="60" cy="62" r="46" fill={`url(#${idPrefix}-core)`} />
 
-      {/* orbit rings */}
+      {/* rotating reticle ring — HUD target lock */}
       {showOrbit && (
-        <g stroke="#0d9488" fill="none" opacity="0.5">
-          <g
-            className={animated ? "vortex-rot-cw" : undefined}
-            style={{ transformOrigin: "60px 60px" }}
-          >
-            <circle cx="60" cy="60" r="53" strokeWidth="1.1" strokeDasharray="1.5 6" strokeLinecap="round" opacity="0.6" />
-            <circle cx="60" cy="7" r="2.8" fill="#06b6d4" stroke="none" filter={`url(#${idPrefix}-glow)`} />
-            <circle cx="60" cy="7" r="1.3" fill="#ccfbf1" stroke="none" />
-          </g>
-          <g
-            className={animated ? "vortex-rot-ccw" : undefined}
-            style={{ transformOrigin: "60px 60px" }}
-          >
-            <circle cx="60" cy="60" r="45" strokeWidth="1" strokeDasharray="2 9" strokeLinecap="round" opacity="0.4" />
-            <circle cx="105" cy="60" r="1.8" fill="#10b981" stroke="none" opacity="0.9" />
-          </g>
+        <g
+          className={animated ? "vortex-rot-cw" : undefined}
+          style={{ transformOrigin: "60px 60px" }}
+        >
+          <path
+            d={reticle}
+            stroke="#0d9488"
+            strokeWidth="1.1"
+            strokeDasharray="1.5 7"
+            strokeLinecap="round"
+            opacity="0.55"
+            fill="none"
+          />
+          {/* comet dot riding the reticle */}
+          <circle cx="60" cy="5" r="2.8" fill="#06b6d4" stroke="none" filter={`url(#${idPrefix}-glow)`} />
+          <circle cx="60" cy="5" r="1.3" fill="#ccfbf1" stroke="none" />
         </g>
       )}
 
-      {/* the V arms — curved as if drawn into the vortex */}
-      <g
-        stroke={`url(#${idPrefix}-arm)`}
-        strokeWidth="11"
-        strokeLinecap="round"
+      {/* hexagonal badge frame */}
+      <path
+        d={frame}
+        stroke={`url(#${idPrefix}-frame)`}
+        strokeWidth="2.6"
+        strokeLinejoin="round"
         fill="none"
-      >
-        <path d="M 24 20 C 31 48, 45 74, 63 97" />
-        <path d="M 96 20 C 89 48, 75 74, 57 97" />
-      </g>
-      {/* arm inner highlight */}
-      <g
-        stroke="#ccfbf1"
-        strokeWidth="2"
-        strokeLinecap="round"
-        fill="none"
-        opacity="0.5"
-      >
-        <path d="M 26 24 C 33 50, 46 74, 62 92" />
-        <path d="M 94 24 C 87 50, 74 74, 58 92" />
-      </g>
-
-      {/* the vortex spiral */}
-      <g
         filter={`url(#${idPrefix}-glow)`}
-        className={animated ? "vortex-rot-cw-slow" : undefined}
-        style={{ transformOrigin: "60px 37px" }}
-      >
-        {spiral.map((seg, i) => (
-          <path
-            key={i}
-            d={seg.d}
-            stroke={`url(#${idPrefix}-spiral)`}
-            strokeWidth={seg.width}
-            strokeLinecap="round"
-            fill="none"
-          />
-        ))}
-        <circle cx="60" cy="37" r="2.2" fill="#0d9488" />
+      />
+      {/* inner frame echo — depth facet */}
+      <path
+        d={hexPoints(60, 60, 46)}
+        stroke="#0d9488"
+        strokeWidth="0.8"
+        strokeLinejoin="round"
+        opacity="0.22"
+        fill="none"
+      />
+
+      {/* the V — twin blades forged to a point */}
+      <g filter={`url(#${idPrefix}-glow)`}>
+        <path
+          d="M 32 34 L 48 34 L 60 72 L 72 34 L 88 34 L 65.5 94 L 54.5 94 Z"
+          fill={`url(#${idPrefix}-blade)`}
+          strokeLinejoin="round"
+        />
+        {/* center facet seam */}
+        <path
+          d="M 60 72 L 60 94"
+          stroke="#ccfbf1"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          opacity="0.4"
+        />
+        {/* blade edge highlights */}
+        <path
+          d="M 34 36 L 47 36 L 59 71"
+          stroke="#ccfbf1"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          opacity="0.5"
+          fill="none"
+        />
+        <path
+          d="M 86 36 L 73 36 L 61 71"
+          stroke="#ccfbf1"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          opacity="0.5"
+          fill="none"
+        />
+        {/* apex spark */}
+        <path d="M 60 100 L 63.4 104.5 L 60 109 L 56.6 104.5 Z" fill="#06b6d4" opacity="0.85" />
       </g>
     </svg>
   );
@@ -190,7 +172,7 @@ interface VortexWordmarkProps {
 }
 
 /**
- * Full wordmark: [V mark] + gradient "ortex" with ".studio" set below.
+ * Full wordmark: [V badge] + gradient "ortex" with ".studio" set below.
  */
 export function VortexWordmark({ size = "md", animated = true, className }: VortexWordmarkProps) {
   const markSize = { sm: 34, md: 46, lg: 60, hero: 132 }[size];

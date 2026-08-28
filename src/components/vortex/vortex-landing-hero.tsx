@@ -68,7 +68,7 @@ function OrbitBadge({ className }: { className?: string }) {
           </defs>
           <text className="fill-vortex-ink/55 font-mono text-[10.5px] uppercase" style={{ letterSpacing: "0.34em" }}>
             <textPath href="#badge-circle">
-              founder-built · ready-made · vortex.studio ·
+              precision-built · ready-made · vortex.studio ·
             </textPath>
           </text>
         </svg>
@@ -173,11 +173,11 @@ export function VortexHero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: introDelay + 0.5, ease: EASE }}
           >
-            Vortex.studio is a one-person product studio. Accounting systems,
-            automation pipelines, marketplaces, social platforms — and game
-            worlds on the horizon —{" "}
+            Vortex.studio is an independent digital studio built on momentum
+            — strategy, design, engineering and motion spinning as one
+            force. We obsess over the details others skip, and{" "}
             <span className="font-medium text-vortex-ink">
-              everything is designed, built and shipped by the founder.
+              nothing ships until it feels effortless.
             </span>
           </motion.p>
 
@@ -280,8 +280,8 @@ const TICKER = [
   "Cirqa — Social",
   "Lumora — Marketplace",
   "Vortex Games",
-  "Founder-built",
-  "Less clicks. More results.",
+  "Independent Studio",
+  "Less friction. More momentum.",
 ];
 
 function Star() {
