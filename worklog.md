@@ -150,3 +150,33 @@ Work Log:
 Stage Summary:
 - Background is fully autonomous: hex lattice + light sweeps + cell ignition + sparks + click shockwaves, with zero cursor dependence (user should hard-refresh if they still see the old token — browser cache)
 - Hero headline and all site copy now use "software" instead of "digital products"; metadata title/OG/keywords updated to match
+
+---
+Task ID: 6
+Agent: Main Agent (Super Z)
+Task: Per user feedback — Chapter 3 "The Catalog / 5 worlds. One standard." doesn't fit the studio; review the whole section (intro card, category cards, outro) and decide better copy.
+
+Work Log:
+- Review findings: (1) "The Catalog" reads dry/e-commerce, breaks the arcade-momentum voice; (2) "worlds" is inaccurate — only Games is a world, accounting/automation/social/e-commerce are not; (3) intro card body listed the categories the cards show seconds later (redundant); (4) blurbs were flat feature-lists; (5) outro "…and then, game worlds." came AFTER the Games card — anticlimactic and redundant
+- Decision: align the section with the racing metaphor the background already establishes (neon light racers sweeping lanes across the hex field)
+- Changes (vortex-landing-story.tsx):
+  - SectionTag: "The Catalog" → "The Circuit" (+ code comment updated)
+  - Headline: "5 worlds. One standard." → "5 lanes. One standard." (data-driven CATEGORIES.length kept)
+  - Intro card body: category list → "Every lane runs the same standard — strategy, design, engineering and motion as one force. Live today or spinning up next, it all lives in the Hub." (kept "The pipeline / 2 live today. 7 more spinning." — real numbers, on-brand)
+  - Outro card: "…and then, game worlds." → "…and the next spin."
+- Changes (vortex-data.ts CATEGORIES blurbs → momentum voice):
+  - Accounting: "Books, ledgers & reports" → "Bookkeeping, set in motion."
+  - Automation: "Data auto-posting pipelines" → "Data that posts itself."
+  - Social: "Feeds, circles & messaging" → "Feeds with real gravity."
+  - E-Commerce: "Marketplaces & stores" → "Storefronts built to sell."
+  - Games: "Worlds worth playing." kept (the payoff — games ARE worlds)
+- Ch.2 "from accounting systems to game worlds" intentionally kept — it's a scale contrast where "worlds" is literal for games
+
+Verification (agent-browser + VLM at 1440x900, pinned section at 380vh):
+- Start: "03 — The Circuit" / "5 lanes. One standard." / dark card "The pipeline / 2 live today. 7 more spinning." / cards 01–03 with new blurbs — all quoted exactly by VLM
+- Mid: Automation / Social "Feeds with real gravity." / E-Commerce "Storefronts built to sell." / Games "Worlds worth playing." confirmed
+- Intro body paragraph quoted verbatim by VLM; outro "…and the next spin." confirmed via DOM textContent
+- Mobile 390px: no horizontal overflow (scrollWidth 390); console clean; committed as 5a5109f; screenshots cleaned
+
+Stage Summary:
+- Chapter 3 is now "The Circuit — 5 lanes. One standard." with vortex-voiced blurbs and a forward-motion outro; the section's racing language matches the neon racer background instead of generic catalog copy
