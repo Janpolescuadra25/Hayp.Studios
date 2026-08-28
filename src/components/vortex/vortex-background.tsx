@@ -3,19 +3,24 @@
 import { useEffect, useRef } from "react";
 
 /* ================================================================== */
-/* Liquid Field — interactive metaball liquid with falling droplets.   */
+/*  NEON ARCADE FIELD                                                  */
+/*  A white-void arena that behaves like a game board.                 */
 /*                                                                     */
-/* Big soft liquid bodies drift and shimmer; the cursor stirs the     */
-/* pool and pulls the liquid toward it; ambient droplets rain down and */
-/* merge into the bodies (real metaball necking); clicks burst drops   */
-/* and ripple rings outward. Rendered on a low-res canvas and upscaled */
-/* for buttery 60fps, layered with a hairline grid, film grain and a   */
-/* soft vignette. Honors prefers-reduced-motion (renders one frame).   */
+/*  • Hexagonal strategy lattice — the arena floor                     */
+/*  • Neon light-cycle racers sweep the void with glowing afterglow    */
+/*    and occasional nitro boosts                                      */
+/*  • Hex cells ignite under every trail — the board powers up         */
+/*  • Pixel sparks (rotating diamonds) scatter off the racers          */
+/*  • The cursor is the player token — trails steer toward you         */
+/*  • Click / tap casts a shockwave that ignites cells in a radial     */
+/*    wave, MOBA-ability style                                         */
+/*                                                                     */
+/*  Two canvases: a static lattice layer (redrawn only on resize) and  */
+/*  a dynamic layer whose trails are faded each frame with             */
+/*  destination-out compositing — silky neon afterglow on the white    */
+/*  base for free. Honors prefers-reduced-motion (one composed still   */
+/*  frame) and pauses when the tab is hidden.                          */
 /* ================================================================== */
-
-const SCALE = 0.14; // simulation resolution (fraction of CSS pixels)
-const MAX_ALPHA = 0.5; // peak liquid opacity — pastel on white
-const MAX_DROPS = 32;
 
 type RGB = [number, number, number];
 
@@ -27,336 +32,547 @@ const PALETTE: RGB[] = [
   [45, 212, 191], // bright teal
 ];
 
-interface Blob {
-  ax: number; // anchor x (0..1)
-  ay: number; // anchor y (0..1)
-  relR: number; // radius as fraction of min(w,h)
-  phase: number;
-  speed: number;
-  ampX: number;
-  ampY: number;
-  colorA: RGB;
-  colorB: RGB;
-  dripIn: number; // seconds until next drip
+const rgba = (c: RGB, a: number) => `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${a})`;
+
+const SQRT3 = Math.sqrt(3);
+
+/* ---------------- flat-top hex math ---------------- */
+
+function hexRound(qf: number, rf: number): [number, number] {
+  const sf = -qf - rf;
+  let q = Math.round(qf);
+  let r = Math.round(rf);
+  const s = Math.round(sf);
+  const dq = Math.abs(q - qf);
+  const dr = Math.abs(r - rf);
+  const ds = Math.abs(s - sf);
+  if (dq > dr && dq > ds) q = -r - s;
+  else if (dr > ds) r = -q - s;
+  return [q, r];
 }
 
-interface Drop {
+function axialToPixel(q: number, r: number, s: number): [number, number] {
+  return [1.5 * s * q, SQRT3 * s * (r + q / 2)];
+}
+
+function pixelToAxial(x: number, y: number, s: number): [number, number] {
+  return hexRound(((2 / 3) * x) / s, (-x / 3 + (SQRT3 / 3) * y) / s);
+}
+
+function hexPath(ctx: CanvasRenderingContext2D, cx: number, cy: number, s: number) {
+  ctx.moveTo(cx + s, cy);
+  for (let i = 1; i < 6; i++) {
+    const a = (Math.PI / 3) * i;
+    ctx.lineTo(cx + s * Math.cos(a), cy + s * Math.sin(a));
+  }
+  ctx.closePath();
+}
+
+/* ---------------- entities ---------------- */
+
+interface Racer {
+  x: number;
+  y: number;
+  px: number;
+  py: number;
+  heading: number;
+  speedF: number; // fraction of minDim per second
+  turn: number;
+  seed: number;
+  color: RGB;
+  coreW: number;
+  haloW: number;
+  boost: number; // remaining boost seconds
+  cooldown: number;
+  sparkIn: number;
+}
+
+interface Spark {
   x: number;
   y: number;
   vx: number;
   vy: number;
-  relR: number;
+  rot: number;
+  vr: number;
+  size: number;
+  life: number;
   color: RGB;
 }
 
-interface Ripple {
+interface Wave {
   x: number;
   y: number;
   r: number;
   life: number;
 }
 
-interface Body {
-  x: number;
-  y: number;
-  r: number;
+interface Pulse {
+  cx: number;
+  cy: number;
+  i: number;
   color: RGB;
 }
 
-const BLOB_SEEDS: [number, number, number][] = [
-  [0.13, 0.24, 0.34],
-  [0.33, 0.62, 0.27],
-  [0.52, 0.18, 0.38],
-  [0.72, 0.55, 0.3],
-  [0.9, 0.26, 0.24],
-  [0.2, 0.88, 0.29],
-  [0.84, 0.84, 0.33],
-];
+const SPEEDS = [0.26, 0.16, 0.22, 0.15, 0.24];
 
-function lerpC(a: RGB, b: RGB, t: number): RGB {
-  return [
-    a[0] + (b[0] - a[0]) * t,
-    a[1] + (b[1] - a[1]) * t,
-    a[2] + (b[2] - a[2]) * t,
-  ];
-}
+const angDelta = (from: number, to: number) => {
+  let d = (to - from) % (Math.PI * 2);
+  if (d > Math.PI) d -= Math.PI * 2;
+  if (d < -Math.PI) d += Math.PI * 2;
+  return d;
+};
 
-function LiquidCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+export function VortexBackground() {
+  const latticeRef = useRef<HTMLCanvasElement>(null);
+  const dynRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: true });
-    if (!ctx) return;
+    const lattice = latticeRef.current;
+    const dyn = dynRef.current;
+    if (!lattice || !dyn) return;
+    const lctx = lattice.getContext("2d");
+    const dctx = dyn.getContext("2d");
+    if (!lctx || !dctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finePtr = window.matchMedia("(pointer: fine)").matches;
 
     let w = 0;
     let h = 0;
     let minDim = 0;
-    let img: ImageData | null = null;
+    let hex = 26;
+    let dpr = 1;
 
-    const blobs: Blob[] = BLOB_SEEDS.map(([ax, ay, relR], i) => ({
-      ax,
-      ay,
-      relR,
-      phase: i * 1.83,
-      speed: 0.05 + (i % 3) * 0.022,
-      ampX: 0.03 + (i % 4) * 0.012,
-      ampY: 0.035 + (i % 3) * 0.014,
-      colorA: PALETTE[i % PALETTE.length],
-      colorB: PALETTE[(i + 2) % PALETTE.length],
-      dripIn: 3 + i * 1.3,
-    }));
+    const racers: Racer[] = [];
+    const sparks: Spark[] = [];
+    const waves: Wave[] = [];
+    const pulses = new Map<string, Pulse>();
 
-    const drops: Drop[] = [];
-    const ripples: Ripple[] = [];
+    const ptr = { x: 0.5, y: 0.42, tx: 0.5, ty: 0.42, active: false, speed: 0 };
+    const token = { x: 0.5, y: 0.42 };
 
-    // cursor "stirrer"
-    const ptr = { tx: 0.32, ty: 0.42, x: 0.32, y: 0.42, speed: 0 };
+    /* ---------------- setup ---------------- */
 
-    let rainIn = 0.4;
+    const makeRacer = (i: number): Racer => {
+      const r: Racer = {
+        x: 0,
+        y: 0,
+        px: 0,
+        py: 0,
+        heading: 0,
+        speedF: SPEEDS[i % SPEEDS.length],
+        turn: 0.75 + Math.random() * 0.7,
+        seed: Math.random() * 100,
+        color: PALETTE[i % PALETTE.length],
+        coreW: i % 2 === 0 ? 2.2 : 3,
+        haloW: i % 2 === 0 ? 9 : 13,
+        boost: 0,
+        cooldown: 2 + Math.random() * 6,
+        sparkIn: Math.random(),
+      };
+      return r;
+    };
+
+    const respawn = (r: Racer) => {
+      const side = Math.floor(Math.random() * 4);
+      if (side === 0) {
+        r.x = -70;
+        r.y = Math.random() * h;
+      } else if (side === 1) {
+        r.x = w + 70;
+        r.y = Math.random() * h;
+      } else if (side === 2) {
+        r.x = Math.random() * w;
+        r.y = -70;
+      } else {
+        r.x = Math.random() * w;
+        r.y = h + 70;
+      }
+      const tx = w * (0.2 + Math.random() * 0.6);
+      const ty = h * (0.2 + Math.random() * 0.6);
+      r.heading = Math.atan2(ty - r.y, tx - r.x);
+      r.px = r.x;
+      r.py = r.y;
+    };
+
+    const buildLattice = () => {
+      lctx.clearRect(0, 0, w, h);
+      // full hexes at half alpha — shared edges land at the intended strength
+      lctx.strokeStyle = "rgba(30, 58, 95, 0.03)";
+      lctx.lineWidth = 1;
+      const qMin = Math.floor(-hex / (1.5 * hex)) - 1;
+      const qMax = Math.ceil(w / (1.5 * hex)) + 1;
+      lctx.beginPath();
+      for (let q = qMin; q <= qMax; q++) {
+        const rMin = Math.floor((-hex) / (SQRT3 * hex) - q / 2) - 1;
+        const rMax = Math.ceil((h + hex) / (SQRT3 * hex) - q / 2) + 1;
+        for (let r = rMin; r <= rMax; r++) {
+          const [cx, cy] = axialToPixel(q, r, hex);
+          hexPath(lctx, cx, cy, hex);
+        }
+      }
+      lctx.stroke();
+    };
 
     const resize = () => {
-      w = Math.max(2, Math.round(window.innerWidth * SCALE));
-      h = Math.max(2, Math.round(window.innerHeight * SCALE));
+      w = window.innerWidth;
+      h = window.innerHeight;
       minDim = Math.min(w, h);
-      canvas.width = w;
-      canvas.height = h;
-      img = ctx.createImageData(w, h);
+      hex = Math.max(22, Math.min(30, Math.round(minDim / 30)));
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      for (const cv of [lattice, dyn]) {
+        cv.width = Math.round(w * dpr);
+        cv.height = Math.round(h * dpr);
+      }
+      lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildLattice();
     };
-    resize();
+
+    /* ---------------- helpers ---------------- */
+
+    const ignite = (x: number, y: number, amount: number, color: RGB) => {
+      const [q, r] = pixelToAxial(x, y, hex);
+      const key = `${q},${r}`;
+      const p = pulses.get(key);
+      if (p) {
+        p.i = Math.max(p.i, amount);
+      } else if (pulses.size < 220) {
+        const [cx, cy] = axialToPixel(q, r, hex);
+        pulses.set(key, { cx, cy, i: amount, color });
+      }
+    };
+
+    const igniteRing = (wx: number, wy: number, radius: number, amount: number) => {
+      const [qq, rr] = pixelToAxial(wx, wy, hex);
+      const span = Math.ceil((radius + 40) / (1.5 * hex));
+      for (let q = qq - span; q <= qq + span; q++) {
+        for (let r = rr - span; r <= rr + span; r++) {
+          const [cx, cy] = axialToPixel(q, r, hex);
+          const d = Math.hypot(cx - wx, cy - wy);
+          if (Math.abs(d - radius) < 30) {
+            const key = `${q},${r}`;
+            const color = (q + r) % 2 === 0 ? PALETTE[0] : PALETTE[2];
+            const p = pulses.get(key);
+            if (p) {
+              p.i = Math.max(p.i, amount);
+            } else if (pulses.size < 240) {
+              pulses.set(key, { cx, cy, i: amount, color });
+            }
+          }
+        }
+      }
+    };
+
+    const spawnSparks = (x: number, y: number, n: number, base: { vx: number; vy: number }) => {
+      for (let i = 0; i < n; i++) {
+        if (sparks.length > 110) sparks.shift();
+        const ang = Math.random() * Math.PI * 2;
+        const sp = 20 + Math.random() * 70;
+        sparks.push({
+          x,
+          y,
+          vx: base.vx * 0.15 + Math.cos(ang) * sp,
+          vy: base.vy * 0.15 + Math.sin(ang) * sp,
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 6,
+          size: 2.2 + Math.random() * 2.2,
+          life: 0.5 + Math.random() * 0.45,
+          color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+        });
+      }
+    };
+
+    /* ---------------- simulation + drawing ---------------- */
+
+    const stepRacers = (dt: number, t: number) => {
+      const B = 90; // steering band — keep the action mid-screen
+      const R = minDim * 0.34; // cursor attraction range
+
+      for (const r of racers) {
+        r.px = r.x;
+        r.py = r.y;
+
+        // wander — layered sines give gentle S-curves
+        r.heading +=
+          (Math.sin(t * 0.5 + r.seed) + Math.sin(t * 0.23 + r.seed * 2.7)) *
+          0.5 *
+          r.turn *
+          dt;
+
+        // steer back toward the middle near edges
+        if (r.x < B || r.x > w - B || r.y < B || r.y > h - B) {
+          const desired = Math.atan2(h / 2 - r.y, w / 2 - r.x);
+          r.heading += angDelta(r.heading, desired) * Math.min(1, dt * 0.9);
+        }
+
+        // trails lean toward the player token
+        if (ptr.active) {
+          const dx = ptr.x * w - r.x;
+          const dy = ptr.y * h - r.y;
+          const d = Math.hypot(dx, dy);
+          if (d < R && d > 36) {
+            const desired = Math.atan2(dy, dx);
+            r.heading +=
+              angDelta(r.heading, desired) * Math.min(1, dt * 0.55 * (1 - d / R));
+          }
+        }
+
+        // nitro boosts
+        if (r.boost > 0) {
+          r.boost -= dt;
+        } else {
+          r.cooldown -= dt;
+          if (r.cooldown <= 0 && Math.random() < dt / 7) {
+            r.boost = 0.6;
+            r.cooldown = 7 + Math.random() * 6;
+            spawnSparks(r.x, r.y, 5, { vx: 0, vy: 0 });
+          }
+        }
+
+        const speed = r.speedF * minDim * (r.boost > 0 ? 2.7 : 1);
+        r.x += Math.cos(r.heading) * speed * dt;
+        r.y += Math.sin(r.heading) * speed * dt;
+
+        // draw trail segment — halo then crisp core
+        const boost = r.boost > 0;
+        dctx.lineCap = "round";
+        dctx.strokeStyle = rgba(r.color, boost ? 0.17 : 0.1);
+        dctx.lineWidth = r.haloW * (boost ? 1.7 : 1);
+        dctx.beginPath();
+        dctx.moveTo(r.px, r.py);
+        dctx.lineTo(r.x, r.y);
+        dctx.stroke();
+
+        dctx.strokeStyle = rgba(r.color, 0.88);
+        dctx.lineWidth = boost ? r.coreW * 1.3 : r.coreW;
+        dctx.beginPath();
+        dctx.moveTo(r.px, r.py);
+        dctx.lineTo(r.x, r.y);
+        dctx.stroke();
+
+        // head glow
+        dctx.fillStyle = rgba(r.color, boost ? 0.22 : 0.15);
+        dctx.beginPath();
+        dctx.arc(r.x, r.y, boost ? 12 : 7, 0, Math.PI * 2);
+        dctx.fill();
+        dctx.fillStyle = rgba(r.color, 0.92);
+        dctx.beginPath();
+        dctx.arc(r.x, r.y, boost ? 3.4 : 2.4, 0, Math.PI * 2);
+        dctx.fill();
+
+        // cell under the head powers up
+        ignite(r.x, r.y, boost ? 0.68 : 0.45, r.color);
+
+        // pixel sparks shed from the trail
+        r.sparkIn -= dt;
+        if (r.sparkIn <= 0) {
+          r.sparkIn = 0.5 + Math.random() * 1.2;
+          spawnSparks(r.x, r.y, boost ? 3 : 1, {
+            vx: Math.cos(r.heading) * speed,
+            vy: Math.sin(r.heading) * speed,
+          });
+        }
+
+        // wrap around when fully off-screen
+        const M = 110;
+        if (r.x < -M || r.x > w + M || r.y < -M || r.y > h + M) respawn(r);
+      }
+    };
+
+    const drawEffects = (dt: number, t: number) => {
+      // hex pulses — the board lighting up
+      for (const [key, p] of pulses) {
+        p.i -= dt * 1.25;
+        if (p.i <= 0.02) {
+          pulses.delete(key);
+          continue;
+        }
+        dctx.fillStyle = rgba(p.color, Math.min(0.11, p.i * 0.11));
+        dctx.strokeStyle = rgba(p.color, p.i * 0.09);
+        dctx.lineWidth = 1;
+        dctx.beginPath();
+        hexPath(dctx, p.cx, p.cy, hex);
+        dctx.fill();
+        dctx.stroke();
+      }
+
+      // pixel sparks
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const s = sparks[i];
+        s.life -= dt * 1.5;
+        if (s.life <= 0) {
+          sparks.splice(i, 1);
+          continue;
+        }
+        s.x += s.vx * dt;
+        s.y += s.vy * dt;
+        s.vx *= 1 - 1.6 * dt;
+        s.vy *= 1 - 1.6 * dt;
+        s.rot += s.vr * dt;
+        dctx.save();
+        dctx.translate(s.x, s.y);
+        dctx.rotate(s.rot);
+        const sz = s.size * (0.35 + 0.65 * s.life);
+        dctx.fillStyle = rgba(s.color, s.life * 0.85);
+        dctx.fillRect(-sz / 2, -sz / 2, sz, sz);
+        dctx.restore();
+      }
+
+      // shockwaves
+      for (let i = waves.length - 1; i >= 0; i--) {
+        const wv = waves[i];
+        wv.r += (300 + 240 * wv.life) * dt;
+        wv.life -= dt * 1.05;
+        if (wv.life <= 0) {
+          waves.splice(i, 1);
+          continue;
+        }
+        igniteRing(wv.x, wv.y, wv.r, Math.min(0.6, wv.life * 0.75));
+        dctx.strokeStyle = rgba(PALETTE[0], wv.life * 0.5);
+        dctx.lineWidth = 2.5;
+        dctx.beginPath();
+        dctx.arc(wv.x, wv.y, wv.r, 0, Math.PI * 2);
+        dctx.stroke();
+        dctx.strokeStyle = rgba(PALETTE[2], wv.life * 0.24);
+        dctx.lineWidth = 1.5;
+        dctx.beginPath();
+        dctx.arc(wv.x, wv.y, wv.r * 0.62, 0, Math.PI * 2);
+        dctx.stroke();
+      }
+
+      // player token — follows the cursor with a spring
+      if (finePtr && ptr.active) {
+        token.x += (ptr.tx - token.x) * Math.min(1, dt * 8);
+        token.y += (ptr.ty - token.y) * Math.min(1, dt * 8);
+        const tx = token.x * w;
+        const ty = token.y * h;
+        const haloR = 24 + ptr.speed * 14;
+
+        const g = dctx.createRadialGradient(tx, ty, 0, tx, ty, haloR);
+        g.addColorStop(0, rgba(PALETTE[0], 0.13));
+        g.addColorStop(1, rgba(PALETTE[0], 0));
+        dctx.fillStyle = g;
+        dctx.beginPath();
+        dctx.arc(tx, ty, haloR, 0, Math.PI * 2);
+        dctx.fill();
+
+        dctx.strokeStyle = rgba(PALETTE[0], 0.45);
+        dctx.lineWidth = 1.2;
+        dctx.beginPath();
+        dctx.arc(tx, ty, 12, 0, Math.PI * 2);
+        dctx.stroke();
+
+        // slowly rotating pickup diamond
+        dctx.save();
+        dctx.translate(tx, ty);
+        dctx.rotate(Math.PI / 4 + t * 0.7);
+        dctx.fillStyle = rgba(PALETTE[0], 0.9);
+        dctx.fillRect(-4, -4, 8, 8);
+        dctx.fillStyle = "rgba(251, 253, 253, 0.95)";
+        dctx.fillRect(-1.5, -1.5, 3, 3);
+        dctx.restore();
+
+        // orbiting satellite dot
+        const sa = t * 3.2;
+        dctx.fillStyle = rgba(PALETTE[2], 0.85);
+        dctx.beginPath();
+        dctx.arc(tx + Math.cos(sa) * 17, ty + Math.sin(sa) * 17, 1.8, 0, Math.PI * 2);
+        dctx.fill();
+      }
+    };
+
+    const fadeFrame = () => {
+      dctx.globalCompositeOperation = "destination-out";
+      dctx.fillStyle = "rgba(0, 0, 0, 0.085)";
+      dctx.fillRect(0, 0, w, h);
+      dctx.globalCompositeOperation = "source-over";
+    };
+
+    /* ---------------- events ---------------- */
 
     const onMove = (e: PointerEvent) => {
       const nx = e.clientX / window.innerWidth;
       const ny = e.clientY / window.innerHeight;
-      const d = Math.hypot(nx - ptr.tx, ny - ptr.ty);
-      ptr.speed = Math.min(1, ptr.speed + d * 18);
+      ptr.speed = Math.min(1, ptr.speed + Math.hypot(nx - ptr.tx, ny - ptr.ty) * 14);
       ptr.tx = nx;
       ptr.ty = ny;
+      ptr.active = true;
     };
 
     const onDown = (e: PointerEvent) => {
-      if (reduced) return;
       const x = (e.clientX / window.innerWidth) * w;
       const y = (e.clientY / window.innerHeight) * h;
-      ripples.push({ x, y, r: minDim * 0.04, life: 1 });
-      // splash burst
-      for (let i = 0; i < 7; i++) {
-        const ang = (Math.PI * 2 * i) / 7 + Math.random() * 0.6;
-        const sp = minDim * (0.45 + Math.random() * 0.6);
-        drops.push({
-          x,
-          y,
-          vx: Math.cos(ang) * sp,
-          vy: Math.sin(ang) * sp - minDim * 0.15,
-          relR: 0.042 + Math.random() * 0.032,
-          color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-        });
-      }
-      while (drops.length > MAX_DROPS) drops.shift();
+      waves.push({ x, y, r: 8, life: 1 });
+      spawnSparks(x, y, 10, { vx: 0, vy: 0 });
     };
 
-    const spawnRain = () => {
-      drops.push({
-        x: Math.random() * w,
-        y: -minDim * 0.05,
-        vx: (Math.random() - 0.5) * minDim * 0.06,
-        vy: minDim * (0.18 + Math.random() * 0.24),
-        relR: 0.05 + Math.random() * 0.035,
-        color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-      });
-      while (drops.length > MAX_DROPS) drops.shift();
-    };
-
-    const update = (dt: number, t: number) => {
-      // cursor spring + decay
-      ptr.x += (ptr.tx - ptr.x) * Math.min(1, dt * 7);
-      ptr.y += (ptr.ty - ptr.y) * Math.min(1, dt * 7);
-      ptr.speed = Math.max(0, ptr.speed - dt * 1.6);
-
-      // ambient rain
-      rainIn -= dt;
-      if (rainIn <= 0) {
-        spawnRain();
-        rainIn = 0.35 + Math.random() * 0.55;
-      }
-
-      const pullRange = Math.max(w, h) * 0.42;
-
-      for (const b of blobs) {
-        b.x = (b.ax + Math.cos(t * b.speed + b.phase) * b.ampX) * w;
-        b.y = (b.ay + Math.sin(t * b.speed * 0.9 + b.phase * 1.7) * b.ampY) * h;
-        b.r = b.relR * minDim * (1 + 0.05 * Math.sin(t * 0.6 + b.phase));
-
-        // liquid leans toward the cursor when it's near
-        const dx = ptr.x * w - b.x;
-        const dy = ptr.y * h - b.y;
-        const dist = Math.hypot(dx, dy) || 1;
-        if (dist < pullRange) {
-          const f = (1 - dist / pullRange) * 0.03;
-          b.x += dx * f;
-          b.y += dy * f;
-        }
-
-        // occasional drip from the underside
-        b.dripIn -= dt;
-        if (b.dripIn <= 0) {
-          b.dripIn = 2.5 + Math.random() * 3.5;
-          drops.push({
-            x: b.x + (Math.random() - 0.5) * b.r * 0.8,
-            y: b.y + b.r * 0.82,
-            vx: (Math.random() - 0.5) * minDim * 0.08,
-            vy: minDim * 0.08,
-            relR: 0.038 + Math.random() * 0.028,
-            color: lerpC(b.colorA, b.colorB, Math.random()),
-          });
-        }
-      }
-
-      // droplets
-      const G = minDim * 0.4;
-      for (let i = drops.length - 1; i >= 0; i--) {
-        const d = drops[i];
-        d.vy += G * dt;
-        d.vx *= 1 - 0.4 * dt;
-        d.x += d.vx * dt;
-        d.y += d.vy * dt;
-
-        // absorbed when sinking into a body
-        let absorbed = false;
-        for (const b of blobs) {
-          if (Math.hypot(d.x - b.x, d.y - b.y) < b.r * 0.7) {
-            absorbed = true;
-            break;
-          }
-        }
-        if (absorbed || d.y > h * 1.18 || d.x < -w * 0.2 || d.x > w * 1.2) {
-          if (absorbed && Math.random() < 0.6) {
-            ripples.push({ x: d.x, y: d.y, r: minDim * 0.03, life: 0.6 });
-          }
-          drops.splice(i, 1);
-        }
-      }
-
-      // ripples
-      for (let i = ripples.length - 1; i >= 0; i--) {
-        const r = ripples[i];
-        r.r += minDim * 0.85 * dt;
-        r.life -= dt * 1.15;
-        if (r.life <= 0) ripples.splice(i, 1);
+    const onResize = () => {
+      resize();
+      for (const r of racers) {
+        r.x = Math.min(Math.max(r.x, -70), w + 70);
+        r.y = Math.min(Math.max(r.y, -70), h + 70);
+        r.px = r.x;
+        r.py = r.y;
       }
     };
 
-    const render = (t: number) => {
-      if (!img) return;
-      const data = img.data;
+    /* ---------------- run ---------------- */
 
-      // live bodies this frame
-      const bodies: Body[] = [];
-      for (const b of blobs) {
-        bodies.push({
-          x: b.x,
-          y: b.y,
-          r: b.r,
-          color: lerpC(b.colorA, b.colorB, (Math.sin(t * 0.05 + b.phase) + 1) / 2),
-        });
-      }
-      // cursor stirrer
-      bodies.push({
-        x: ptr.x * w,
-        y: ptr.y * h,
-        r: minDim * (0.13 + ptr.speed * 0.18),
-        color: [6, 182, 212],
-      });
-      for (const d of drops) {
-        bodies.push({ x: d.x, y: d.y, r: d.relR * minDim, color: d.color });
-      }
-
-      const n = bodies.length;
-      for (let py = 0; py < h; py++) {
-        for (let px = 0; px < w; px++) {
-          let f = 0;
-          let cr = 0;
-          let cg = 0;
-          let cb = 0;
-          for (let i = 0; i < n; i++) {
-            const b = bodies[i];
-            const dx = px - b.x;
-            const dy = py - b.y;
-            const wgt = (b.r * b.r) / (dx * dx + dy * dy + 1);
-            f += wgt;
-            cr += wgt * b.color[0];
-            cg += wgt * b.color[1];
-            cb += wgt * b.color[2];
-          }
-          const idx = (py * w + px) * 4;
-          if (f > 0.72) {
-            const tt = Math.min(1, (f - 0.72) / 0.65);
-            const s = tt * tt * (3 - 2 * tt); // smoothstep edge
-            const depth = 0.78 + 0.22 * Math.min(1, (f - 0.72) / 2.2);
-            const a = s * MAX_ALPHA * depth;
-            data[idx] = cr / f;
-            data[idx + 1] = cg / f;
-            data[idx + 2] = cb / f;
-            data[idx + 3] = a * 255;
-          } else {
-            data[idx + 3] = 0;
-          }
-        }
-      }
-      ctx.putImageData(img, 0, 0);
-
-      // ripple rings on top
-      if (ripples.length) {
-        ctx.lineWidth = 1.4;
-        for (const r of ripples) {
-          ctx.strokeStyle = `rgba(13,148,136,${(r.life * 0.5).toFixed(3)})`;
-          ctx.beginPath();
-          ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
-          ctx.stroke();
-          // inner echo ring for depth
-          if (r.r > minDim * 0.12) {
-            ctx.strokeStyle = `rgba(6,182,212,${(r.life * 0.28).toFixed(3)})`;
-            ctx.beginPath();
-            ctx.arc(r.x, r.y, r.r * 0.55, 0, Math.PI * 2);
-            ctx.stroke();
-          }
-        }
-      }
-    };
+    resize();
+    const count = w < 640 ? 3 : 5;
+    for (let i = 0; i < count; i++) {
+      const r = makeRacer(i);
+      respawn(r);
+      r.x = w * (0.15 + Math.random() * 0.7);
+      r.y = h * (0.15 + Math.random() * 0.7);
+      r.px = r.x;
+      r.py = r.y;
+      racers.push(r);
+    }
 
     let raf = 0;
-    let running = !reduced;
+    let running = false;
     let last = performance.now();
 
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      update(dt, now / 1000);
-      render(now / 1000);
+      ptr.speed = Math.max(0, ptr.speed - dt * 1.4);
+      fadeFrame();
+      stepRacers(dt, now / 1000);
+      drawEffects(dt, now / 1000);
       if (running) raf = requestAnimationFrame(frame);
     };
 
-    const onResize = () => resize();
+    const start = () => {
+      if (running || reduced) return;
+      running = true;
+      last = performance.now();
+      raf = requestAnimationFrame(frame);
+    };
+
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+    };
+
     const onVisibility = () => {
-      if (document.hidden) {
-        running = false;
-        cancelAnimationFrame(raf);
-      } else if (!reduced) {
-        running = true;
-        last = performance.now();
-        raf = requestAnimationFrame(frame);
-      }
+      if (document.hidden) stop();
+      else start();
     };
 
     if (reduced) {
-      // one still frame — liquid present, nothing moving
-      update(0.016, 1.5);
-      render(1.5);
+      // one composed still frame — a frozen moment of the arena
+      for (let i = 0; i < 110; i++) stepRacers(0.03, i * 0.03);
+      for (const r of racers) {
+        ignite(r.x, r.y, 0.5, r.color);
+        spawnSparks(r.x, r.y, 2, { vx: 0, vy: 0 });
+      }
+      for (const s of sparks) s.life = 0.35 + Math.random() * 0.5;
+      drawEffects(0, 2.4);
     } else {
-      raf = requestAnimationFrame(frame);
+      start();
       window.addEventListener("pointermove", onMove, { passive: true });
       window.addEventListener("pointerdown", onDown, { passive: true });
     }
@@ -364,8 +580,7 @@ function LiquidCanvas() {
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      running = false;
-      cancelAnimationFrame(raf);
+      stop();
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("resize", onResize);
@@ -374,20 +589,6 @@ function LiquidCanvas() {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 h-full w-full"
-      style={{ filter: "blur(3px)" }}
-      aria-hidden="true"
-    />
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* The full ambient stack                                              */
-/* ------------------------------------------------------------------ */
-export function VortexBackground() {
-  return (
     <div
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
       aria-hidden="true"
@@ -395,22 +596,27 @@ export function VortexBackground() {
       {/* base — near-white canvas */}
       <div className="absolute inset-0 bg-[#fbfdfd]" />
 
-      {/* interactive liquid + droplets */}
-      <LiquidCanvas />
-
-      {/* hairline grid — faint, fades out toward edges */}
+      {/* brand tints — depth without darkness */}
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(11,46,51,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(11,46,51,0.03) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-          maskImage:
-            "radial-gradient(ellipse 90% 70% at 50% 40%, black 30%, transparent 78%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 90% 70% at 50% 40%, black 30%, transparent 78%)",
+          background:
+            "radial-gradient(ellipse 60% 50% at 10% -6%, rgba(13, 148, 136, 0.05), transparent 70%)",
         }}
       />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 45% at 92% 106%, rgba(16, 185, 129, 0.045), transparent 70%)",
+        }}
+      />
+
+      {/* hex strategy lattice — the arena floor */}
+      <canvas ref={latticeRef} className="absolute inset-0 h-full w-full" />
+
+      {/* neon racers, cell pulses, sparks, shockwaves, player token */}
+      <canvas ref={dynRef} className="absolute inset-0 h-full w-full" />
 
       {/* film grain */}
       <div
@@ -428,7 +634,7 @@ export function VortexBackground() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 120% 90% at 50% 45%, transparent 60%, rgba(11,46,51,0.04) 100%)",
+            "radial-gradient(ellipse 120% 90% at 50% 45%, transparent 60%, rgba(11, 46, 51, 0.04) 100%)",
         }}
       />
     </div>

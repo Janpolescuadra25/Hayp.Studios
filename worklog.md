@@ -68,3 +68,33 @@ Stage Summary:
 - Deliverable: aesthetic ad-style landing with interactive liquid+droplets background, real product catalog across landing/hub/whatsnew
 - All motion respects prefers-reduced-motion; canvas pauses when hidden
 - Preview: https://preview-<bot-id>.space-z.ai/
+
+---
+Task ID: 3
+Agent: Main Agent (Super Z)
+Task: Replace the rejected liquid-metaball background (too dark/heavy) with a new white-dominant, gamer-fit background concept per user feedback.
+
+Work Log:
+- Deleted liquid-era verification artifact scripts/analyze_drops.py (user asked for the new output to be permanently removed)
+- Designed + implemented "NEON ARCADE FIELD" background concept in vortex-background.tsx (complete rewrite):
+  - Static hexagonal strategy lattice canvas (flat-top axial hex grid, navy 3% strokes, drawn once per resize; shared edges intentionally double toward 6%)
+  - Dynamic canvas: 5 neon light-cycle racers (3 on mobile) in brand teal/emerald/cyan sweep the white void with layered halo+core strokes and destination-out per-frame fade (silky afterglow)
+  - Racer behavior: layered-sine wander, edge steering band keeps action mid-screen, occasional nitro boosts (2.7x speed, wider halo, spark burst), off-screen respawn aimed across the screen
+  - Hex cells ignite under every trail head (axial pixel→hex cube rounding) and fade out — the board powers up
+  - Pixel sparks: rotating diamond squares shed from trails, click bursts
+  - Cursor = player token (pointer:fine only): spring-followed halo + ring + rotating pickup diamond + orbiting satellite dot; trails steer toward the token within 34% of viewport
+  - Click/tap = MOBA-style ability: expanding shockwave ring + echo ring + radial hex-cell ignition wave + 10-spark burst
+  - White dominance: near-white #fbfdfd base, two 5% brand radial tints, trails are thin 2–3px cores with 10% halos, pulse fills capped at 11% alpha
+  - Perf: DPR capped 1.5, pulse map capped 220/240, sparks capped 110, passive listeners, visibilitychange pause, prefers-reduced-motion renders one composed still frame (110-step warm-up sim)
+- TypeScript clean for the file; no console errors
+
+Verification (agent-browser + VLM):
+- VLM confirmed: background is overwhelmingly white-dominant and light; teal/cyan glow trails visible; hexagonal lattice visible; "energetic/gamer-like yet clean and premium"; no harsh dark areas or artifacts
+- Interaction verified: click shockwave ring visible + expanding; trails move between frames (alive); cursor token with ring visible after mouse move; hex cells softly lit
+- Desktop story + gallery sections: background stays clean behind content, text readable
+- Mobile 390px: no horizontal overflow, white-dominant, trails scaled appropriately
+- Temp screenshots kept in /tmp/vortex-verify (outside download/)
+
+Stage Summary:
+- New background concept "Neon Arcade Field" live: hex strategy lattice + neon racers + cell ignition + pixel sparks + player token + click shockwaves, all white-dominant and gamer-fit
+- Rest of the site (real product catalog, editorial sections, transitions) unchanged and verified against the new background
