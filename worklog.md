@@ -98,3 +98,30 @@ Verification (agent-browser + VLM):
 Stage Summary:
 - New background concept "Neon Arcade Field" live: hex strategy lattice + neon racers + cell ignition + pixel sparks + player token + click shockwaves, all white-dominant and gamer-fit
 - Rest of the site (real product catalog, editorial sections, transitions) unchanged and verified against the new background
+
+---
+Task ID: 4
+Agent: Main Agent (Super Z)
+Task: Per user feedback — remove cursor token and snake-cursor feel from background (keep animation); rewrite identity copy to advertise Vortex itself (no product lists, no "one person/founder/solo"); replace motto "Less clicks. More results."; redesign logo to fit gamer aesthetic.
+
+Work Log:
+- Logo redesign (vortex-logo.tsx full rewrite): esports hex-badge — sharp faceted twin-blade "V" with center seam facet, edge highlights, apex spark diamond, inside a pointy-top hexagonal frame (R=52, gradient stroke + inner echo ring), radial energy aura; animated mode adds slowly rotating dashed hex reticle (R=55) with cyan comet dot. Same component API (size/animated/showOrbit/idPrefix) so all 6 usages (navbar, footer, hero intro, orbit badge, transition BrandMoment, motto watermark) update automatically
+- Background de-snaking (vortex-background.tsx): removed player-token cursor visual + pointermove listener + cursor attraction entirely; removed round head-glow dots (the "snake head"); wander turn rates cut ~60% (0.28-0.58 rad/s) and sine frequencies slowed (0.3/0.13) for long straight light sweeps; afterglow fade lowered 0.085→0.07 for longer streak tails; kept hex lattice, cell ignition, nitro boosts, pixel sparks, click shockwaves
+- Copy → brand advertising (no products, no person):
+  - Ch.1 caption: "Vortex is momentum made visible — an independent studio built on a single obsession: digital products that feel effortless. Strategy, design, engineering and motion spin here as one force. No templates, no shortcuts, no settling. What leaves the vortex lands ahead of expectation — every time."
+  - Hero paragraph: "Vortex.studio is an independent digital studio built on momentum — strategy, design, engineering and motion spinning as one force. We obsess over the details others skip, and nothing ships until it feels effortless."
+  - Craft rows de-personalized ("same pair of hands"/"founder who answers" → one-system/accountability phrasing); Ch.2 quote "No outsourcing." → "No templates."; FinalCta founder line → momentum line; OrbitBadge ring text "founder-built" → "precision-built"; marquee "Founder-built" → "Independent Studio"; changelog day-one entry de-founderized; metadata description/OG/keywords de-soloized
+- New motto "Less friction. More momentum." everywhere: MottoSection (friction/momentum with gradient), footer motto block, mobile menu, marquee, craft-row reference
+- Footer stale mock categories (SaaS/Portfolio/Blog/Fintech/Health) replaced with real CATEGORIES from data (Accounting, Automation, Social, E-Commerce, Games)
+
+Verification (agent-browser + VLM):
+- Hero: hex-badge logo confirmed top-left + orbit badge; white-dominant lattice + light sweeps; no cursor token/head dots; hero paragraph quoted correctly with no products/founder
+- Click shockwave ring still expands on click
+- Ch.1 caption verified at correct scroll position — pure studio-identity copy
+- Motto section verified: "Less friction." / "More momentum." gradient + faint giant hex-badge watermark
+- Footer verified: hex-badge logo, real categories, new motto
+- Hub verified: new logo in navbar, status chips intact
+- Mobile 390px: no overflow, clean hero; console clean across checks
+
+Stage Summary:
+- Gamer hex-badge logo live across all surfaces; background is now autonomous light sweeps (no cursor dependence, no snake feel) with all animations intact; all identity copy is pure Vortex brand advertising; motto updated to "Less friction. More momentum."
