@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { PRODUCTS } from "@/lib/vortex-data";
+import { PRODUCTS, STATUS_META } from "@/lib/vortex-data";
 import { VortexMark } from "./vortex-logo";
 import { EASE, FadeUp, MaskedLine, SectionTag, Magnetic } from "./vortex-shared";
 
@@ -11,19 +11,21 @@ import { EASE, FadeUp, MaskedLine, SectionTag, Magnetic } from "./vortex-shared"
 /* FEATURED — a magazine spread of the flagship drops                  */
 /* ================================================================== */
 export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
-  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 3);
+  const featured = PRODUCTS.filter(
+    (p) => p.status === "live" || p.status === "development"
+  ).slice(0, 3);
 
   return (
     <section className="relative mx-auto max-w-7xl px-6 py-28 sm:py-36">
       {/* heading row */}
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
         <div>
-          <SectionTag index="04" label="Featured Drops" className="mb-7" />
+          <SectionTag index="04" label="In the Wild" className="mb-7" />
           <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
-            <MaskedLine>Current</MaskedLine>
+            <MaskedLine>Fresh from</MaskedLine>
             <MaskedLine delay={0.12}>
               <span className="font-serif-accent font-normal italic text-vortex-gradient">
-                obsessions.
+                the vortex.
               </span>
             </MaskedLine>
           </h2>
@@ -33,7 +35,7 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
             onClick={onEnterHub}
             className="group inline-flex items-center gap-2.5 border-b border-vortex-ink/20 pb-1.5 font-display text-sm font-semibold text-vortex-ink transition-colors duration-500 hover:border-vortex-teal hover:text-vortex-teal focus-visible:outline-2 focus-visible:outline-vortex-teal"
           >
-            View all 50+ in the Hub
+            View the full pipeline
             <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
           </button>
         </FadeUp>
@@ -71,6 +73,11 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
               <span className="label-editorial absolute left-6 top-6 text-[10px] text-vortex-ink/45">
                 {String(i + 1).padStart(2, "0")} — {p.category}
               </span>
+              <span
+                className={`label-editorial absolute right-5 top-5 rounded-full px-3 py-1.5 text-[9px] ${STATUS_META[p.status].chip}`}
+              >
+                {STATUS_META[p.status].label}
+              </span>
               <div className="absolute bottom-5 right-6 grid h-12 w-12 place-items-center rounded-full bg-white/80 text-vortex-ink shadow-editorial backdrop-blur transition-all duration-500 group-hover:bg-vortex-ink group-hover:text-white">
                 <p.icon className="h-5 w-5" strokeWidth={1.6} />
               </div>
@@ -89,13 +96,14 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
               </p>
               <div className="mt-auto flex items-center justify-between border-t hairline pt-5">
                 <span className="label-editorial text-[10px] text-vortex-ink/45">
-                  {new Date(p.releasedAt).toLocaleDateString("en-US", {
-                    month: "short",
-                    year: "numeric",
-                  })}
+                  {p.eta ??
+                    new Date(p.releasedAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })}
                 </span>
                 <span className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-vortex-teal">
-                  In the Hub
+                  {p.status === "live" ? "In the Hub" : "On the roadmap"}
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </span>
               </div>
@@ -202,12 +210,12 @@ export function FinalCta({ onEnterHub }: { onEnterHub: () => void }) {
           <h2 className="mx-auto mt-6 max-w-2xl font-display text-[clamp(2.2rem,5.2vw,4.4rem)] font-bold leading-[1.04] tracking-[-0.03em] text-vortex-ink">
             Find your next{" "}
             <span className="font-serif-accent font-normal italic text-vortex-gradient">
-              website.
+              product.
             </span>
           </h2>
           <p className="mx-auto mt-6 max-w-md text-[15px] leading-relaxed text-vortex-navy/70">
-            Browse the full catalog — search it, filter it, sort it. When
-            something clicks, it ships.
+            From Haypbooks and Qyra today to Cirqa, Lumora and game worlds
+            tomorrow — browse the full pipeline, live to concept.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

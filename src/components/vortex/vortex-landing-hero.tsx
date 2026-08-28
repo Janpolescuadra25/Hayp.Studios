@@ -153,16 +153,7 @@ export function VortexHero({
 
         <h1 className="font-display text-[clamp(2.9rem,8.6vw,7.6rem)] font-bold leading-[0.98] tracking-[-0.035em] text-vortex-ink">
           {line("Ready-made", introDelay + 0.05)}
-          {line(
-            <>
-              websites{" "}
-              <span className="font-serif-accent italic font-normal text-vortex-gradient tracking-[-0.01em]">
-                &amp;
-              </span>{" "}
-              tools,
-            </>,
-            introDelay + 0.17
-          )}
+          {line("digital products,", introDelay + 0.17)}
           {line(
             <>
               done{" "}
@@ -182,10 +173,11 @@ export function VortexHero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: introDelay + 0.5, ease: EASE }}
           >
-            Vortex.studio is a one-person product studio. Every website and
-            every tool is designed, built and shipped by the founder —{" "}
+            Vortex.studio is a one-person product studio. Accounting systems,
+            automation pipelines, marketplaces, social platforms — and game
+            worlds on the horizon —{" "}
             <span className="font-medium text-vortex-ink">
-              no outsourcing, no shortcuts.
+              everything is designed, built and shipped by the founder.
             </span>
           </motion.p>
 
@@ -200,7 +192,7 @@ export function VortexHero({
                 onClick={onEnterHub}
                 className="group inline-flex items-center gap-3 rounded-full bg-vortex-ink px-7 py-4 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-vortex-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
               >
-                Explore the catalog
+                Explore the products
                 <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
               </button>
             </Magnetic>
@@ -255,9 +247,9 @@ export function VortexHero({
       >
         <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
           {[
-            { k: "50+", v: "Products built" },
-            { k: "100%", v: "Founder-built" },
-            { k: "6+", v: "Categories" },
+            { k: "02", v: "Live products" },
+            { k: "07", v: "In the pipeline" },
+            { k: "05", v: "Categories" },
             { k: "∞", v: "Growing — est. 2025" },
           ].map((s, i) => (
             <div
@@ -282,15 +274,13 @@ export function VortexHero({
 /* Marquee — a slow editorial ticker between hero and the story        */
 /* ------------------------------------------------------------------ */
 const TICKER = [
-  "Ready-made websites",
-  "Digital tools",
+  "Haypbooks — Accounting",
+  "Qyra — QuickBooks Automation",
+  "Zypra — Xero Automation",
+  "Cirqa — Social",
+  "Lumora — Marketplace",
+  "Vortex Games",
   "Founder-built",
-  "SaaS",
-  "E-Commerce",
-  "Portfolio",
-  "Blog",
-  "Fintech",
-  "Health",
   "Less clicks. More results.",
 ];
 

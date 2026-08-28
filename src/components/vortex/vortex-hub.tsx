@@ -2,8 +2,26 @@
 
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, ArrowUpRight, PackageSearch, Sparkles, Clock, ArrowDownAZ, LayoutGrid } from "lucide-react";
-import { CATEGORIES, PRODUCTS, type Category, type Product } from "@/lib/vortex-data";
+import {
+  Search,
+  ArrowUpRight,
+  PackageSearch,
+  Sparkles,
+  Clock,
+  ArrowDownAZ,
+  LayoutGrid,
+  Rocket,
+} from "lucide-react";
+import {
+  CATEGORIES,
+  PRODUCTS,
+  STATUS_META,
+  STATUS_ORDER,
+  LIVE_COUNT,
+  PIPELINE_COUNT,
+  type Category,
+  type Product,
+} from "@/lib/vortex-data";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -15,7 +33,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-type SortKey = "featured" | "newest" | "az";
+type SortKey = "status" | "newest" | "az";
 type Filter = Category | "All";
 
 /* ------------------------------------------------------------------ */
@@ -25,6 +43,7 @@ type Filter = Category | "All";
 function HubCard({ product, index }: { product: Product; index: number }) {
   const { toast } = useToast();
   const [h1, h2] = product.hue;
+  const isLive = product.status === "live";
 
   return (
     <motion.article
@@ -33,34 +52,41 @@ function HubCard({ product, index }: { product: Product; index: number }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.25 } }}
       transition={{ duration: 0.6, delay: Math.min(index * 0.06, 0.4), ease: [0.22, 0.8, 0.28, 1] }}
-      className="group relative flex flex-col overflow-hidden rounded-[1.6rem] glass-strong transition-shadow duration-500 hover:shadow-[0_28px_70px_-24px_rgba(13,148,136,0.5)]"
+      className="group relative flex flex-col overflow-hidden rounded-[1.6rem] border hairline bg-white/85 backdrop-blur-sm transition-shadow duration-500 hover:shadow-editorial-lg"
     >
       {/* thumbnail */}
-      <div className="relative h-40 overflow-hidden sm:h-44" style={{ background: `linear-gradient(150deg, ${h1}1a, ${h2}2e)` }}>
-        {/* vortex thumb art */}
+      <div className="relative h-40 overflow-hidden sm:h-44" style={{ background: `linear-gradient(150deg, ${h1}12, ${h2}1f)` }}>
+        {/* quiet thumb art — drifting rings */}
         <div
-          className="absolute -right-10 -top-14 h-44 w-44 rounded-full transition-transform duration-700 group-hover:rotate-90 group-hover:scale-125"
-          style={{ background: `conic-gradient(from 0deg, ${h1}40, ${h2}2a, ${h1}55, ${h2}20, ${h1}40)` }}
+          className="absolute -right-12 -top-16 h-44 w-44 rounded-full transition-transform duration-[1200ms] ease-out group-hover:rotate-45 group-hover:scale-110"
+          style={{
+            borderColor: `${h2}30`,
+            border: `1px solid ${h2}2e`,
+            background: `radial-gradient(closest-side, ${h2}14, transparent 70%)`,
+          }}
         />
-        <div className="absolute -bottom-8 -left-8 h-28 w-28 rounded-full border-[7px] border-white/25" />
-        <div className="absolute left-4 top-4">
-          <span
-            className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm"
-            style={{ background: `linear-gradient(90deg, ${h1}, ${h2})` }}
-          >
-            {product.category}
-          </span>
-        </div>
-        {product.featured && (
-          <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/75 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-600 backdrop-blur-sm">
-            <Sparkles className="h-3 w-3" /> Featured
-          </span>
-        )}
         <div
-          className="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-2xl text-white shadow-lg transition-all duration-500 group-hover:-rotate-12 group-hover:scale-110"
-          style={{ background: `linear-gradient(135deg, ${h1}, ${h2})` }}
+          className="absolute -bottom-20 -left-12 h-40 w-40 rounded-full opacity-60 transition-transform duration-[1200ms] ease-out group-hover:-rotate-30 group-hover:scale-105"
+          style={{ border: `1px solid ${h1}26` }}
+        />
+
+        {/* category label */}
+        <span className="label-editorial absolute left-5 top-5 text-[10px] text-vortex-ink/45">
+          {product.category}
+        </span>
+
+        {/* status chip */}
+        <span
+          className={`label-editorial absolute right-5 top-5 rounded-full px-3 py-1.5 text-[9px] ${STATUS_META[product.status].chip}`}
         >
-          <product.icon className="h-5.5 w-5.5" />
+          {STATUS_META[product.status].label}
+        </span>
+
+        {/* icon */}
+        <div
+          className="absolute bottom-5 right-6 grid h-12 w-12 place-items-center rounded-full bg-white/80 text-vortex-ink shadow-editorial backdrop-blur transition-all duration-500 group-hover:bg-vortex-ink group-hover:text-white"
+        >
+          <product.icon className="h-5 w-5" strokeWidth={1.6} />
         </div>
       </div>
 
@@ -68,14 +94,13 @@ function HubCard({ product, index }: { product: Product; index: number }) {
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h3 className="font-display text-lg font-bold leading-tight text-vortex-ink transition-colors group-hover:text-vortex-teal">
+            <h3 className="font-display text-lg font-bold leading-tight tracking-tight text-vortex-ink transition-colors group-hover:text-vortex-teal">
               {product.name}
             </h3>
-            <p className="mt-0.5 font-display text-[13px] font-medium" style={{ color: h2 }}>{product.tagline}</p>
+            <p className="mt-1 font-serif-accent text-base italic leading-snug text-vortex-navy/60">
+              {product.tagline}
+            </p>
           </div>
-          <span className="mt-1 shrink-0 font-mono text-[10px] text-vortex-navy/45">
-            {new Date(product.releasedAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
-          </span>
         </div>
 
         <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-vortex-navy/70">{product.description}</p>
@@ -88,18 +113,29 @@ function HubCard({ product, index }: { product: Product; index: number }) {
           ))}
         </div>
 
-        <button
-          onClick={() =>
-            toast({
-              title: `${product.name} — demo link`,
-              description: "This catalog is a live preview. External product links open from the public hub.",
-            })
-          }
-          className="mt-5 inline-flex items-center justify-between gap-2 rounded-xl border border-vortex-teal/20 bg-white/50 px-4 py-2.5 font-display text-[13px] font-semibold text-vortex-teal transition-all duration-300 hover:border-vortex-teal/50 hover:bg-white focus-visible:outline-2 focus-visible:outline-vortex-teal"
-        >
-          Visit product
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </button>
+        <div className="mt-5 flex items-center justify-between border-t hairline pt-4">
+          <span className="label-editorial text-[10px] text-vortex-ink/45">
+            {product.eta ??
+              new Date(product.releasedAt).toLocaleDateString("en-US", {
+                month: "short",
+                year: "numeric",
+              })}
+          </span>
+          <button
+            onClick={() =>
+              toast({
+                title: isLive ? `${product.name} — demo link` : `${product.name} — in the pipeline`,
+                description: isLive
+                  ? "This catalog is a live preview. Product links open from the public hub."
+                  : `Target: ${product.eta}. Follow the changelog for launch news.`,
+              })
+            }
+            className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-vortex-teal transition-colors hover:text-vortex-deep focus-visible:outline-2 focus-visible:outline-vortex-teal"
+          >
+            {isLive ? "Visit product" : "Follow progress"}
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </button>
+        </div>
       </div>
     </motion.article>
   );
@@ -112,7 +148,7 @@ function HubCard({ product, index }: { product: Product; index: number }) {
 export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
-  const [sort, setSort] = useState<SortKey>("featured");
+  const [sort, setSort] = useState<SortKey>("status");
 
   const results = useMemo(() => {
     let list = [...PRODUCTS];
@@ -136,7 +172,11 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
         list.sort((a, b) => a.name.localeCompare(b.name));
         break;
       default:
-        list.sort((a, b) => Number(b.featured) - Number(a.featured) || +new Date(b.releasedAt) - +new Date(a.releasedAt));
+        list.sort(
+          (a, b) =>
+            STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
+            +new Date(b.releasedAt) - +new Date(a.releasedAt)
+        );
     }
     return list;
   }, [query, filter, sort]);
@@ -150,21 +190,22 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 0.8, 0.28, 1] }}
         >
-          <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5">
+          <div className="inline-flex items-center gap-2.5 rounded-full border hairline bg-white/60 px-4 py-1.5 backdrop-blur">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-70" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-500" />
             </span>
-            <span className="font-display text-[11px] font-medium uppercase tracking-[0.22em] text-vortex-navy/80">
-              The full catalog
+            <span className="label-editorial text-vortex-ink/80">
+              The full pipeline
             </span>
           </div>
           <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-vortex-ink sm:text-6xl">
             The <span className="text-vortex-gradient">Vortex Hub</span>
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-vortex-navy/70">
-            Every product, one place. Search, filter and sort the complete founder-built catalog —
-            ready to deploy the moment you find your match.
+            Two products live, seven more spinning — accounting, automation,
+            social, e-commerce and games. Every one of them built by{" "}
+            <span className="font-medium text-vortex-ink">Vortex Studios</span>.
           </p>
         </motion.div>
 
@@ -178,17 +219,17 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
             <LayoutGrid className="h-4 w-4 text-vortex-teal" /> {PRODUCTS.length} products
           </span>
           <span className="inline-flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-vortex-teal" /> {PRODUCTS.filter((p) => p.featured).length} featured
+            <Sparkles className="h-4 w-4 text-vortex-teal" /> {LIVE_COUNT} live
           </span>
           <span className="inline-flex items-center gap-2">
-            <Clock className="h-4 w-4 text-vortex-teal" /> updated weekly
+            <Rocket className="h-4 w-4 text-vortex-teal" /> {PIPELINE_COUNT} in the pipeline
           </span>
         </motion.div>
       </div>
 
       {/* controls */}
       <motion.div
-        className="sticky top-[72px] z-30 mt-10 rounded-[1.6rem] glass-strong p-3 shadow-[0_16px_50px_-24px_rgba(13,148,136,0.45)] sm:p-4"
+        className="sticky top-[76px] z-30 mt-10 rounded-[1.6rem] border hairline bg-white/80 p-3 shadow-editorial backdrop-blur-md sm:p-4"
         initial={{ opacity: 0, y: 26 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 0.8, 0.28, 1] }}
@@ -212,8 +253,8 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="rounded-2xl border-vortex-teal/20">
-              <SelectItem value="featured" className="rounded-xl gap-2">
-                <Sparkles className="h-3.5 w-3.5 text-vortex-teal" /> Featured first
+              <SelectItem value="status" className="rounded-xl gap-2">
+                <Sparkles className="h-3.5 w-3.5 text-vortex-teal" /> Live first
               </SelectItem>
               <SelectItem value="newest" className="rounded-xl gap-2">
                 <Clock className="h-3.5 w-3.5 text-vortex-teal" /> Newest
@@ -237,21 +278,14 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
                 className={cn(
                   "relative shrink-0 rounded-full px-4 py-2 font-display text-[13px] font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-vortex-teal",
                   active
-                    ? "text-white"
+                    ? "bg-vortex-ink text-white"
                     : "text-vortex-navy/65 hover:bg-vortex-teal/10 hover:text-vortex-teal"
                 )}
                 aria-pressed={active}
               >
-                {active && (
-                  <motion.span
-                    layoutId="hub-pill"
-                    className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-600 to-cyan-500 shadow-[0_8px_20px_-6px_rgba(13,148,136,0.5)]"
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                  />
-                )}
                 <span className="relative flex items-center gap-1.5">
                   {cat}
-                  <span className={cn("font-mono text-[10px]", active ? "text-teal-100/90" : "text-vortex-navy/40")}>
+                  <span className={cn("font-mono text-[10px]", active ? "text-teal-200/90" : "text-vortex-navy/40")}>
                     {count}
                   </span>
                 </span>
@@ -263,7 +297,7 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
 
       {/* result count */}
       <div className="mt-8 flex items-center justify-between">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-vortex-navy/50" aria-live="polite">
+        <p className="label-editorial text-[10px] text-vortex-ink/50" aria-live="polite">
           {results.length} {results.length === 1 ? "product" : "products"} · {filter === "All" ? "all categories" : filter}
         </p>
         {(query || filter !== "All") && (
@@ -308,7 +342,7 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
               setQuery("");
               setFilter("All");
             }}
-            className="mt-2 rounded-full bg-gradient-to-r from-teal-600 to-cyan-500 px-6 py-3 font-display text-sm font-semibold text-white shadow-lg shadow-teal-500/25 transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-vortex-teal"
+            className="mt-2 rounded-full bg-vortex-teal px-6 py-3 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-vortex-deep focus-visible:outline-2 focus-visible:outline-vortex-teal"
           >
             Clear search
           </button>
@@ -321,7 +355,7 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
           Can&apos;t find what you need?
         </p>
         <p className="mt-2 text-sm text-vortex-navy/55">
-          The catalog grows every month. Head back to{" "}
+          The pipeline grows every month. Head back to{" "}
           <button onClick={onGoHome} className="font-semibold text-vortex-teal underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-vortex-teal">
             the story
           </button>{" "}

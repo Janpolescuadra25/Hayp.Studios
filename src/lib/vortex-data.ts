@@ -1,26 +1,24 @@
 import {
-  BarChart3,
+  BookOpenCheck,
+  Zap,
+  Link2,
+  Globe,
   ShoppingBag,
-  Camera,
-  Feather,
-  Wallet,
-  HeartPulse,
-  LayoutDashboard,
-  Store,
-  Image,
-  PenLine,
-  Landmark,
-  Activity,
+  Swords,
+  Castle,
+  Car,
+  Compass,
   type LucideIcon,
 } from "lucide-react";
 
 export type Category =
-  | "SaaS"
+  | "Accounting"
+  | "Automation"
+  | "Social"
   | "E-Commerce"
-  | "Portfolio"
-  | "Blog"
-  | "Fintech"
-  | "Health";
+  | "Games";
+
+export type ProductStatus = "live" | "development" | "planned" | "concept";
 
 export interface Product {
   id: string;
@@ -28,8 +26,11 @@ export interface Product {
   tagline: string;
   description: string;
   category: Category;
-  featured: boolean;
+  status: ProductStatus;
+  /** announcement / release date (used for sorting) */
   releasedAt: string; // ISO date
+  /** for unreleased products — shown instead of the date */
+  eta?: string;
   icon: LucideIcon;
   /** two hex colors used to paint the CSS-art thumbnail */
   hue: [string, string];
@@ -37,172 +38,171 @@ export interface Product {
 }
 
 export const CATEGORIES: { name: Category; icon: LucideIcon; blurb: string }[] = [
-  { name: "SaaS", icon: LayoutDashboard, blurb: "Dashboards & platforms" },
-  { name: "E-Commerce", icon: ShoppingBag, blurb: "Stores & checkouts" },
-  { name: "Portfolio", icon: Camera, blurb: "Personal showcases" },
-  { name: "Blog", icon: PenLine, blurb: "Editorial experiences" },
-  { name: "Fintech", icon: Landmark, blurb: "Money & metrics" },
-  { name: "Health", icon: HeartPulse, blurb: "Wellness & care" },
+  { name: "Accounting", icon: BookOpenCheck, blurb: "Books, ledgers & reports" },
+  { name: "Automation", icon: Zap, blurb: "Data auto-posting pipelines" },
+  { name: "Social", icon: Globe, blurb: "Feeds, circles & messaging" },
+  { name: "E-Commerce", icon: ShoppingBag, blurb: "Marketplaces & stores" },
+  { name: "Games", icon: Swords, blurb: "Worlds worth playing" },
 ];
+
+export const STATUS_META: Record<
+  ProductStatus,
+  { label: string; chip: string }
+> = {
+  live: {
+    label: "Live",
+    chip: "bg-vortex-teal text-white",
+  },
+  development: {
+    label: "In development",
+    chip: "bg-cyan-500/15 text-cyan-700 border border-cyan-500/30",
+  },
+  planned: {
+    label: "Planned",
+    chip: "bg-emerald-500/12 text-emerald-700 border border-emerald-500/30",
+  },
+  concept: {
+    label: "Concept",
+    chip: "bg-vortex-ink/[0.05] text-vortex-ink/60 border border-vortex-ink/10",
+  },
+};
+
+export const STATUS_ORDER: Record<ProductStatus, number> = {
+  live: 0,
+  development: 1,
+  planned: 2,
+  concept: 3,
+};
 
 export const PRODUCTS: Product[] = [
   {
-    id: "analytiq",
-    name: "AnalytiQ Dashboard",
-    tagline: "Analytics, minus the noise",
+    id: "haypbooks",
+    name: "Haypbooks",
+    tagline: "The accounting system that speaks human",
     description:
-      "A real-time analytics platform with cohort tracking, funnel visualization and anomaly alerts. Ships with a full admin panel, auth flow and 14 pre-built chart modules.",
-    category: "SaaS",
-    featured: true,
-    releasedAt: "2026-07-14",
-    icon: BarChart3,
-    hue: ["#0d9488", "#06b6d4"],
-    tags: ["Dashboard", "Charts", "Auth"],
-  },
-  {
-    id: "verdant",
-    name: "Verdant Store",
-    tagline: "Commerce that breathes",
-    description:
-      "A sustainable lifestyle brand shop with cart drawer, wishlist, product bundles and a carbon-neutral checkout badge. Conversion-tuned product pages included.",
-    category: "E-Commerce",
-    featured: true,
-    releasedAt: "2026-06-28",
-    icon: Store,
-    hue: ["#10b981", "#0d9488"],
-    tags: ["Store", "Cart", "Bundles"],
-  },
-  {
-    id: "foliopro",
-    name: "Folio Pro",
-    tagline: "Your work, full-bleed",
-    description:
-      "A photographer portfolio with masonry galleries, EXIF overlays, lightbox stories and a print-shop module. Dark-room mode built in.",
-    category: "Portfolio",
-    featured: true,
-    releasedAt: "2026-06-05",
-    icon: Image,
-    hue: ["#1e3a5f", "#0d9488"],
-    tags: ["Gallery", "Lightbox", "Prints"],
-  },
-  {
-    id: "emerald-journal",
-    name: "The Emerald Journal",
-    tagline: "Long-form, beautifully set",
-    description:
-      "An editorial platform with typographic article layouts, reading-time estimates, newsletter capture and a full CMS-ready content model.",
-    category: "Blog",
-    featured: true,
-    releasedAt: "2026-05-19",
-    icon: Feather,
+      "A complete accounting suite — ledgers, invoicing, expenses and financial reports — built to make bookkeeping feel less like paperwork and more like second nature.",
+    category: "Accounting",
+    status: "live",
+    releasedAt: "2025-12-10",
+    icon: BookOpenCheck,
     hue: ["#0d9488", "#10b981"],
-    tags: ["Editorial", "CMS", "Newsletter"],
+    tags: ["Ledgers", "Invoicing", "Reports"],
   },
   {
-    id: "payflow",
-    name: "PayFlow Finance",
-    tagline: "Money, made legible",
+    id: "qyra",
+    name: "Qyra",
+    tagline: "Your data, auto-posted to QuickBooks",
     description:
-      "Personal finance management with budget rings, subscription audit, savings goals and bank-grade encryption patterns. Import-ready CSV pipelines.",
-    category: "Fintech",
-    featured: true,
-    releasedAt: "2026-04-30",
-    icon: Wallet,
-    hue: ["#1e3a5f", "#06b6d4"],
-    tags: ["Budgets", "Goals", "Reports"],
+      "An automation pipeline that takes your transaction data and posts it straight into QuickBooks — mapped, validated and reconciled without a single manual entry.",
+    category: "Automation",
+    status: "live",
+    releasedAt: "2026-02-18",
+    icon: Zap,
+    hue: ["#06b6d4", "#0d9488"],
+    tags: ["QuickBooks", "Auto-posting", "Sync"],
   },
   {
-    id: "vitawell",
-    name: "VitaWell Health",
-    tagline: "Care without the waiting room",
+    id: "zypra",
+    name: "Zypra",
+    tagline: "The same magic, wired to Xero",
     description:
-      "A wellness platform with telehealth scheduling, symptom intake flows, medication reminders and clinician messaging. HIPAA-minded data patterns.",
-    category: "Health",
-    featured: true,
-    releasedAt: "2026-04-11",
-    icon: HeartPulse,
+      "The Vortex automation engine, retooled for Xero — auto-posting, account mapping and sync pipelines for teams that run their books on Xero. In active development.",
+    category: "Automation",
+    status: "development",
+    releasedAt: "2026-06-15",
+    eta: "Late 2026",
+    icon: Link2,
     hue: ["#10b981", "#06b6d4"],
-    tags: ["Telehealth", "Booking", "Reminders"],
+    tags: ["Xero", "Auto-posting", "Pipeline"],
   },
   {
-    id: "pulseboard",
-    name: "PulseBoard",
-    tagline: "Status at a glance",
+    id: "cirqa",
+    name: "Cirqa",
+    tagline: "A social network, built circle-first",
     description:
-      "A uptime & incident status board with latency maps, subscriber notifications and a status embed widget for your own site.",
-    category: "SaaS",
-    featured: false,
-    releasedAt: "2026-03-27",
-    icon: Activity,
-    hue: ["#0d9488", "#1e3a5f"],
-    tags: ["Status", "Monitoring"],
+      "The studio's take on social — feeds, communities and messaging reimagined around your real-world circles. Planned as Vortex's next major platform.",
+    category: "Social",
+    status: "planned",
+    releasedAt: "2026-07-20",
+    eta: "2027",
+    icon: Globe,
+    hue: ["#1e3a5f", "#06b6d4"],
+    tags: ["Feeds", "Communities", "Messaging"],
   },
   {
-    id: "atelier",
-    name: "Atelier Cart",
-    tagline: "Boutique-grade checkout",
+    id: "lumora",
+    name: "Lumora",
+    tagline: "A marketplace with a glow",
     description:
-      "A one-page storefront for makers with instant search, size guides, gift notes and Apple-pay-style express lanes.",
+      "An e-commerce platform in the spirit of the great marketplaces — stores, discovery and checkout tuned for conversion. On the roadmap after Cirqa.",
     category: "E-Commerce",
-    featured: false,
-    releasedAt: "2026-03-15",
+    status: "planned",
+    releasedAt: "2026-07-20",
+    eta: "2027",
     icon: ShoppingBag,
     hue: ["#10b981", "#1e3a5f"],
-    tags: ["Storefront", "Express"],
+    tags: ["Marketplace", "Stores", "Checkout"],
   },
   {
-    id: "lumenfolio",
-    name: "Lumen Folio",
-    tagline: "Motion-first portfolio",
+    id: "project-arena",
+    name: "Project: Arena",
+    tagline: "A MOBA, forged in the vortex",
     description:
-      "A designer portfolio with scroll-linked case studies, cursor-reactive grids and a project timer that shows your process.",
-    category: "Portfolio",
-    featured: false,
-    releasedAt: "2026-02-24",
-    icon: Camera,
-    hue: ["#06b6d4", "#10b981"],
-    tags: ["Motion", "Case Study"],
+      "A multiplayer online battle arena built on fast, readable combat and true team play. First playable targeted after the automation wave.",
+    category: "Games",
+    status: "concept",
+    releasedAt: "2026-08-10",
+    eta: "Concept",
+    icon: Swords,
+    hue: ["#1e3a5f", "#0d9488"],
+    tags: ["MOBA", "Multiplayer"],
   },
   {
-    id: "quillpress",
-    name: "QuillPress",
-    tagline: "Publishing with taste",
+    id: "project-bastion",
+    name: "Project: Bastion",
+    tagline: "Build. Defend. Conquer.",
     description:
-      "A multi-author blog engine with series, footnotes, pull-quotes and an RSS-first distribution model.",
-    category: "Blog",
-    featured: false,
-    releasedAt: "2026-02-08",
-    icon: PenLine,
-    hue: ["#0d9488", "#1e3a5f"],
-    tags: ["Multi-author", "RSS"],
+      "A base-building strategy game in the Clash tradition — raise a stronghold, raid rivals and climb the ladder, one raid at a time.",
+    category: "Games",
+    status: "concept",
+    releasedAt: "2026-08-10",
+    eta: "Concept",
+    icon: Castle,
+    hue: ["#0f766e", "#1e3a5f"],
+    tags: ["Strategy", "Base-building"],
   },
   {
-    id: "ledgerly",
-    name: "Ledgerly",
-    tagline: "Invoices that pay themselves",
+    id: "project-overdrive",
+    name: "Project: Overdrive",
+    tagline: "An open world you can feel",
     description:
-      "Freelancer invoicing with recurring billing, late-fee automation, client portals and tax export bundles.",
-    category: "Fintech",
-    featured: false,
-    releasedAt: "2026-01-21",
-    icon: Landmark,
-    hue: ["#1e3a5f", "#10b981"],
-    tags: ["Invoicing", "Billing"],
+      "An ambitious open-world action experience — cities, vehicles and the freedom to carve your own path. Early concept; the long game.",
+    category: "Games",
+    status: "concept",
+    releasedAt: "2026-08-10",
+    eta: "Concept",
+    icon: Car,
+    hue: ["#06b6d4", "#1e3a5f"],
+    tags: ["Open World", "Action"],
   },
   {
-    id: "mindtide",
-    name: "MindTide",
-    tagline: "Mental fitness, daily",
+    id: "project-emberfall",
+    name: "Project: Emberfall",
+    tagline: "An RPG worth the journey",
     description:
-      "A guided journaling and meditation companion with streaks, mood rings and therapist-shareable summaries.",
-    category: "Health",
-    featured: false,
-    releasedAt: "2026-01-07",
-    icon: HeartPulse,
-    hue: ["#06b6d4", "#0d9488"],
-    tags: ["Journaling", "Streaks"],
+      "A story-driven role-playing game with a world that remembers your choices. Early concept — being shaped slowly, deliberately.",
+    category: "Games",
+    status: "concept",
+    releasedAt: "2026-08-10",
+    eta: "Concept",
+    icon: Compass,
+    hue: ["#10b981", "#06b6d4"],
+    tags: ["RPG", "Story-driven"],
   },
 ];
+
+export const LIVE_COUNT = PRODUCTS.filter((p) => p.status === "live").length;
+export const PIPELINE_COUNT = PRODUCTS.length - LIVE_COUNT;
 
 export type ChangelogKind = "launch" | "update" | "announcement" | "milestone";
 
@@ -221,65 +221,65 @@ export const CHANGELOG: ChangelogEntry[] = [
     kind: "milestone",
     title: "Vortex.studio is Founded",
     date: "2025-11-01",
-    body: "One founder. One mission: ship complete, ready-to-use digital products with no outsourcing and no shortcuts. The studio opens its doors.",
+    body: "One founder, one mission: ship complete, ready-to-use digital products with no outsourcing and no shortcuts. The studio opens its doors.",
   },
   {
     id: "cl-02",
-    kind: "announcement",
-    title: "Brand System v1.0",
-    date: "2025-11-18",
-    body: "The Vortex identity ships — teal-to-navy palette, the swirl mark and the glassmorphic design language that every product now inherits.",
+    kind: "launch",
+    title: "Haypbooks Ships",
+    date: "2025-12-10",
+    body: "The studio's first product goes live — a full accounting suite with ledgers, invoicing, expenses and reports. Bookkeeping, finally fluent.",
+    version: "v1.0",
   },
   {
     id: "cl-03",
     kind: "launch",
-    title: "First Products Go Live",
-    date: "2025-12-06",
-    body: "Ledgerly and MindTide become the first two products in the catalog. Both sell within 72 hours of launch.",
+    title: "Qyra Goes Live",
+    date: "2026-02-18",
+    body: "Auto-posting to QuickBooks arrives. Transaction data flows in, gets mapped and validated, and lands in the books with zero manual entry.",
     version: "v1.0",
   },
   {
     id: "cl-04",
-    kind: "milestone",
-    title: "6 Products and Counting",
-    date: "2026-01-20",
-    body: "The catalog crosses six live products across four categories. The Hub launches with search, filters and sorting.",
-  },
-  {
-    id: "cl-05",
-    kind: "launch",
-    title: "PayFlow Finance Ships",
-    date: "2026-04-30",
-    body: "The most requested category arrives: Fintech. Budget rings, subscription audits and savings goals — all founder-built.",
+    kind: "update",
+    title: "Qyra Learns Faster Sync",
+    date: "2026-04-02",
+    body: "Reconciliation speed triples and account mapping gets smarter after two months of real-world feedback from the first users.",
     version: "v1.2",
   },
   {
+    id: "cl-05",
+    kind: "announcement",
+    title: "Zypra Announced",
+    date: "2026-06-15",
+    body: "The automation engine gets retooled for Xero. Zypra — auto-posting for Xero books — enters active development.",
+  },
+  {
     id: "cl-06",
-    kind: "update",
-    title: "Telehealth Module for VitaWell",
-    date: "2026-06-12",
-    body: "VitaWell gains clinician messaging and symptom intake flows after two months of user feedback.",
-    version: "v1.4",
+    kind: "announcement",
+    title: "Cirqa & Lumora Revealed",
+    date: "2026-07-20",
+    body: "The roadmap grows: Cirqa, a social network built circle-first, and Lumora, a marketplace with a glow — both slated after the automation wave.",
   },
   {
     id: "cl-07",
-    kind: "milestone",
-    title: "50+ Products Built",
-    date: "2026-07-30",
-    body: "Across client work and the public catalog, Vortex crosses fifty shipped products. The next fifty are already in the pipeline.",
+    kind: "announcement",
+    title: "Vortex Games Division",
+    date: "2026-08-10",
+    body: "Four game concepts enter the pipeline: a MOBA, a base-building strategy, an open-world action title and a story-driven RPG.",
   },
   {
     id: "cl-08",
-    kind: "announcement",
-    title: "The Hub Gets a Glow-Up",
-    date: "2026-08-21",
-    body: "Faster search, new category pages and instant previews land in the Vortex Hub. Less clicks, more results — as always.",
+    kind: "milestone",
+    title: "2 Live, 7 Spinning",
+    date: "2026-08-25",
+    body: "Haypbooks and Qyra serve users daily while seven more products spin up across five categories. The vortex is just getting started.",
   },
 ];
 
 export const STATS = [
-  { value: 50, suffix: "+", label: "Products built" },
-  { value: 100, suffix: "%", label: "Founder-built" },
-  { value: 6, suffix: "+", label: "Categories" },
+  { value: 2, suffix: "", label: "Live products" },
+  { value: 7, suffix: "", label: "In the pipeline" },
+  { value: 5, suffix: "", label: "Categories" },
   { value: null, suffix: "∞", label: "Growing" },
 ] as const;

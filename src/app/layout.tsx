@@ -27,24 +27,27 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Vortex.studio — Ready-Made Websites & Digital Tools",
+  title: "Vortex.studio — Ready-Made Digital Products",
   description:
-    "A solo-founded digital product studio. Ready-made websites and digital tools — all designed and built exclusively by the founder. No outsourcing, no shortcuts.",
+    "A solo-founded digital product studio. Haypbooks, Qyra and a growing pipeline of automations, platforms and games — all designed and built exclusively by the founder. No outsourcing, no shortcuts.",
   keywords: [
     "Vortex.studio",
+    "Haypbooks",
+    "Qyra",
+    "Zypra",
+    "Cirqa",
+    "Lumora",
     "digital products",
-    "ready-made websites",
-    "web templates",
-    "SaaS",
-    "e-commerce",
-    "portfolio",
+    "accounting system",
+    "QuickBooks automation",
+    "Xero automation",
     "solo founder",
   ],
   authors: [{ name: "Vortex Studios" }],
   openGraph: {
-    title: "Vortex.studio — Ready-Made Websites & Digital Tools",
+    title: "Vortex.studio — Ready-Made Digital Products",
     description:
-      "Ready-made websites and digital tools — all designed and built exclusively by the founder.",
+      "Haypbooks, Qyra and a pipeline of platforms and games — all designed and built exclusively by the founder.",
     siteName: "Vortex.studio",
     type: "website",
   },

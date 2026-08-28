@@ -36,3 +36,35 @@ Stage Summary:
 - Deliverable: fully interactive single-route Next.js app at `/` with 3 views connected by distinct cinematic transitions
 - All animations respect prefers-reduced-motion; canvas pauses when tab hidden
 - Preview: https://preview-<bot-id>.space-z.ai/ (use Preview Panel)
+
+---
+Task ID: 2
+Agent: Main Agent (Super Z)
+Task: Redesign per user feedback — replace exaggerated background with aesthetic interactive liquid + droplets background; fix Ch.1 statement to "Every product. Built by Vortex Studios."; replace fictional 12-product catalog with the real product lineup (Haypbooks, Qyra live; Zypra, Cirqa, Lumora + 4 game concepts in pipeline).
+
+Work Log:
+- Added Instrument Serif font (editorial italic accents) to layout.tsx
+- globals.css: quieter glass, editorial shadows (no neon glows), label-editorial utility, aurora/grain/spin-slow keyframes, slowed all logo rotations
+- Built vortex-shared.tsx: MaskedLine, WordIlluminate, SectionTag, Magnetic, FadeUp, EASE primitives
+- Rewrote background as interactive liquid metaball canvas (vortex-background.tsx): low-res ImageData field render upscaled + blur; 7 drifting blobs that lean toward cursor; cursor stirrer blob that grows with pointer speed; ambient droplet rain + blob drips that merge/absorb (metaball necking); click = burst of 7 droplets + double ripple rings; hairline grid + film grain + vignette; reduced-motion static frame; pauses when tab hidden
+- Rewrote page transitions as quiet-cinematic: Curtain (Hub), Silk Veil with rippling SVG edge (What's New), Iris breath (Home) — each holds the V mark + editorial label mid-transition
+- Rewrote hero: intro curtain, masked line reveals, rotating orbit badge, editorial spec strip (02 live / 07 pipeline / 05 categories / ∞), marquee with real product names
+- Rewrote story: Ch.1 word-illuminated statement "Every product. Built by Vortex Studios. No exceptions." with real-product caption; Ch.2 sticky editorial craft rows; Ch.3 measured horizontal category gallery (5 categories, live counts, "2 live today. 7 more spinning." intro card); quiet count-up stats
+- Rewrote showcase: featured spread = Haypbooks/Qyra/Zypra with status chips; pinned scrubbed Motto scene; refined CTA
+- Rewrote data layer (vortex-data.ts): 9 products — Haypbooks (Accounting, LIVE), Qyra (Automation/QuickBooks, LIVE), Zypra (Automation/Xero, development), Cirqa (Social, planned), Lumora (E-Commerce, planned), Project: Arena (MOBA), Bastion (strategy), Overdrive (open world), Emberfall (RPG — all concept); STATUS_META chips, STATUS_ORDER sort, 8-entry changelog telling the real studio story, honest STATS (2/7/5/∞)
+- Reworked Hub: status chips on cards, "Live first" default sort, live/pipeline meta line, quiet hairline control bar, mobile full-screen editorial menu
+- Updated metadata (title/description/keywords) to reflect real products
+
+Verification (agent-browser + VLM + pixel analysis):
+- Liquid background renders and animates (VLM confirmed shape movement between frames)
+- Droplets verified via pixel-cluster analysis: 25 small droplet clusters visible per frame
+- Ripples visible on click (VLM confirmed)
+- Ch.1 statement + Ch.3 gallery verified correct (5 categories, live counts)
+- Hub verified: all 9 products with correct Live/In development/Planned/Concept chips
+- Mobile 390px: no horizontal overflow, hero/story clean, liquid scales well
+- Final: zero console errors/warnings; verify screenshots cleaned from download/
+
+Stage Summary:
+- Deliverable: aesthetic ad-style landing with interactive liquid+droplets background, real product catalog across landing/hub/whatsnew
+- All motion respects prefers-reduced-motion; canvas pauses when hidden
+- Preview: https://preview-<bot-id>.space-z.ai/

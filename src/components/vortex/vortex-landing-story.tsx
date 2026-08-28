@@ -10,7 +10,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { CATEGORIES, PRODUCTS, STATS } from "@/lib/vortex-data";
+import { CATEGORIES, PRODUCTS, STATS, LIVE_COUNT, PIPELINE_COUNT } from "@/lib/vortex-data";
 import { EASE, FadeUp, MaskedLine, SectionTag, WordIlluminate } from "./vortex-shared";
 
 /* ================================================================== */
@@ -54,11 +54,11 @@ export function ChapterOne() {
 
           <h2 className="font-display text-[clamp(2rem,5.6vw,4.9rem)] font-semibold leading-[1.08] tracking-[-0.025em] text-vortex-ink">
             <WordIlluminate
-              text="Every pixel. Every line of code. One founder."
+              text="Every product. Built by Vortex Studios. No exceptions."
               progress={scrollYProgress}
               start={0.1}
               end={0.72}
-              accentWords={["founder"]}
+              accentWords={["vortex", "studios"]}
             />
           </h2>
 
@@ -66,10 +66,11 @@ export function ChapterOne() {
             className="mt-10 max-w-md border-l-2 border-vortex-teal/50 pl-5 text-[15px] leading-relaxed text-vortex-navy/75"
             style={{ opacity: captionOpacity, y: captionY }}
           >
-            Design, code, copy, motion — one hand, one taste, zero handoffs.
-            No committees diluting decisions, no outsourcing diluting quality.
-            What you see is exactly what one person can do when they refuse
-            to cut corners.
+            From Haypbooks and Qyra — live today — to Zypra, Cirqa, Lumora
+            and whole game worlds on the roadmap: design, code, copy and
+            motion all come from one pair of hands. No committees diluting
+            decisions, no outsourcing diluting quality. What you see is what
+            one studio builds when it refuses to cut corners.
           </motion.p>
         </div>
       </div>
@@ -91,8 +92,8 @@ const CRAFT_ROWS = [
     body: "Identity, interface, motion and copy all come from the same pair of hands, so nothing gets lost between teams that don't talk.",
   },
   {
-    title: "Built to convert",
-    body: "Structure, speed and clarity are tuned toward one thing: results for whoever launches it. Less clicks. More results — it's the motto for a reason.",
+    title: "Effortless by design",
+    body: "Every screen — a ledger, a feed or a game HUD — is tuned around one question: does it feel effortless? Less clicks, more results isn't just the motto; it's the acceptance test.",
   },
   {
     title: "Documented & supported",
@@ -119,8 +120,8 @@ export function ChapterTwo() {
           <FadeUp delay={0.25} className="mt-7 max-w-sm">
             <p className="text-[15px] leading-relaxed text-vortex-navy/70">
               The studio runs on a simple loop: pick the product, obsess over
-              every detail, ship it whole. Then do it again — fifty times and
-              counting.
+              every detail, ship it whole. Then spin up the next one — from
+              accounting systems to game worlds.
             </p>
           </FadeUp>
           <FadeUp delay={0.35} className="mt-9">
@@ -227,7 +228,7 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
         <div className="mx-auto mb-12 w-full max-w-7xl px-6">
           <SectionTag index="03" label="The Catalog" className="mb-7" />
           <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
-            Six categories.{" "}
+            {CATEGORIES.length} worlds.{" "}
             <span className="font-serif-accent font-normal italic text-vortex-gradient">
               One standard.
             </span>
@@ -239,16 +240,16 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
           {/* intro card */}
           <GalleryCard index={0} total={total} progress={scrollYProgress}>
             <div className="flex h-[340px] w-[min(78vw,300px)] flex-col justify-between rounded-[1.75rem] bg-vortex-ink p-8 text-white sm:h-[380px]">
-              <span className="label-editorial text-teal-200/80">The full shelf</span>
+              <span className="label-editorial text-teal-200/80">The pipeline</span>
               <div>
                 <p className="font-display text-3xl font-semibold leading-tight">
-                  50+ products,
+                  {LIVE_COUNT} live today.
                   <br />
-                  ready to deploy.
+                  {PIPELINE_COUNT} more spinning.
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-white/60">
-                  A living catalog across six categories — searched, filtered
-                  and sorted in the Hub.
+                  From accounting and automation now to social, commerce and
+                  game worlds next — the whole pipeline lives in the Hub.
                 </p>
               </div>
               <button
@@ -263,7 +264,12 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
 
           {/* category cards */}
           {CATEGORIES.map((cat, i) => {
-            const count = PRODUCTS.filter((p) => p.category === cat.name).length;
+            const inCat = PRODUCTS.filter((p) => p.category === cat.name);
+            const live = inCat.filter((p) => p.status === "live").length;
+            const meta =
+              live > 0
+                ? `${inCat.length} ${inCat.length === 1 ? "product" : "products"} · ${live} live`
+                : `${inCat.length} in the pipeline`;
             return (
               <GalleryCard key={cat.name} index={i + 1} total={total} progress={scrollYProgress}>
                 <div className="group flex h-[340px] w-[min(78vw,340px)] flex-col justify-between rounded-[1.75rem] border hairline bg-white/85 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-vortex-teal/40 hover:shadow-editorial sm:h-[380px] sm:w-[360px]">
@@ -283,7 +289,7 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
                   </div>
                   <div className="flex items-center justify-between border-t hairline pt-5">
                     <span className="label-editorial text-[10px] text-vortex-ink/50">
-                      {count} live {count === 1 ? "product" : "products"}
+                      {meta}
                     </span>
                     <button
                       onClick={onEnterHub}
@@ -301,11 +307,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
           <GalleryCard index={total} total={total} progress={scrollYProgress}>
             <div className="flex h-[340px] w-[min(60vw,240px)] flex-col items-start justify-center gap-5 sm:h-[380px]">
               <p className="font-serif-accent text-3xl italic leading-snug text-vortex-ink/70">
-                …and the
+                …and then,
                 <br />
-                next fifty
-                <br />
-                are queued.
+                game worlds.
               </p>
               <button
                 onClick={onEnterHub}
@@ -327,7 +331,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
                 style={{ scaleX: railScale }}
               />
             </div>
-            <span className="label-editorial text-[10px] text-vortex-ink/40">06 / 06</span>
+            <span className="label-editorial text-[10px] text-vortex-ink/40">
+              0{CATEGORIES.length} / 0{CATEGORIES.length}
+            </span>
           </div>
         </div>
       </div>
