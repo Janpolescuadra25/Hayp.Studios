@@ -20,7 +20,7 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
       {/* heading row */}
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
         <div>
-          <SectionTag index="04" label="In the Wild" className="mb-7" />
+          <SectionTag index="04" label="The Lineup" className="mb-7" />
           <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
             <MaskedLine>Fresh from</MaskedLine>
             <MaskedLine delay={0.12}>
@@ -206,7 +206,7 @@ export function FinalCta({ onEnterHub }: { onEnterHub: () => void }) {
             aria-hidden="true"
           />
 
-          <p className="label-editorial text-vortex-teal">Spin one up</p>
+          <p className="label-editorial text-vortex-teal">Take one for a spin</p>
           <h2 className="mx-auto mt-6 max-w-2xl font-display text-[clamp(2.2rem,5.2vw,4.4rem)] font-bold leading-[1.04] tracking-[-0.03em] text-vortex-ink">
             Find your next{" "}
             <span className="font-serif-accent font-normal italic text-vortex-gradient">
@@ -231,8 +231,8 @@ export function FinalCta({ onEnterHub }: { onEnterHub: () => void }) {
           </div>
 
           <p className="mt-8 font-serif-accent text-base italic text-vortex-navy/55">
-            Designed, engineered and shipped with momentum — for whoever
-            launches next.
+            Designed, engineered and shipped with momentum — one lane at
+            a time.
           </p>
         </div>
       </FadeUp>

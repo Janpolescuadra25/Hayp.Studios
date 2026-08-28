@@ -126,7 +126,7 @@ function HubCard({ product, index }: { product: Product; index: number }) {
               toast({
                 title: isLive ? `${product.name} — demo link` : `${product.name} — in the pipeline`,
                 description: isLive
-                  ? "This catalog is a live preview. Product links open from the public hub."
+                  ? "This hub is a live preview — public product links arrive at launch."
                   : `Target: ${product.eta}. Follow the changelog for launch news.`,
               })
             }
@@ -203,8 +203,8 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
             The <span className="text-vortex-gradient">Vortex Hub</span>
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-vortex-navy/70">
-            Two products live, seven more spinning — accounting, automation,
-            social, e-commerce and games. Every one of them built by{" "}
+            {LIVE_COUNT} products live, {PIPELINE_COUNT} more spinning — accounting,
+            automation, social, e-commerce and games. Every one of them built by{" "}
             <span className="font-medium text-vortex-ink">Vortex Studios</span>.
           </p>
         </motion.div>
@@ -359,7 +359,7 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
           <button onClick={onGoHome} className="font-semibold text-vortex-teal underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-vortex-teal">
             the story
           </button>{" "}
-          to see what&apos;s coming next.
+          to see where the momentum comes from.
         </p>
       </div>
     </main>

@@ -29,7 +29,7 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "Vortex.studio — Ready-Made Software",
   description:
-    "An independent digital product studio. Ready-made websites, tools and platforms — designed, engineered and shipped with momentum. No templates, no shortcuts.",
+    "An independent digital product studio. Ready-made software — tools, platforms and game worlds — designed, engineered and shipped with momentum. No templates, no shortcuts.",
   keywords: [
     "Vortex.studio",
     "Haypbooks",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Vortex.studio — Ready-Made Software",
     description:
-      "Ready-made websites, tools and platforms — designed, engineered and shipped with momentum.",
+      "Ready-made software — tools, platforms and game worlds — designed, engineered and shipped with momentum.",
     siteName: "Vortex.studio",
     type: "website",
   },

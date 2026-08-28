@@ -84,20 +84,20 @@ export function ChapterOne() {
 /* ================================================================== */
 const CRAFT_ROWS = [
   {
-    title: "Ready-made, production-grade",
-    body: "Every product ships complete — pages, flows, states, empty cases and docs. Not a starter kit. A finished thing you can launch the same afternoon.",
+    title: "Ships whole, always",
+    body: "Every product leaves the vortex complete — screens, flows, states, edge cases and docs included. Not a starter kit, not a promising beta. A finished thing, running live.",
   },
   {
-    title: "Designed end-to-end",
-    body: "Identity, interface, motion and copy are crafted as one system — nothing gets lost in translation, because nothing is split across teams that don't talk.",
+    title: "One system, one voice",
+    body: "Identity, interface, motion and copy are crafted as one system, under one roof. Nothing gets lost between disciplines — so the product speaks with a single voice, end to end.",
   },
   {
-    title: "Effortless by design",
-    body: "Every screen — a ledger, a feed or a game HUD — is tuned around one question: does it feel effortless? Less friction, more momentum isn't just the motto; it's the acceptance test.",
+    title: "Effortless is the bar",
+    body: "Every screen — a ledger, a feed or a game HUD — is tuned around one question: does it feel effortless? Less friction, more momentum isn't a slogan on a wall here; it's the acceptance test.",
   },
   {
-    title: "Documented & supported",
-    body: "Clean code, honest docs and support that actually answers — accountability here isn't a department, it's the standard.",
+    title: "Dependable by default",
+    body: "Clean code, honest docs and support that answers. From live ledgers to worlds still loading, everything in the pipeline carries the same promise: it has to work — and keep working.",
   },
 ];
 

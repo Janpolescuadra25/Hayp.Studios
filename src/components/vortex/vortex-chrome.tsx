@@ -186,9 +186,9 @@ export function VortexFooter({ onNavigate }: { onNavigate: (v: VortexView) => vo
           <div>
             <VortexWordmark size="md" animated={false} />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-vortex-navy/65">
-              An independent digital product studio. Ready-made websites,
-              tools and platforms — designed, engineered and shipped with
-              momentum.
+              An independent digital product studio. Ready-made software —
+              tools, platforms and game worlds — designed, engineered and
+              shipped with momentum.
             </p>
             <div className="mt-6 flex gap-2.5">
               {[
