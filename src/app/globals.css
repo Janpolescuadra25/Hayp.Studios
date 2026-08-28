@@ -52,6 +52,7 @@
   --color-vortex-ink: #0b2e33;
   --color-vortex-mint: #ccfbf1;
   --color-vortex-foam: #f0fdfa;
+  --font-serif: var(--font-instrument-serif);
 }
 
 :root {
@@ -136,7 +137,25 @@
     font-family: var(--font-space-grotesk), var(--font-inter), sans-serif;
   }
 
-  /* Vortex gradient text: teal -> emerald -> cyan */
+  /* Serif accent — italic editorial flourish (ad-style) */
+  .font-serif-accent {
+    font-family: var(--font-instrument-serif), Georgia, serif;
+  }
+
+  /* Editorial label — tiny mono caps with wide tracking */
+  .label-editorial {
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  /* Hairline rules */
+  .hairline {
+    border-color: rgba(11, 46, 51, 0.1);
+  }
+
+  /* Vortex gradient text: teal -> emerald -> cyan (slow, barely moving) */
   .text-vortex-gradient {
     background: linear-gradient(100deg, #0d9488 0%, #10b981 38%, #06b6d4 75%, #0d9488 100%);
     background-size: 220% 100%;
@@ -144,7 +163,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: vortex-gradient-flow 7s ease-in-out infinite;
+    animation: vortex-gradient-flow 16s ease-in-out infinite;
   }
 
   .text-vortex-gradient-static {
@@ -155,74 +174,33 @@
     color: transparent;
   }
 
-  /* Glassmorphism */
+  /* Glassmorphism — lighter, quieter */
   .glass {
-    background: rgba(255, 255, 255, 0.62);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border: 1px solid rgba(13, 148, 136, 0.14);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(11, 46, 51, 0.08);
   }
 
   .glass-strong {
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(13, 148, 136, 0.16);
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(11, 46, 51, 0.08);
   }
 
-  .glass-dark {
-    background: rgba(30, 58, 95, 0.05);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(30, 58, 95, 0.1);
+  /* Soft ambient shadows only — no neon glows */
+  .shadow-editorial {
+    box-shadow: 0 1px 2px rgba(11, 46, 51, 0.04), 0 12px 40px -18px rgba(11, 46, 51, 0.14);
   }
 
-  /* Vortex ring border glow */
-  .vortex-glow {
-    box-shadow:
-      0 0 0 1px rgba(13, 148, 136, 0.12),
-      0 10px 40px -12px rgba(13, 148, 136, 0.28),
-      0 4px 16px -6px rgba(6, 182, 212, 0.18);
-  }
-
-  .vortex-glow-lg {
-    box-shadow:
-      0 0 0 1px rgba(13, 148, 136, 0.14),
-      0 24px 80px -20px rgba(13, 148, 136, 0.35),
-      0 8px 32px -8px rgba(6, 182, 212, 0.22);
-  }
-
-  /* Animated conic border */
-  .vortex-conic-border {
-    position: relative;
-  }
-  .vortex-conic-border::before {
-    content: "";
-    position: absolute;
-    inset: -1.5px;
-    border-radius: inherit;
-    padding: 1.5px;
-    background: conic-gradient(
-      from var(--conic-angle, 0deg),
-      transparent 0%,
-      #0d9488 12%,
-      #10b981 25%,
-      transparent 40%,
-      transparent 60%,
-      #06b6d4 75%,
-      #10b981 88%,
-      transparent 100%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: vortex-conic-spin 4s linear infinite;
-    pointer-events: none;
+  .shadow-editorial-lg {
+    box-shadow: 0 1px 2px rgba(11, 46, 51, 0.05), 0 30px 80px -30px rgba(13, 148, 136, 0.22);
   }
 
   .scrollbar-vortex {
     scrollbar-width: thin;
-    scrollbar-color: rgba(13, 148, 136, 0.35) transparent;
+    scrollbar-color: rgba(13, 148, 136, 0.3) transparent;
   }
   .scrollbar-vortex::-webkit-scrollbar {
     width: 6px;
@@ -232,15 +210,9 @@
     background: transparent;
   }
   .scrollbar-vortex::-webkit-scrollbar-thumb {
-    background: linear-gradient(#0d9488, #06b6d4);
+    background: rgba(13, 148, 136, 0.35);
     border-radius: 999px;
   }
-}
-
-@property --conic-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
 }
 
 @keyframes vortex-gradient-flow {
@@ -253,42 +225,41 @@
   }
 }
 
-@keyframes vortex-conic-spin {
-  to {
-    --conic-angle: 360deg;
-  }
+/* ---- Ambient aurora — slow, breath-like drift (60–90s) ---- */
+@keyframes aurora-drift-a {
+  0%, 100% { transform: translate3d(-6%, -4%, 0) scale(1); }
+  33% { transform: translate3d(5%, 3%, 0) scale(1.12); }
+  66% { transform: translate3d(-3%, 6%, 0) scale(0.96); }
 }
 
-@keyframes vortex-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-14px) rotate(1.5deg);
-  }
+@keyframes aurora-drift-b {
+  0%, 100% { transform: translate3d(4%, 2%, 0) scale(1.04); }
+  40% { transform: translate3d(-6%, -5%, 0) scale(1.16); }
+  70% { transform: translate3d(2%, 7%, 0) scale(0.92); }
 }
 
-@keyframes vortex-float-delayed {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(10px) rotate(-2deg);
-  }
+@keyframes aurora-drift-c {
+  0%, 100% { transform: translate3d(0%, 0%, 0) scale(1); }
+  50% { transform: translate3d(-7%, 5%, 0) scale(1.18); }
 }
 
-@keyframes vortex-pulse-soft {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.06);
-  }
+.aurora-a { animation: aurora-drift-a 46s ease-in-out infinite; }
+.aurora-b { animation: aurora-drift-b 58s ease-in-out infinite; }
+.aurora-c { animation: aurora-drift-c 70s ease-in-out infinite; }
+
+/* Gentle breathing opacity for ambient light */
+@keyframes aurora-breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.85; }
+}
+
+/* Film grain shimmer — extremely subtle */
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-1.5%, 1%); }
+  40% { transform: translate(1%, -1.5%); }
+  60% { transform: translate(-1%, 2%); }
+  80% { transform: translate(2%, 1%); }
 }
 
 @keyframes vortex-scroll-dot {
@@ -315,15 +286,15 @@
   }
 }
 
-/* Logo rotation animations (SVG groups) */
+/* Logo rotation — slow, confident */
 .vortex-rot-cw {
-  animation: vortex-rotate-cw 16s linear infinite;
+  animation: vortex-rotate-cw 28s linear infinite;
 }
 .vortex-rot-ccw {
-  animation: vortex-rotate-ccw 24s linear infinite;
+  animation: vortex-rotate-ccw 44s linear infinite;
 }
 .vortex-rot-cw-slow {
-  animation: vortex-rotate-cw 9s linear infinite;
+  animation: vortex-rotate-cw 22s linear infinite;
 }
 
 @keyframes vortex-rotate-cw {
@@ -344,17 +315,17 @@
   }
 }
 
-.animate-vortex-float {
-  animation: vortex-float 6s ease-in-out infinite;
+/* Slow rotating circular badge text */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
-.animate-vortex-float-delayed {
-  animation: vortex-float-delayed 8s ease-in-out infinite;
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
 }
-.animate-vortex-pulse-soft {
-  animation: vortex-pulse-soft 4.5s ease-in-out infinite;
-}
+
 .animate-vortex-marquee {
-  animation: vortex-marquee 32s linear infinite;
+  animation: vortex-marquee 55s linear infinite;
 }
 
 /* Hide scrollbar utility for horizontal chip rows */

@@ -1,148 +1,88 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { ArrowRight, Sparkles, MousePointer2 } from "lucide-react";
-import { VortexWordmark } from "./vortex-logo";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { VortexMark } from "./vortex-logo";
+import { EASE, FadeUp, Magnetic } from "./vortex-shared";
+
+/* plays once per browser session */
+let introPlayed = false;
 
 /* ------------------------------------------------------------------ */
-/* Shared scroll-reveal helpers                                        */
+/* Intro — a quiet opening title: the mark, the name, the curtain lift */
 /* ------------------------------------------------------------------ */
+function IntroCurtain({ onDone }: { onDone: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onDone, 1750);
+    return () => clearTimeout(t);
+  }, [onDone]);
 
-export function FadeUp({
-  children,
-  delay = 0,
-  className,
-  amount = 0.4,
-}: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
-  amount?: number;
-}) {
   return (
     <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 36 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 0.8, 0.28, 1] }}
+      className="fixed inset-0 z-[70] grid place-items-center bg-[#fbfdfd]"
+      initial={{ y: 0 }}
+      exit={{ y: "-102%" }}
+      transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
+      style={{ borderRadius: "0 0 46% 46% / 0 0 5% 5%" }}
+      aria-hidden="true"
     >
-      {children}
-    </motion.div>
-  );
-}
-
-/** Word-by-word text scrub — words illuminate as the user scrolls through */
-export function ScrollScrubText({
-  text,
-  className,
-  accentWords = [],
-}: {
-  text: string;
-  className?: string;
-  accentWords?: string[];
-}) {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.85", "end 0.5"],
-  });
-  const words = text.split(" ");
-  return (
-    <p ref={ref} className={cn("relative", className)}>
-      {words.map((word, i) => {
-        const start = i / words.length;
-        const end = start + 1 / words.length;
-        return (
-          <ScrubWord
-            key={i}
-            progress={scrollYProgress}
-            range={[start, end]}
-            accent={accentWords.some((a) => word.toLowerCase().includes(a.toLowerCase()))}
-          >
-            {word}
-          </ScrubWord>
-        );
-      })}
-    </p>
-  );
-}
-
-function ScrubWord({
-  progress,
-  range,
-  children,
-  accent,
-}: {
-  progress: MotionValue<number>;
-  range: [number, number];
-  children: string;
-  accent?: boolean;
-}) {
-  const opacity = useTransform(progress, range, [0.13, 1]);
-  const y = useTransform(progress, range, [7, 0]);
-  return (
-    <motion.span
-      style={{ opacity, y }}
-      className={cn("inline-block", accent && "text-vortex-gradient-static font-semibold")}
-    >
-      {children}&nbsp;
-    </motion.span>
-  );
-}
-
-/** Section eyebrow chip */
-export function SectionTag({ index, label }: { index: string; label: string }) {
-  return (
-    <FadeUp>
-      <div className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5">
-        <span className="font-mono text-[11px] font-semibold text-vortex-teal">{index}</span>
-        <span className="h-3 w-px bg-vortex-teal/30" />
-        <span className="font-display text-[11px] font-medium uppercase tracking-[0.22em] text-vortex-navy/80">
-          {label}
-        </span>
+      <div className="flex flex-col items-center gap-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.82 }}
+          animate={{ opacity: [0, 1, 1, 0], scale: [0.82, 1, 1, 0.94] }}
+          transition={{ duration: 1.5, times: [0, 0.3, 0.75, 1], ease: "easeInOut" }}
+        >
+          <VortexMark size={92} animated idPrefix="intro" showOrbit={false} />
+        </motion.div>
+        <motion.div
+          className="flex items-center gap-4"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: [0, 1, 1, 0], y: [8, 0, 0, -6] }}
+          transition={{ duration: 1.5, delay: 0.15, times: [0, 0.32, 0.78, 1], ease: "easeInOut" }}
+        >
+          <span className="h-px w-10 bg-vortex-ink/20" />
+          <span className="label-editorial text-vortex-ink/70">Vortex . studio</span>
+          <span className="h-px w-10 bg-vortex-ink/20" />
+        </motion.div>
       </div>
-    </FadeUp>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Magnetic button — gently pulled toward the cursor                   */
-/* ------------------------------------------------------------------ */
-export function MagneticWrap({ children, className }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useRef(0);
-  const y = useRef(0);
-
-  return (
-    <motion.div
-      ref={ref}
-      className={cn("inline-block", className)}
-      animate={{ x, y }}
-      transition={{ type: "spring", stiffness: 180, damping: 15, mass: 0.4 }}
-      onMouseMove={(e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        x.current = (e.clientX - (r.left + r.width / 2)) * 0.28;
-        y.current = (e.clientY - (r.top + r.height / 2)) * 0.28;
-      }}
-      onMouseLeave={() => {
-        x.current = 0;
-        y.current = 0;
-      }}
-    >
-      {children}
     </motion.div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* HERO                                                                */
+/* Rotating badge — circular text orbiting the mark (fashion-brand     */
+/* flourish, top-right of the hero)                                    */
 /* ------------------------------------------------------------------ */
+function OrbitBadge({ className }: { className?: string }) {
+  return (
+    <div className={className} aria-hidden="true">
+      <div className="relative h-36 w-36">
+        <svg viewBox="0 0 160 160" className="animate-spin-slow absolute inset-0 h-full w-full">
+          <defs>
+            <path
+              id="badge-circle"
+              d="M 80,80 m -62,0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0"
+              fill="none"
+            />
+          </defs>
+          <text className="fill-vortex-ink/55 font-mono text-[10.5px] uppercase" style={{ letterSpacing: "0.34em" }}>
+            <textPath href="#badge-circle">
+              founder-built · ready-made · vortex.studio ·
+            </textPath>
+          </text>
+        </svg>
+        <div className="absolute inset-0 grid place-items-center">
+          <VortexMark size={58} animated idPrefix="badge" showOrbit={false} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
+/* ------------------------------------------------------------------ */
+/* Hero — the opening shot                                             */
+/* ------------------------------------------------------------------ */
 export function VortexHero({
   onEnterHub,
   onWhatsNew,
@@ -150,166 +90,243 @@ export function VortexHero({
   onEnterHub: () => void;
   onWhatsNew: () => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const [showIntro, setShowIntro] = useState(() => !introPlayed);
+
+  useEffect(() => {
+    if (showIntro) introPlayed = true;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setShowIntro(false);
+    }
+  }, [showIntro]);
+
+  const closeIntro = () => setShowIntro(false);
+  const introDelay = showIntro ? 1.35 : 0.15;
+
+  const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -140]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-  const glowScale = useTransform(scrollYProgress, [0, 1], [1, 1.5]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -110]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.62], [1, 0]);
+  const badgeY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+
+  const line = (inner: React.ReactNode, delay: number) => (
+    <span className="block overflow-hidden pb-[0.09em] -mb-[0.09em]">
+      <motion.span
+        className="block will-change-transform"
+        initial={{ y: "112%" }}
+        animate={{ y: "0%" }}
+        transition={{ duration: 1.15, delay, ease: EASE }}
+      >
+        {inner}
+      </motion.span>
+    </span>
+  );
 
   return (
-    <section
-      ref={ref}
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-16"
-    >
-      {/* central soft vortex glow */}
+    <section ref={ref} className="relative flex min-h-[100svh] flex-col">
+      <AnimatePresence>
+        {showIntro && <IntroCurtain onDone={closeIntro} />}
+      </AnimatePresence>
+
+      {/* headline block */}
       <motion.div
-        style={{ scale: glowScale }}
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-[5] h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-24 pt-36 sm:pt-40"
+        style={{ y: contentY, opacity: contentOpacity }}
       >
-        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(13,148,136,0.16),rgba(6,182,212,0.07)_45%,transparent_70%)]" />
-        <div className="absolute inset-[18%] rounded-full border border-vortex-teal/10" />
-        <div className="absolute inset-[32%] rounded-full border border-dashed border-vortex-cyan/15" />
-      </motion.div>
-
-      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="relative flex flex-col items-center text-center">
-        {/* wordmark entrance */}
+        {/* overline */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.72, filter: "blur(14px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.05, ease: [0.2, 0.75, 0.25, 1] }}
-        >
-          <VortexWordmark size="hero" />
-        </motion.div>
-
-        {/* tagline */}
-        <motion.h1
-          className="mt-8 font-display text-[2.6rem] font-bold leading-[1.04] tracking-tight text-vortex-ink sm:text-6xl lg:text-[4.6rem]"
-          initial={{ opacity: 0, y: 44 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, delay: 0.35, ease: [0.22, 0.8, 0.28, 1] }}
-        >
-          Websites &amp;
-          <br />
-          <span className="text-vortex-gradient">Digital Tools.</span>
-        </motion.h1>
-
-        <motion.p
-          className="mt-6 max-w-xl text-balance text-base leading-relaxed text-vortex-navy/70 sm:text-lg"
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 0.8, 0.28, 1] }}
-        >
-          Ready-made websites and digital tools — all designed and built
-          exclusively by the founder.{" "}
-          <span className="font-semibold text-vortex-teal">No outsourcing, no shortcuts.</span>
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 0.8, 0.28, 1] }}
-        >
-          <MagneticWrap>
-            <button
-              onClick={onEnterHub}
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-[length:200%_100%] bg-left px-8 py-4 font-display text-sm font-semibold tracking-wide text-white shadow-[0_18px_45px_-12px_rgba(13,148,136,0.55)] transition-all duration-500 hover:bg-right hover:shadow-[0_22px_60px_-10px_rgba(6,182,212,0.6)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
-            >
-              <Sparkles className="h-4 w-4 transition-transform duration-500 group-hover:rotate-90" />
-              Enter the Vortex Hub
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-            </button>
-          </MagneticWrap>
-          <MagneticWrap>
-            <button
-              onClick={onWhatsNew}
-              className="inline-flex items-center gap-2.5 rounded-full glass px-7 py-4 font-display text-sm font-semibold tracking-wide text-vortex-navy transition-all duration-300 hover:border-vortex-teal/40 hover:bg-white/85 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              What&apos;s New
-            </button>
-          </MagneticWrap>
-        </motion.div>
-
-        {/* floating proof chips */}
-        <motion.div
-          className="mt-12 flex flex-wrap items-center justify-center gap-3"
+          className="mb-8 flex items-center gap-4 sm:mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
+          transition={{ duration: 0.9, delay: introDelay }}
         >
-          {[
-            { k: "50+", v: "products built" },
-            { k: "100%", v: "founder-built" },
-            { k: "6+", v: "categories" },
-          ].map((chip, i) => (
-            <div
-              key={chip.v}
-              className={cn(
-                "glass flex items-baseline gap-2 rounded-full px-4 py-2",
-                i % 2 === 0 ? "animate-vortex-float" : "animate-vortex-float-delayed"
-              )}
-              style={{ animationDuration: `${5 + i}s` }}
-            >
-              <span className="font-display text-sm font-bold text-vortex-gradient-static">{chip.k}</span>
-              <span className="text-[11px] font-medium uppercase tracking-wider text-vortex-navy/60">{chip.v}</span>
-            </div>
-          ))}
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-vortex-teal opacity-60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-vortex-teal" />
+          </span>
+          <span className="label-editorial text-vortex-ink/60">
+            A digital product studio — est. 2025
+          </span>
         </motion.div>
+
+        <h1 className="font-display text-[clamp(2.9rem,8.6vw,7.6rem)] font-bold leading-[0.98] tracking-[-0.035em] text-vortex-ink">
+          {line("Ready-made", introDelay + 0.05)}
+          {line(
+            <>
+              websites{" "}
+              <span className="font-serif-accent italic font-normal text-vortex-gradient tracking-[-0.01em]">
+                &amp;
+              </span>{" "}
+              tools,
+            </>,
+            introDelay + 0.17
+          )}
+          {line(
+            <>
+              done{" "}
+              <span className="font-serif-accent italic font-normal text-vortex-gradient tracking-[-0.01em]">
+                properly.
+              </span>
+            </>,
+            introDelay + 0.29
+          )}
+        </h1>
+
+        {/* copy + ctas */}
+        <div className="mt-10 flex flex-col gap-8 sm:mt-12 md:flex-row md:items-end md:justify-between">
+          <motion.p
+            className="max-w-md text-[15px] leading-relaxed text-vortex-navy/70 sm:text-base"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: introDelay + 0.5, ease: EASE }}
+          >
+            Vortex.studio is a one-person product studio. Every website and
+            every tool is designed, built and shipped by the founder —{" "}
+            <span className="font-medium text-vortex-ink">
+              no outsourcing, no shortcuts.
+            </span>
+          </motion.p>
+
+          <motion.div
+            className="flex flex-wrap items-center gap-4"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: introDelay + 0.62, ease: EASE }}
+          >
+            <Magnetic>
+              <button
+                onClick={onEnterHub}
+                className="group inline-flex items-center gap-3 rounded-full bg-vortex-ink px-7 py-4 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-vortex-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
+              >
+                Explore the catalog
+                <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
+              </button>
+            </Magnetic>
+            <Magnetic strength={5}>
+              <button
+                onClick={onWhatsNew}
+                className="group inline-flex items-center gap-2 rounded-full border border-vortex-ink/15 bg-white/50 px-6 py-4 font-display text-sm font-semibold text-vortex-ink backdrop-blur transition-all duration-500 hover:border-vortex-teal/50 hover:text-vortex-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
+              >
+                What&apos;s new
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </button>
+            </Magnetic>
+          </motion.div>
+        </div>
       </motion.div>
 
-      {/* scroll indicator */}
-      <motion.button
-        onClick={() => document.getElementById("vortex-story")?.scrollIntoView({ behavior: "smooth" })}
-        className="absolute bottom-7 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-vortex-navy/50 transition-colors hover:text-vortex-teal"
+      {/* rotating badge */}
+      <motion.div
+        className="absolute right-10 top-32 hidden lg:block xl:right-20"
+        style={{ y: badgeY }}
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, delay: introDelay + 0.7, ease: EASE }}
+      >
+        <OrbitBadge />
+      </motion.div>
+
+      {/* scroll cue */}
+      <motion.div
+        className="absolute bottom-28 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 sm:flex"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        aria-label="Scroll to the story"
+        transition={{ duration: 1, delay: introDelay + 1 }}
+        aria-hidden="true"
       >
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em]">scroll</span>
-        <span className="relative flex h-9 w-[22px] justify-center rounded-full border border-current">
-          <span className="absolute top-1.5 h-1.5 w-1.5 rounded-full bg-current" style={{ animation: "vortex-scroll-dot 1.8s ease-in-out infinite" }} />
+        <span className="label-editorial text-[10px] text-vortex-ink/45">scroll</span>
+        <span className="relative h-10 w-px overflow-hidden bg-vortex-ink/10">
+          <motion.span
+            className="absolute left-0 top-0 h-4 w-px bg-vortex-teal"
+            animate={{ y: [-16, 44] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
+          />
         </span>
-        <MousePointer2 className="h-3 w-3 opacity-0" />
-      </motion.button>
+      </motion.div>
+
+      {/* spec strip — the fine print at the bottom of the ad */}
+      <motion.div
+        className="relative border-t hairline bg-white/40 backdrop-blur-sm"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: introDelay + 0.8, ease: EASE }}
+      >
+        <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
+          {[
+            { k: "50+", v: "Products built" },
+            { k: "100%", v: "Founder-built" },
+            { k: "6+", v: "Categories" },
+            { k: "∞", v: "Growing — est. 2025" },
+          ].map((s, i) => (
+            <div
+              key={s.v}
+              className={`flex items-baseline gap-3 px-6 py-5 ${
+                i > 0 ? "border-l hairline" : ""
+              } ${i >= 2 ? "border-t hairline md:border-t-0" : ""}`}
+            >
+              <span className="font-display text-2xl font-semibold tracking-tight text-vortex-ink">
+                {s.k}
+              </span>
+              <span className="label-editorial text-[10px] text-vortex-ink/50">{s.v}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* MARQUEE strip                                                       */
+/* Marquee — a slow editorial ticker between hero and the story        */
 /* ------------------------------------------------------------------ */
+const TICKER = [
+  "Ready-made websites",
+  "Digital tools",
+  "Founder-built",
+  "SaaS",
+  "E-Commerce",
+  "Portfolio",
+  "Blog",
+  "Fintech",
+  "Health",
+  "Less clicks. More results.",
+];
+
+function Star() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3 w-3 shrink-0 text-vortex-teal/60" aria-hidden="true">
+      <path
+        d="M12 2 L13.8 10.2 L22 12 L13.8 13.8 L12 22 L10.2 13.8 L2 12 L10.2 10.2 Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 export function VortexMarquee() {
-  const items = [
-    "No outsourcing",
-    "No shortcuts",
-    "Founder-built",
-    "Ready to ship",
-    "One-person studio",
-    "Always expanding",
-    "Less clicks, more results",
-  ];
-  const row = [...items, ...items];
+  const items = [...TICKER, ...TICKER];
   return (
-    <div className="relative z-10 overflow-hidden py-1">
-      <div className="-mx-4 -rotate-[0.6deg] overflow-hidden border-y border-vortex-teal/15 bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-600 py-3.5 shadow-[0_10px_40px_-18px_rgba(13,148,136,0.5)]">
-      <div className="flex w-max animate-vortex-marquee items-center gap-10 whitespace-nowrap pr-10">
-        {row.map((item, i) => (
-          <span key={i} className="flex items-center gap-10 font-display text-sm font-semibold uppercase tracking-[0.22em] text-white">
-            {item}
-            <span className="inline-block h-1.5 w-1.5 rotate-45 rounded-[2px] bg-white/70" />
+    <div
+      className="relative overflow-hidden border-y hairline bg-white/50 py-5"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+      }}
+      aria-hidden="true"
+    >
+      <div className="animate-vortex-marquee flex w-max items-center gap-10">
+        {items.map((t, i) => (
+          <span key={i} className="flex items-center gap-10">
+            <span className="whitespace-nowrap font-display text-[13px] font-medium uppercase tracking-[0.26em] text-vortex-ink/45">
+              {t}
+            </span>
+            <Star />
           </span>
         ))}
-        </div>
       </div>
     </div>
   );
