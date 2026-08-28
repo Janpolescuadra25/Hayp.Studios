@@ -38,11 +38,11 @@ export interface Product {
 }
 
 export const CATEGORIES: { name: Category; icon: LucideIcon; blurb: string }[] = [
-  { name: "Accounting", icon: BookOpenCheck, blurb: "Books, ledgers & reports" },
-  { name: "Automation", icon: Zap, blurb: "Data auto-posting pipelines" },
-  { name: "Social", icon: Globe, blurb: "Feeds, circles & messaging" },
-  { name: "E-Commerce", icon: ShoppingBag, blurb: "Marketplaces & stores" },
-  { name: "Games", icon: Swords, blurb: "Worlds worth playing" },
+  { name: "Accounting", icon: BookOpenCheck, blurb: "Bookkeeping, set in motion." },
+  { name: "Automation", icon: Zap, blurb: "Data that posts itself." },
+  { name: "Social", icon: Globe, blurb: "Feeds with real gravity." },
+  { name: "E-Commerce", icon: ShoppingBag, blurb: "Storefronts built to sell." },
+  { name: "Games", icon: Swords, blurb: "Worlds worth playing." },
 ];
 
 export const STATUS_META: Record<

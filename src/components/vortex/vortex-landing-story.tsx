@@ -166,8 +166,8 @@ export function ChapterTwo() {
 }
 
 /* ================================================================== */
-/* CHAPTER 03 — THE CATALOG                                            */
-/* A pinned horizontal gallery — the product montage of the film.      */
+/* CHAPTER 03 — THE CIRCUIT                                            */
+/* A pinned horizontal gallery — five lanes of the pipeline, one lap.  */
 /* ================================================================== */
 function GalleryCard({
   index,
@@ -226,9 +226,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
         {/* header */}
         <div className="mx-auto mb-12 w-full max-w-7xl px-6">
-          <SectionTag index="03" label="The Catalog" className="mb-7" />
+          <SectionTag index="03" label="The Circuit" className="mb-7" />
           <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
-            {CATEGORIES.length} worlds.{" "}
+            {CATEGORIES.length} lanes.{" "}
             <span className="font-serif-accent font-normal italic text-vortex-gradient">
               One standard.
             </span>
@@ -248,8 +248,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
                   {PIPELINE_COUNT} more spinning.
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-white/60">
-                  From accounting and automation now to social, commerce and
-                  game worlds next — the whole pipeline lives in the Hub.
+                  Every lane runs the same standard — strategy, design,
+                  engineering and motion as one force. Live today or
+                  spinning up next, it all lives in the Hub.
                 </p>
               </div>
               <button
@@ -307,9 +308,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
           <GalleryCard index={total} total={total} progress={scrollYProgress}>
             <div className="flex h-[340px] w-[min(60vw,240px)] flex-col items-start justify-center gap-5 sm:h-[380px]">
               <p className="font-serif-accent text-3xl italic leading-snug text-vortex-ink/70">
-                …and then,
+                …and the
                 <br />
-                game worlds.
+                next spin.
               </p>
               <button
                 onClick={onEnterHub}
