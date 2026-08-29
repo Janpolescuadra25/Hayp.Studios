@@ -254,3 +254,26 @@ Verification (agent-browser + VLM, 1440x900 + 390px):
 
 Stage Summary:
 - Hero headline is now "Ready-made software, built to move." — bug-proof positioning that trades the perfection promise for the momentum promise, keeping the 3-line masked reveal + serif gradient finale intact
+
+---
+Task ID: 10
+Agent: Main Agent (Super Z)
+Task: Per user feedback — fix all logically-incorrect details caught in a full-page text dump + fix the hydration console error. The dump revealed: stats section reading "0 Live products / 0 In the pipeline / 0 Categories" (contradicting hero's 02/07/05), final CTA omitting Zypra, and a React hydration mismatch on <body>.
+
+Work Log:
+- Fix 1 (vortex-landing-story.tsx CountUp): useState(0) meant SSR/initial DOM text claimed "0 live products" until scroll — wrong for copy-paste dumps, a11y tree, crawlers. Now useState(to) so DOM always carries truth (2/7/5); count-up 0→to still plays on inView; added prefers-reduced-motion guard (skips animation, value stays final)
+- Fix 2 (vortex-landing-showcase.tsx FinalCta): "From Haypbooks and Qyra today to Cirqa, Lumora and game worlds tomorrow" skipped Zypra (in development) — now "…to Zypra, Cirqa, Lumora and game worlds tomorrow" (all 9 products referenced, ordered live → in development → planned → concept)
+- Fix 3 (vortex-landing-story.tsx Ch.1 caption): dropped "— every time" from "What leaves the vortex lands ahead of expectation" — last absolute-outcome claim of the "done properly" class (one underwhelming release would falsify it)
+- Fix 4 (layout.tsx): hydration error root-caused to a Chrome extension (bekkpoinfaf…) injecting __processed_…="true" into <body> before React hydrates — attribute-only mismatch, tree hydrates fine. Added suppressHydrationWarning to <body> (canonical React remedy; <html> already had it) with an explanatory comment. Not reproducible in headless (no extension) but the mismatch diff shown in the error trace is body-attributes-only
+- Deliberately kept after audit: "Ships whole, always" (scope-completeness claim defined explicitly in its body — bugs don't make software "not whole"), "nothing ships until it feels effortless" + "acceptance test" (process gates, not outcome promises), "it has to work" (obligation framing), "Every product. Built by Vortex Studios. No exceptions." (factual). All counts/dates/statuses re-verified correct: 2/7/5, category metas (1·1live/2·1live/1/1/4), lineup dates, © 2026, est. 2025
+
+Verification (agent-browser + VLM, 1440x900 + 390px):
+- Stats at page load (BEFORE scroll): innerText = "2 | LIVE PRODUCTS | 7 | IN THE PIPELINE | 5 | CATEGORIES | ∞ | GROWING" — no more zero claims; hasZeroLive=false across full body text
+- After scrollIntoView + 3s: count-up fired and settled back at 2/7/5
+- Final CTA quoted verbatim by VLM with Zypra included; stats strip clean, no glitches (the noted corner "glow" is the intentional teal radial tint in the CTA panel)
+- Ch.1 caption: "What leaves the vortex lands ahead of expectation." — "every time" gone (DOM assert)
+- Mobile 390px: stats correct, no horizontal overflow, headline intact; console clean (zero errors/warnings); tsc clean for src/
+- Committed as caeaed4; screenshots cleaned
+
+Stage Summary:
+- Page text dump is now logically consistent end-to-end (stats match hero claims everywhere, all 9 products appear in the CTA range, zero remaining absolute-outcome qualifiers), and the extension-triggered hydration warning is suppressed at the source
