@@ -326,3 +326,23 @@ Verification (agent-browser + VLM, 1440x900 + 390px):
 
 Stage Summary:
 - The Circuit is now an open circuit: "New lanes. Same standard." with the intro/outro both promising growth, and every count on the site (hero strip, stats) derived from the data layer — add a category or product tomorrow and every number updates itself
+
+---
+Task ID: 13
+Agent: Main Agent (Super Z)
+Task: Per user feedback — fix a new hydration console error (uploaded error trace file). Trace showed 153 attribute mismatches, ALL of them bis_skin_checked="1" — the Bitdefender browser extension stamping every <div> before React hydrates. suppressHydrationWarning on <body> (previous fix) only covers one level deep, so it can't handle deep-tree extension stamps.
+
+Work Log:
+- Root cause analysis: parsed the uploaded trace; every mismatched line is bis_skin_checked (Bitdefender's marker attribute); zero code-caused mismatches (no Date.now/Math.random/window branches). The affected divs span Next internals (MetadataWrapper hidden div) and app divs (background, page root) — many unreachable by per-element suppressHydrationWarning
+- Fix (layout.tsx): EXTENSION_ATTR_SCRUBBER — a ~600-byte inline script rendered as the first child of <body> so it executes during HTML parsing, BEFORE the extension stamps and BEFORE React hydrates. It: (1) strips any already-stamped attributes (race safety), (2) installs a MutationObserver filtered to a blocklist [bis_skin_checked, data-gr-ext-installed, data-gr-ext-enabled, data-new-gr-c-s-check-loaded] (Bitdefender + Grammarly) that removes each stamp the instant it's added, (3) disconnects at window load + 5s (hydration is long done; bounded lifetime avoids an unbounded remove/re-add loop with the extension). Wrapped in try/catch so it can never break the page
+- attributeFilter keeps the observer cheap: it only fires for the 4 blocklisted names — framer-motion's constant style mutations never trigger it
+
+Verification (agent-browser, 1440x900 + 390px):
+- Script placement: scrubber is <body> child #1, immediately before the app content div — runs first
+- Functional simulation of Bitdefender: stamped bis_skin_checked="1" onto 50 divs via eval → within 400ms ALL stripped (0 remaining); same test passed on mobile
+- Disconnect window verified: stamping after load+5s correctly leaves attributes (observer disconnected by design — initial test "failure" was actually the intended lifecycle; Bitdefender stamps during load, well inside the window)
+- Page health after fix: headline "Ready-made software, built to move." + stats 2/7/5/∞ render correctly; no horizontal overflow at 390px; console clean (zero errors/warnings)
+- Committed as c1c39d0
+
+Stage Summary:
+- Extension-induced hydration warnings are now scrubbed at the source for all visitors: Bitdefender/Grammy-style attributes are stripped pre-hydration by an early inline MutationObserver, complementing the existing body-level suppressHydrationWarning
