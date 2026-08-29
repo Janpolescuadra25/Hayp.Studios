@@ -299,3 +299,30 @@ Verification (agent-browser + VLM, 1440x900 + 390px):
 
 Stage Summary:
 - The Craft section now speaks about software universally (practical→playful range, first open→deepest setting depth, live→loading pipeline) with zero category nouns; category names remain only where they are the actual content (Circuit cards, Hub, product data, changelog, SEO)
+
+---
+Task ID: 12
+Agent: Main Agent (Super Z)
+Task: Per user feedback — reframe Chapter 3 "The Circuit" concept. "5 lanes. One standard." locked the studio to exactly 5 categories; Vortex will expand to more, so the section must not fix the count.
+
+Work Log:
+- Concept change (vortex-landing-story.tsx):
+  - Headline: "{CATEGORIES.length} lanes. One standard." → "New lanes. Same standard." — count-free and expansion-minded; keeps the X-lanes/Y-standard parallel rhythm and the serif-gradient accent on the second phrase
+  - Intro card body: inserted "New lanes open as the studio grows." between the standard sentence and the Hub sentence (keeps both original sentences intact)
+  - Outro card: "…and the next spin." → "…and the next lane." — after the 5 category cards it now says the circuit isn't closed, another lane is coming
+  - Section comment updated: "five lanes of the pipeline" → "today's lanes, one lap. The count is open by design"
+- Robustness: all hardcoded counts now derive from the data layer so the site auto-scales when Vortex expands:
+  - vortex-data.ts STATS: value 2/7/5 → LIVE_COUNT / PIPELINE_COUNT / CATEGORIES.length (with comment); renders identically today
+  - vortex-landing-hero.tsx spec strip: "02"/"07"/"05" → String(LIVE_COUNT/PIPELINE_COUNT/CATEGORIES.length).padStart(2,"0"); added data import + comment
+- Deliberately kept: changelog cl-08 "across five categories" (dated 2026-08-25 historical record — factually true at that moment; "The vortex is just getting started" already carries expansion); progress rail "05 / 05" (dynamic scroll indicator); category cards themselves (they ARE today's lanes); "one lane at a time" in FinalCta (count-agnostic)
+
+Verification (agent-browser + VLM, 1440x900 + 390px):
+- Headline DOM assert: "New lanes. Same standard."; "5 lanes" gone from full body text
+- Hero spec strip (case-insensitive asserts): 02 LIVE PRODUCTS / 07 IN THE PIPELINE / 05 CATEGORIES / ∞ — rendering identical to before, now data-driven
+- Stats section innerText: "2 | LIVE PRODUCTS | 7 | IN THE PIPELINE | 5 | CATEGORIES | ∞ | GROWING"
+- VLM quoted headline, dark-card paragraph (with new expansion sentence) and outro "…and the next lane." verbatim; category cards render cleanly (numbers, icons, blurbs, meta lines, Explore); zero layout problems across 3 scroll positions of the pinned gallery
+- Mobile 390px: headline present, no horizontal overflow; console clean; tsc clean for src/
+- Committed as 6a8c7e6; screenshots cleaned
+
+Stage Summary:
+- The Circuit is now an open circuit: "New lanes. Same standard." with the intro/outro both promising growth, and every count on the site (hero strip, stats) derived from the data layer — add a category or product tomorrow and every number updates itself
