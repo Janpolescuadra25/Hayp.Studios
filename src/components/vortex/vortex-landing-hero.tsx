@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { VortexMark } from "./vortex-logo";
 import { EASE, FadeUp, Magnetic } from "./vortex-shared";
+import { CATEGORIES, LIVE_COUNT, PIPELINE_COUNT } from "@/lib/vortex-data";
 
 /* plays once per browser session */
 let introPlayed = false;
@@ -238,7 +239,9 @@ export function VortexHero({
         </span>
       </motion.div>
 
-      {/* spec strip — the fine print at the bottom of the ad */}
+      {/* spec strip — the fine print at the bottom of the ad.
+          counts derive from the data layer, so the strip updates itself
+          as products go live and new lanes open. */}
       <motion.div
         className="relative border-t hairline bg-white/40 backdrop-blur-sm"
         initial={{ opacity: 0, y: 14 }}
@@ -247,9 +250,9 @@ export function VortexHero({
       >
         <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
           {[
-            { k: "02", v: "Live products" },
-            { k: "07", v: "In the pipeline" },
-            { k: "05", v: "Categories" },
+            { k: String(LIVE_COUNT).padStart(2, "0"), v: "Live products" },
+            { k: String(PIPELINE_COUNT).padStart(2, "0"), v: "In the pipeline" },
+            { k: String(CATEGORIES.length).padStart(2, "0"), v: "Categories" },
             { k: "∞", v: "Growing — est. 2025" },
           ].map((s, i) => (
             <div

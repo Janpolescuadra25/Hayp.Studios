@@ -277,9 +277,10 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
 ];
 
+/* derived from the data — counts update automatically as the studio grows */
 export const STATS = [
-  { value: 2, suffix: "", label: "Live products" },
-  { value: 7, suffix: "", label: "In the pipeline" },
-  { value: 5, suffix: "", label: "Categories" },
+  { value: LIVE_COUNT, suffix: "", label: "Live products" },
+  { value: PIPELINE_COUNT, suffix: "", label: "In the pipeline" },
+  { value: CATEGORIES.length, suffix: "", label: "Categories" },
   { value: null, suffix: "∞", label: "Growing" },
 ] as const;

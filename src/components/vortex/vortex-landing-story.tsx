@@ -167,7 +167,8 @@ export function ChapterTwo() {
 
 /* ================================================================== */
 /* CHAPTER 03 — THE CIRCUIT                                            */
-/* A pinned horizontal gallery — five lanes of the pipeline, one lap.  */
+/* A pinned horizontal gallery — today's lanes, one lap. The count is   */
+/* open by design: new lanes open as the studio grows.                  */
 /* ================================================================== */
 function GalleryCard({
   index,
@@ -228,9 +229,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
         <div className="mx-auto mb-12 w-full max-w-7xl px-6">
           <SectionTag index="03" label="The Circuit" className="mb-7" />
           <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
-            {CATEGORIES.length} lanes.{" "}
+            New lanes.{" "}
             <span className="font-serif-accent font-normal italic text-vortex-gradient">
-              One standard.
+              Same standard.
             </span>
           </h2>
         </div>
@@ -249,8 +250,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-white/60">
                   Every lane runs the same standard — strategy, design,
-                  engineering and motion as one force. Live today or
-                  spinning up next, it all lives in the Hub.
+                  engineering and motion as one force. New lanes open as the
+                  studio grows. Live today or spinning up next, it all lives
+                  in the Hub.
                 </p>
               </div>
               <button
@@ -310,7 +312,7 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
               <p className="font-serif-accent text-3xl italic leading-snug text-vortex-ink/70">
                 …and the
                 <br />
-                next spin.
+                next lane.
               </p>
               <button
                 onClick={onEnterHub}
