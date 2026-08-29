@@ -234,3 +234,23 @@ Verification (agent-browser + VLM + DOM):
 
 Stage Summary:
 - Craft rows now speak pure Vortex (whole-shipping, one-voice, effortless bar, dependability) and every factual/logical copy error found in the site-wide audit is fixed — most notably the false "websites" claim and the mislabeled "In the Wild" section
+
+---
+Task ID: 9
+Agent: Main Agent (Super Z)
+Task: Per user feedback — change the hero headline "Ready-made software, done properly." because "done properly" over-promises (a shipped bug would make it a joke). Find a bug-proof replacement.
+
+Work Log:
+- Reasoning: "done properly" is an OUTCOME claim (perfect execution) that a single bug disproves; replaced with a MOMENTUM claim the studio can always keep. Chose "built to move." — software that's alive, evolving, continuously updated (the What's New changelog literally proves it); a bug doesn't contradict it, a fix CONFIRMS it. Avoided "with momentum."/"in motion." (collide with the hero paragraph's "built on momentum"/"engineering and motion" in the same viewport) and "no shortcuts." (negative construction + repeats Ch.1 canon)
+- Grep audit: "properly" existed in exactly ONE place in src/ (hero H1 line 3); zero other perfection claims site-wide (no "perfect/flawless/bug-free/bulletproof")
+- Edit (vortex-landing-hero.tsx): H1 line 3 "done properly." → "built to move." — accent span (italic serif + vortex-gradient) now wraps "move."; identical 14-char length so the 3-line masked reveal layout is unchanged
+- Deliberately unchanged: metadata title "Vortex.studio — Ready-Made Software" (no perfection claim), OrbitBadge "precision-built" (build-intent, not outcome), craft rows "Ships whole, always"/"has to work" (scope/standard statements, distinct from the flawlessness promise the user rejected)
+
+Verification (agent-browser + VLM, 1440x900 + 390px):
+- DOM assert: h1.textContent = "Ready-made software, built to move."; accent node = "move." with italic + teal gradient backgroundImage
+- VLM: quoted headline verbatim line-by-line; confirmed "move" italic-serif gradient accent, 3-line layout balanced, no clipping/glitches
+- Mobile 390px: headline correct, no horizontal overflow; console clean (zero errors/warnings); tsc clean for src/
+- Committed as 4eb4895; screenshots cleaned from /tmp
+
+Stage Summary:
+- Hero headline is now "Ready-made software, built to move." — bug-proof positioning that trades the perfection promise for the momentum promise, keeping the 3-line masked reveal + serif gradient finale intact
