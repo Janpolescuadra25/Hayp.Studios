@@ -346,3 +346,20 @@ Verification (agent-browser, 1440x900 + 390px):
 
 Stage Summary:
 - Extension-induced hydration warnings are now scrubbed at the source for all visitors: Bitdefender/Grammy-style attributes are stripped pre-hydration by an early inline MutationObserver, complementing the existing body-level suppressHydrationWarning
+
+---
+Task ID: 14
+Agent: Main Agent (Super Z)
+Task: Per user feedback — compile the project files (root listing screenshot: db, download, examples, prisma, public, src, tests, upload folders + config files + worklog.md) into a zip named vortex.zip.
+
+Work Log:
+- Read the user's file-explorer screenshot via VLM to extract the exact item list
+- Audited root: identified heavy/secret items to EXCLUDE (not in user's listing or unsafe): .env (secrets), node_modules (~567 packages), .next build cache, .git, dev.log, tsconfig.tsbuildinfo, skills/, mini-services/, .zscripts/
+- Staged everything listed into a vortex/ top-level folder (so extraction is tidy), PLUS .gitignore + next-env.d.ts (2 tiny essentials that make the archive a runnable/restorable project)
+- Excluded download/ from contents (destination dir; only a 34-byte placeholder README inside)
+- Created /home/z/my-project/download/vortex.zip (254KB, 112 entries)
+- Verified: unzip -t integrity OK; top-level structure correct (all 8 listed folders + 10 listed files + 2 essentials); security check confirms ZERO .env/node_modules/.next/.git entries; spot-check confirms all key Vortex source files present (layout.tsx, vortex-logo/background/landing-hero, vortex-data.ts — 76 files under vortex/src/)
+- Cleaned staging directory
+
+Stage Summary:
+- Deliverable: /home/z/my-project/download/vortex.zip — 254KB compilation of the Vortex project (source, configs, prisma, public, db, tests, examples, worklog), secrets-free and share-ready; extracts into a single vortex/ folder, runnable after bun/npm install
