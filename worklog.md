@@ -277,3 +277,25 @@ Verification (agent-browser + VLM, 1440x900 + 390px):
 
 Stage Summary:
 - Page text dump is now logically consistent end-to-end (stats match hero claims everywhere, all 9 products appear in the CTA range, zero remaining absolute-outcome qualifiers), and the extension-triggered hydration warning is suppressed at the source
+
+---
+Task ID: 11
+Agent: Main Agent (Super Z)
+Task: Per user feedback — de-specificize Chapter 2 "The Craft" copy. The section kept naming individual categories (accounting systems, ledgers, feeds, game HUDs, game worlds) while Vortex spans ALL software categories; the user wants no single-category emphasis.
+
+Work Log:
+- Three swaps in vortex-landing-story.tsx, each preserving the original rhetorical device but with universal software language:
+  - Ch.2 intro: "Then spin up the next one — from accounting systems to game worlds." → "Then spin up the next one — from the practical to the playful." (keeps the from-X-to-Y range contrast; practical covers tools, playful covers games — without naming either)
+  - Craft row 03 "Effortless is the bar": "Every screen — a ledger, a feed or a game HUD — is tuned around…" → "Every screen — from the first open to the deepest setting — is tuned around…" (universal app depth range: every app has a first open and settings; keeps the em-dash aside rhythm)
+  - Craft row 04 "Dependable by default": "From live ledgers to worlds still loading, everything in the pipeline…" → "From what's live to what's loading, everything in the pipeline…" (live/loading alliteration; preserves the 2-live/7-pipeline truth without categories)
+- Site-wide grep sweep for remaining category nouns (ledger/game HUD/accounting system/game world/bookkeeping/storefront) — every remaining hit verified legitimately specific: Circuit category-card blurbs, Haypbooks product data (tagline/desc/tags), the Haypbooks-launch changelog entry, SEO keyword "accounting system" in metadata, and the balanced "tools, platforms and game worlds" trio in footer/metadata (spans all categories in one breath, not a single-category lean). Logo file's "game HUD" hit is a dev code comment, not user-facing
+- Unchanged craft rows 01/02 — already universal ("screens, flows, states, edge cases and docs"; "Identity, interface, motion and copy")
+
+Verification (agent-browser + VLM, 1440x900 + 390px):
+- DOM asserts: all 3 new phrases present; all 3 old category phrases absent; all 4 row titles + Ready.Set.Ship. + "No templates." quote intact
+- VLM quoted intro, row 03 and row 04 bodies verbatim; confirmed ZERO mentions of accounting/ledgers/feeds/bookkeeping/games in the section; no layout problems/clipping
+- Mobile 390px: new copy present, no horizontal overflow; console clean (zero errors/warnings); tsc clean for src/
+- Committed as 6de15db; screenshots cleaned
+
+Stage Summary:
+- The Craft section now speaks about software universally (practical→playful range, first open→deepest setting depth, live→loading pipeline) with zero category nouns; category names remain only where they are the actual content (Circuit cards, Hub, product data, changelog, SEO)
