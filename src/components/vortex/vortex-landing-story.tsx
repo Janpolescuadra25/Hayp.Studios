@@ -93,11 +93,11 @@ const CRAFT_ROWS = [
   },
   {
     title: "Effortless is the bar",
-    body: "Every screen — a ledger, a feed or a game HUD — is tuned around one question: does it feel effortless? Less friction, more momentum isn't a slogan on a wall here; it's the acceptance test.",
+    body: "Every screen — from the first open to the deepest setting — is tuned around one question: does it feel effortless? Less friction, more momentum isn't a slogan on a wall here; it's the acceptance test.",
   },
   {
     title: "Dependable by default",
-    body: "Clean code, honest docs and support that answers. From live ledgers to worlds still loading, everything in the pipeline carries the same promise: it has to work — and keep working.",
+    body: "Clean code, honest docs and support that answers. From what's live to what's loading, everything in the pipeline carries the same promise: it has to work — and keep working.",
   },
 ];
 
@@ -121,7 +121,7 @@ export function ChapterTwo() {
             <p className="text-[15px] leading-relaxed text-vortex-navy/70">
               The studio runs on a simple loop: pick the product, obsess over
               every detail, ship it whole. Then spin up the next one — from
-              accounting systems to game worlds.
+              the practical to the playful.
             </p>
           </FadeUp>
           <FadeUp delay={0.35} className="mt-9">
