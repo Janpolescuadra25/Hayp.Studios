@@ -156,9 +156,9 @@ export function VortexHero({
           {line("software,", introDelay + 0.17)}
           {line(
             <>
-              done{" "}
+              built to{" "}
               <span className="font-serif-accent italic font-normal text-vortex-gradient tracking-[-0.01em]">
-                properly.
+                move.
               </span>
             </>,
             introDelay + 0.29
