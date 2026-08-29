@@ -59,6 +59,16 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+/* Security/grammar browser extensions (Bitdefender's bis_skin_checked,
+   Grammarly's data-gr-ext-*, …) stamp attributes onto server-rendered
+   elements before React hydrates, triggering hydration mismatch warnings
+   for every visitor with the extension. suppressHydrationWarning only
+   covers one level of the tree, so instead we strip the known offenders
+   with an early MutationObserver: this script is inline in the HTML and
+   runs during parsing — before the extensions stamp and before React
+   hydrates — so the attributes are gone by the time hydration diffs. */
+const EXTENSION_ATTR_SCRUBBER = `(function(){var A=["bis_skin_checked","data-gr-ext-installed","data-gr-ext-enabled","data-new-gr-c-s-check-loaded"];try{A.forEach(function(a){document.querySelectorAll("["+a+"]").forEach(function(el){el.removeAttribute(a)})});var o=new MutationObserver(function(ms){ms.forEach(function(m){m.target.removeAttribute(m.attributeName)})});o.observe(document.documentElement,{attributes:true,attributeFilter:A,subtree:true});window.addEventListener("load",function(){setTimeout(function(){o.disconnect()},5000)})}catch(e){}})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -73,6 +83,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${inter.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased bg-background text-foreground`}
       >
+        <script dangerouslySetInnerHTML={{ __html: EXTENSION_ATTR_SCRUBBER }} />
         {children}
         <Toaster />
       </body>
