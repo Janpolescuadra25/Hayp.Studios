@@ -70,7 +70,7 @@ export function ChapterOne() {
             a single obsession: software that feels effortless.
             Strategy, design, engineering and motion spin here as one force.
             No templates, no shortcuts, no settling. What leaves the vortex
-            lands ahead of expectation — every time.
+            lands ahead of expectation.
           </motion.p>
         </div>
       </div>
@@ -348,10 +348,16 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
 function CountUp({ to }: { to: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [val, setVal] = useState(0);
+  /* SSR + pre-animation text carries the real value — the DOM must never
+     claim "0 live products" (copy-paste, a11y tree, crawlers all read it) */
+  const [val, setVal] = useState(to);
 
   useEffect(() => {
     if (!inView) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVal(to);
+      return;
+    }
     const controls = animate(0, to, {
       duration: 2,
       ease: EASE,

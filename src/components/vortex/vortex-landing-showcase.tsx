@@ -214,8 +214,8 @@ export function FinalCta({ onEnterHub }: { onEnterHub: () => void }) {
             </span>
           </h2>
           <p className="mx-auto mt-6 max-w-md text-[15px] leading-relaxed text-vortex-navy/70">
-            From Haypbooks and Qyra today to Cirqa, Lumora and game worlds
-            tomorrow — browse the full pipeline, live to concept.
+            From Haypbooks and Qyra today to Zypra, Cirqa, Lumora and game
+            worlds tomorrow — browse the full pipeline, live to concept.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

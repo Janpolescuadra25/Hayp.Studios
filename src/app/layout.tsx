@@ -66,7 +66,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      {/* suppressHydrationWarning: browser extensions (dark-mode, password
+          managers, translators…) inject attributes into <body> before React
+          hydrates — attribute-only mismatches are safe to ignore here. */}
       <body
+        suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${inter.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased bg-background text-foreground`}
       >
         {children}
