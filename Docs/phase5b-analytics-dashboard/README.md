@@ -31,7 +31,7 @@ Persisted via Prisma ORM (SQLite for local dev, PostgreSQL for production deploy
 
 ## 3. Implementation Milestones
 - [x] **5B-1:** Initialize Phase 5B, architecture documentation, and `AnalyticsEvent` Prisma schema.
-- [ ] **5B-2:** Ingestion API route (`/api/analytics/event`) with payload validation and rate limiting.
+- [x] **5B-2:** Ingestion API route (`/api/analytics/event`) with payload validation and rate limiting.
 - [ ] **5B-3:** Client telemetry hooks (`useAnalytics`) embedded in SPA Chrome and product cards.
 - [ ] **5B-4:** Studio Analytics Dashboard view (`hayp-analytics.tsx`) with metric cards, engagement charts, and event log table.
 - [ ] **5B-5:** Owner authentication and dashboard access control.
