@@ -363,3 +363,31 @@ Work Log:
 
 Stage Summary:
 - Deliverable: /home/z/my-project/download/vortex.zip — 254KB compilation of the Vortex project (source, configs, prisma, public, db, tests, examples, worklog), secrets-free and share-ready; extracts into a single vortex/ folder, runnable after bun/npm install
+
+---
+Task ID: 15
+Agent: Main Agent (Super Z)
+Task: Per user feedback — rebrand Vortex Studios to Hayp Studios across the entire site (name, logo, wordmark, copy, metadata, code internals).
+
+Work Log:
+- Logo redesign (hayp-logo.tsx): new HaypMark — faceted letter "H" (twin tapered blades joined by a RISING crossbar, right side 6 units higher = forward momentum) inside the same pointy-top hex frame; blade edge highlights, crossbar facet highlight, and a bright mint "heart spark" diamond at the crossbar center (replaces the V's apex spark); same component API so all usages (navbar, footer, intro curtain, orbit badge, transition BrandMoment, motto watermark) update automatically. Wordmark: [H badge] + "ayp" + ".studio" → reads "Hayp . studio". aria-label "Hayp Studios logo", idPrefix vx→hp
+- Copy rewrites (~30 user-facing strings):
+  - Identity: "Hayp is momentum, made software — …" (was "Vortex is momentum made visible"); "Every product. Built by Hayp Studios. No exceptions." (accentWords hayp/studios); hero paragraph "Hayp.studio is an independent digital studio… motion moving as one force"
+  - Vortex-anchored metaphors reworked: "leaves the vortex" → "leaves the studio" (craft row 01 + Ch.1 caption); "7 more spinning" → "7 more in motion" (Circuit card, hub header, changelog "2 Live, 7 in Motion"); "spinning up next" → "in the works"; "spinning as one force" → "moving as one force"; "day the vortex first spun up" → "the day Hayp first opened its doors"
+  - Kept generic idioms: "spin up the next one" (Ch.2), "Take one for a spin" (CTA), "spin up · ship · repeat" (footer) — jargon, not vortex references
+  - Names/labels: "Hayp . studio" intro + transition labels, "The Hayp Hub" + "Enter the Hayp Hub", "Fresh from the studio." (Lineup), "the hayp way — since day one" (Motto), "Hayp Games" (marquee), hub "built by Hayp Studios", © Hayp.studio, aria "Hayp.studio — home"
+  - Data layer: Zypra "The Hayp automation engine", Cirqa "Hayp's next major platform", Arena "forged in motion", changelog "Hayp.studio is Founded" / "Hayp Games Division" / "2 Live, 7 in Motion" / "Hayp Studios is just getting started"
+  - Metadata: title/OG "Hayp.studio — Ready-Made Software", siteName Hayp.studio, authors Hayp Studios, keywords + "Hayp Studios"
+- Mechanical rename (git mv + sed): src/components/vortex/ → src/components/hayp/ with all 11 files vortex-*.tsx → hayp-*.tsx; src/lib/vortex-data.ts → hayp-data.ts; all identifiers Vortex→Hayp (components, types) and vortex→hayp (CSS tokens --color-hayp-*, classes, keyframes, scrollbar, imports). Final grep: ZERO vortex references in src/
+- Favicon: new src/app/icon.svg (white H on filled gradient hex badge — reads at 16px); replaced leftover template public/logo.svg with the Hayp H badge mark
+- Brand brief regenerated: download/hayp-studios-brief.md (updated identity, voice rules incl. "Vortex is retired" rule, logo description, timeline as Hayp, one-liners); deleted outdated vortex-studio-brief.md
+- Fresh archive: download/hayp.zip (230KB, integrity-verified, rebranded code) — vortex.zip left in place (user-created artifact)
+
+Verification (agent-browser + VLM, 1440x900 + 390px):
+- DOM asserts: title "Hayp.studio — Ready-Made Software"; h1 unchanged "Ready-made software, built to move."; hero para, Ch.1 statement + "momentum, made software" caption, "Enter the Hayp Hub", "The Hayp Hub", "built by Hayp Studios", "7 more in motion" all present; ZERO case-insensitive "vortex" in full body innerText
+- VLM: H-badge logo confirmed visible & clearly reads as H in hexagon across navbar/footer/motto watermark; wordmark reads Hayp + .STUDIO; footer © "2026 Hayp.studio — designed, built and shipped with momentum."; logo "professional, balanced, well-centered, no glitches"; no leftover Vortex branding
+- Hub verified: heading, status chips intact, no Vortex text; mobile 390px: H logo renders (aria "Hayp Studios logo"), no horizontal overflow, console clean; tsc clean for src/ after full rename
+- Committed as 16c0f5c
+
+Stage Summary:
+- Full rebrand shipped: Vortex Studios → Hayp Studios — new faceted-H hex badge with rising crossbar + heart spark, Hayp wordmark, all ~30 copy strings rebranded with vortex-anchored metaphors reworked to motion language, code internals renamed (hayp-* files/components/tokens), new favicon, regenerated brand brief, and fresh hayp.zip archive
