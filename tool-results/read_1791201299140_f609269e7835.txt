@@ -1,0 +1,394 @@
+     1→# Worklog
+     2→
+     3→---
+     4→Task ID: 1
+     5→Agent: Main Agent (Super Z)
+     6→Task: Build a mind-blowing landing page for Vortex.studio — solo-founded digital product studio. Requirements: animated background, scroll-driven story animations, products on a separate page with different transitions per navigation, green/blue theme with white-dominant background, custom Vortex logo.
+     7→
+     8→Work Log:
+     9→- Initialized fullstack environment (Next.js 16 + Tailwind 4 + shadcn/ui + framer-motion already available)
+    10→- Designed theme system in `src/app/globals.css`: teal (#0d9488) / emerald (#10b981) / cyan (#06b6d4) / navy (#1e3a5f) on white; glassmorphism utilities, conic-border animation, gradient text, rotation keyframes, marquee, float, scroll-dot animations
+    11→- Set up fonts (Space Grotesk display + Inter body) and Vortex metadata in `src/app/layout.tsx`
+    12→- Created data layer `src/lib/vortex-data.ts`: 12 products across 6 categories, 8 changelog entries, stats
+    13→- Built custom SVG logo `src/components/vortex/vortex-logo.tsx`: bold curved V arms + mathematically generated tapered logarithmic spiral + counter-rotating orbit rings with comet dots; plus full wordmark component ([V]ortex / .studio)
+    14→- Built canvas background `src/components/vortex/vortex-background.tsx`: flow-field particle system with 2-3 drifting vortex attractors, silk trails, pointer swirl interaction, reduced-motion static fallback, visibility/resize handling
+    15→- Built 3 distinct cinematic page transitions `src/components/vortex/vortex-transition.tsx`: tunnel (rings + conic swirl → Hub), wave (skewed gradient columns → What's New), portal (rotating disc + iris → Landing), with timing contract (swapAt 680ms / total 1600ms)
+    16→- Built landing page sections:
+    17→  - `vortex-landing-hero.tsx`: hero (wordmark entrance, parallax fade on scroll, magnetic CTAs, floating stat chips, scroll indicator) + angled marquee strip + shared helpers (ScrollScrubText word-illumination, FadeUp, SectionTag, MagneticWrap)
+    18→  - `vortex-landing-story.tsx`: Ch.1 Solo Vision (orbiting founder visual + scroll-scrub text), Ch.2 Ready.Set.Ship (parallax browser mockups + alternating blur-in features), Ch.3 horizontal pinned scroll catalog fly-through with progress rail, Stats count-up flip cards
+    19→  - `vortex-landing-showcase.tsx`: featured teaser (3D tilt cards), Motto (letter-by-letter flip reveal + rotating swirl halo), Final CTA (conic animated border panel)
+    20→- Built Vortex Hub `src/components/vortex/vortex-hub.tsx`: sticky glass control bar (live search, 7 category pills with layoutId spring, sort select), animated grid (AnimatePresence popLayout), empty state, toast on visit
+    21→- Built What's New `src/components/vortex/vortex-whatsnew.tsx`: scroll-drawn timeline spine, alternating glass entries with kind badges (launch/update/announcement/milestone)
+    22→- Built chrome `src/components/vortex/vortex-chrome.tsx`: glass navbar (scroll-aware, active pill, mobile hamburger panel) + footer
+    23→- Assembled `src/app/page.tsx`: client-side view routing (landing/hub/whatsnew) with transition orchestration, reduced-motion instant swap, timer cleanup
+    24→
+    25→Verification (agent-browser + VLM):
+    26→- Hero verified: logo, gradient wordmark, CTAs, particle background all render
+    27→- Story chapters verified: orbit visual, gradient headings, mockups, horizontal cards all clean
+    28→- Transitions verified mid-flight: tunnel covers screen with rings + logo; wave covers with gradient columns + logo badge
+    29→- Hub verified: search "finance" → 1 result; reset → 12; sort Newest → AnalytiQ first; category pills present
+    30→- What's New verified: timeline with nodes + alternating cards
+    31→- Mobile (390px) verified: hero/story/footer stack cleanly, hamburger menu navigates correctly
+    32→- Fixed issues found: marquee w-max horizontal overflow (wrapped in clipping parent with -mx-4), framer-motion scroll-container warning (html position: relative)
+    33→- Final state: zero console warnings/errors, no horizontal overflow at any scroll position, lint passes
+    34→
+    35→Stage Summary:
+    36→- Deliverable: fully interactive single-route Next.js app at `/` with 3 views connected by distinct cinematic transitions
+    37→- All animations respect prefers-reduced-motion; canvas pauses when tab hidden
+    38→- Preview: https://preview-<bot-id>.space-z.ai/ (use Preview Panel)
+    39→
+    40→---
+    41→Task ID: 2
+    42→Agent: Main Agent (Super Z)
+    43→Task: Redesign per user feedback — replace exaggerated background with aesthetic interactive liquid + droplets background; fix Ch.1 statement to "Every product. Built by Vortex Studios."; replace fictional 12-product catalog with the real product lineup (Haypbooks, Qyra live; Zypra, Cirqa, Lumora + 4 game concepts in pipeline).
+    44→
+    45→Work Log:
+    46→- Added Instrument Serif font (editorial italic accents) to layout.tsx
+    47→- globals.css: quieter glass, editorial shadows (no neon glows), label-editorial utility, aurora/grain/spin-slow keyframes, slowed all logo rotations
+    48→- Built vortex-shared.tsx: MaskedLine, WordIlluminate, SectionTag, Magnetic, FadeUp, EASE primitives
+    49→- Rewrote background as interactive liquid metaball canvas (vortex-background.tsx): low-res ImageData field render upscaled + blur; 7 drifting blobs that lean toward cursor; cursor stirrer blob that grows with pointer speed; ambient droplet rain + blob drips that merge/absorb (metaball necking); click = burst of 7 droplets + double ripple rings; hairline grid + film grain + vignette; reduced-motion static frame; pauses when tab hidden
+    50→- Rewrote page transitions as quiet-cinematic: Curtain (Hub), Silk Veil with rippling SVG edge (What's New), Iris breath (Home) — each holds the V mark + editorial label mid-transition
+    51→- Rewrote hero: intro curtain, masked line reveals, rotating orbit badge, editorial spec strip (02 live / 07 pipeline / 05 categories / ∞), marquee with real product names
+    52→- Rewrote story: Ch.1 word-illuminated statement "Every product. Built by Vortex Studios. No exceptions." with real-product caption; Ch.2 sticky editorial craft rows; Ch.3 measured horizontal category gallery (5 categories, live counts, "2 live today. 7 more spinning." intro card); quiet count-up stats
+    53→- Rewrote showcase: featured spread = Haypbooks/Qyra/Zypra with status chips; pinned scrubbed Motto scene; refined CTA
+    54→- Rewrote data layer (vortex-data.ts): 9 products — Haypbooks (Accounting, LIVE), Qyra (Automation/QuickBooks, LIVE), Zypra (Automation/Xero, development), Cirqa (Social, planned), Lumora (E-Commerce, planned), Project: Arena (MOBA), Bastion (strategy), Overdrive (open world), Emberfall (RPG — all concept); STATUS_META chips, STATUS_ORDER sort, 8-entry changelog telling the real studio story, honest STATS (2/7/5/∞)
+    55→- Reworked Hub: status chips on cards, "Live first" default sort, live/pipeline meta line, quiet hairline control bar, mobile full-screen editorial menu
+    56→- Updated metadata (title/description/keywords) to reflect real products
+    57→
+    58→Verification (agent-browser + VLM + pixel analysis):
+    59→- Liquid background renders and animates (VLM confirmed shape movement between frames)
+    60→- Droplets verified via pixel-cluster analysis: 25 small droplet clusters visible per frame
+    61→- Ripples visible on click (VLM confirmed)
+    62→- Ch.1 statement + Ch.3 gallery verified correct (5 categories, live counts)
+    63→- Hub verified: all 9 products with correct Live/In development/Planned/Concept chips
+    64→- Mobile 390px: no horizontal overflow, hero/story clean, liquid scales well
+    65→- Final: zero console errors/warnings; verify screenshots cleaned from download/
+    66→
+    67→Stage Summary:
+    68→- Deliverable: aesthetic ad-style landing with interactive liquid+droplets background, real product catalog across landing/hub/whatsnew
+    69→- All motion respects prefers-reduced-motion; canvas pauses when hidden
+    70→- Preview: https://preview-<bot-id>.space-z.ai/
+    71→
+    72→---
+    73→Task ID: 3
+    74→Agent: Main Agent (Super Z)
+    75→Task: Replace the rejected liquid-metaball background (too dark/heavy) with a new white-dominant, gamer-fit background concept per user feedback.
+    76→
+    77→Work Log:
+    78→- Deleted liquid-era verification artifact scripts/analyze_drops.py (user asked for the new output to be permanently removed)
+    79→- Designed + implemented "NEON ARCADE FIELD" background concept in vortex-background.tsx (complete rewrite):
+    80→  - Static hexagonal strategy lattice canvas (flat-top axial hex grid, navy 3% strokes, drawn once per resize; shared edges intentionally double toward 6%)
+    81→  - Dynamic canvas: 5 neon light-cycle racers (3 on mobile) in brand teal/emerald/cyan sweep the white void with layered halo+core strokes and destination-out per-frame fade (silky afterglow)
+    82→  - Racer behavior: layered-sine wander, edge steering band keeps action mid-screen, occasional nitro boosts (2.7x speed, wider halo, spark burst), off-screen respawn aimed across the screen
+    83→  - Hex cells ignite under every trail head (axial pixel→hex cube rounding) and fade out — the board powers up
+    84→  - Pixel sparks: rotating diamond squares shed from trails, click bursts
+    85→  - Cursor = player token (pointer:fine only): spring-followed halo + ring + rotating pickup diamond + orbiting satellite dot; trails steer toward the token within 34% of viewport
+    86→  - Click/tap = MOBA-style ability: expanding shockwave ring + echo ring + radial hex-cell ignition wave + 10-spark burst
+    87→  - White dominance: near-white #fbfdfd base, two 5% brand radial tints, trails are thin 2–3px cores with 10% halos, pulse fills capped at 11% alpha
+    88→  - Perf: DPR capped 1.5, pulse map capped 220/240, sparks capped 110, passive listeners, visibilitychange pause, prefers-reduced-motion renders one composed still frame (110-step warm-up sim)
+    89→- TypeScript clean for the file; no console errors
+    90→
+    91→Verification (agent-browser + VLM):
+    92→- VLM confirmed: background is overwhelmingly white-dominant and light; teal/cyan glow trails visible; hexagonal lattice visible; "energetic/gamer-like yet clean and premium"; no harsh dark areas or artifacts
+    93→- Interaction verified: click shockwave ring visible + expanding; trails move between frames (alive); cursor token with ring visible after mouse move; hex cells softly lit
+    94→- Desktop story + gallery sections: background stays clean behind content, text readable
+    95→- Mobile 390px: no horizontal overflow, white-dominant, trails scaled appropriately
+    96→- Temp screenshots kept in /tmp/vortex-verify (outside download/)
+    97→
+    98→Stage Summary:
+    99→- New background concept "Neon Arcade Field" live: hex strategy lattice + neon racers + cell ignition + pixel sparks + player token + click shockwaves, all white-dominant and gamer-fit
+   100→- Rest of the site (real product catalog, editorial sections, transitions) unchanged and verified against the new background
+   101→
+   102→---
+   103→Task ID: 4
+   104→Agent: Main Agent (Super Z)
+   105→Task: Per user feedback — remove cursor token and snake-cursor feel from background (keep animation); rewrite identity copy to advertise Vortex itself (no product lists, no "one person/founder/solo"); replace motto "Less clicks. More results."; redesign logo to fit gamer aesthetic.
+   106→
+   107→Work Log:
+   108→- Logo redesign (vortex-logo.tsx full rewrite): esports hex-badge — sharp faceted twin-blade "V" with center seam facet, edge highlights, apex spark diamond, inside a pointy-top hexagonal frame (R=52, gradient stroke + inner echo ring), radial energy aura; animated mode adds slowly rotating dashed hex reticle (R=55) with cyan comet dot. Same component API (size/animated/showOrbit/idPrefix) so all 6 usages (navbar, footer, hero intro, orbit badge, transition BrandMoment, motto watermark) update automatically
+   109→- Background de-snaking (vortex-background.tsx): removed player-token cursor visual + pointermove listener + cursor attraction entirely; removed round head-glow dots (the "snake head"); wander turn rates cut ~60% (0.28-0.58 rad/s) and sine frequencies slowed (0.3/0.13) for long straight light sweeps; afterglow fade lowered 0.085→0.07 for longer streak tails; kept hex lattice, cell ignition, nitro boosts, pixel sparks, click shockwaves
+   110→- Copy → brand advertising (no products, no person):
+   111→  - Ch.1 caption: "Vortex is momentum made visible — an independent studio built on a single obsession: digital products that feel effortless. Strategy, design, engineering and motion spin here as one force. No templates, no shortcuts, no settling. What leaves the vortex lands ahead of expectation — every time."
+   112→  - Hero paragraph: "Vortex.studio is an independent digital studio built on momentum — strategy, design, engineering and motion spinning as one force. We obsess over the details others skip, and nothing ships until it feels effortless."
+   113→  - Craft rows de-personalized ("same pair of hands"/"founder who answers" → one-system/accountability phrasing); Ch.2 quote "No outsourcing." → "No templates."; FinalCta founder line → momentum line; OrbitBadge ring text "founder-built" → "precision-built"; marquee "Founder-built" → "Independent Studio"; changelog day-one entry de-founderized; metadata description/OG/keywords de-soloized
+   114→- New motto "Less friction. More momentum." everywhere: MottoSection (friction/momentum with gradient), footer motto block, mobile menu, marquee, craft-row reference
+   115→- Footer stale mock categories (SaaS/Portfolio/Blog/Fintech/Health) replaced with real CATEGORIES from data (Accounting, Automation, Social, E-Commerce, Games)
+   116→
+   117→Verification (agent-browser + VLM):
+   118→- Hero: hex-badge logo confirmed top-left + orbit badge; white-dominant lattice + light sweeps; no cursor token/head dots; hero paragraph quoted correctly with no products/founder
+   119→- Click shockwave ring still expands on click
+   120→- Ch.1 caption verified at correct scroll position — pure studio-identity copy
+   121→- Motto section verified: "Less friction." / "More momentum." gradient + faint giant hex-badge watermark
+   122→- Footer verified: hex-badge logo, real categories, new motto
+   123→- Hub verified: new logo in navbar, status chips intact
+   124→- Mobile 390px: no overflow, clean hero; console clean across checks
+   125→
+   126→Stage Summary:
+   127→- Gamer hex-badge logo live across all surfaces; background is now autonomous light sweeps (no cursor dependence, no snake feel) with all animations intact; all identity copy is pure Vortex brand advertising; motto updated to "Less friction. More momentum."
+   128→
+   129→---
+   130→Task ID: 5
+   131→Agent: Main Agent (Super Z)
+   132→Task: Per user feedback — confirm cursor-snake is gone from the background (keep the hex "snake octagon" light sweeps); replace the hero headline "Ready-made digital products, done properly." without using the phrase "Digital products".
+   133→
+   134→Work Log:
+   135→- Audited current state: cursor token/attraction was already removed in commit cc968b2; grep confirmed the only pointer code left is the Magnetic button hover (UI affordance) and the pointerdown click-shockwave (no tracking). Last commit before this session touched worklog only, so served code = de-snaked code.
+   136→- Headline rewrite: hero H1 line 2 "digital products," → "software," — headline now reads "Ready-made / software, / done *properly.*" (keeps 3-line masked reveal + serif gradient finale)
+   137→- Consistency sweep of the exact phrase "digital products" (now zero matches in src/):
+   138→  - layout.tsx: title + OG title → "Vortex.studio — Ready-Made Software"; keyword "digital products" → "ready-made software"
+   139→  - vortex-landing-story.tsx Ch.1 caption: "a single obsession: software that feels effortless."
+   140→  - vortex-data.ts changelog day-one entry: "ship complete, ready-to-use software…"
+   141→  - Deliberately kept the studio descriptor phrases ("A digital product studio — est. 2025" overline, footer "independent digital product studio") — different phrase, user-approved positioning
+   142→- Verification (agent-browser + VLM at 1440x900):
+   143→  - Headline verified: "Ready-made software, done properly." renders in the hero
+   144→  - Cursor test: mouse moved to (300,450), (1150,200), (720,480) with screenshots — VLM confirmed NO marker/ring/diamond/player-token at any cursor position; backgrounds identical in nature across shots
+   145→  - Animation alive: streaks/trails moved between frames (VLM confirmed)
+   146→  - Click shockwave: ring + radial hex ignition still fires on click (VLM confirmed)
+   147→  - Zero console errors/warnings; tsc clean for src/
+   148→- Committed as 3a91b2b; verification screenshots cleaned from /tmp
+   149→
+   150→Stage Summary:
+   151→- Background is fully autonomous: hex lattice + light sweeps + cell ignition + sparks + click shockwaves, with zero cursor dependence (user should hard-refresh if they still see the old token — browser cache)
+   152→- Hero headline and all site copy now use "software" instead of "digital products"; metadata title/OG/keywords updated to match
+   153→
+   154→---
+   155→Task ID: 6
+   156→Agent: Main Agent (Super Z)
+   157→Task: Per user feedback — Chapter 3 "The Catalog / 5 worlds. One standard." doesn't fit the studio; review the whole section (intro card, category cards, outro) and decide better copy.
+   158→
+   159→Work Log:
+   160→- Review findings: (1) "The Catalog" reads dry/e-commerce, breaks the arcade-momentum voice; (2) "worlds" is inaccurate — only Games is a world, accounting/automation/social/e-commerce are not; (3) intro card body listed the categories the cards show seconds later (redundant); (4) blurbs were flat feature-lists; (5) outro "…and then, game worlds." came AFTER the Games card — anticlimactic and redundant
+   161→- Decision: align the section with the racing metaphor the background already establishes (neon light racers sweeping lanes across the hex field)
+   162→- Changes (vortex-landing-story.tsx):
+   163→  - SectionTag: "The Catalog" → "The Circuit" (+ code comment updated)
+   164→  - Headline: "5 worlds. One standard." → "5 lanes. One standard." (data-driven CATEGORIES.length kept)
+   165→  - Intro card body: category list → "Every lane runs the same standard — strategy, design, engineering and motion as one force. Live today or spinning up next, it all lives in the Hub." (kept "The pipeline / 2 live today. 7 more spinning." — real numbers, on-brand)
+   166→  - Outro card: "…and then, game worlds." → "…and the next spin."
+   167→- Changes (vortex-data.ts CATEGORIES blurbs → momentum voice):
+   168→  - Accounting: "Books, ledgers & reports" → "Bookkeeping, set in motion."
+   169→  - Automation: "Data auto-posting pipelines" → "Data that posts itself."
+   170→  - Social: "Feeds, circles & messaging" → "Feeds with real gravity."
+   171→  - E-Commerce: "Marketplaces & stores" → "Storefronts built to sell."
+   172→  - Games: "Worlds worth playing." kept (the payoff — games ARE worlds)
+   173→- Ch.2 "from accounting systems to game worlds" intentionally kept — it's a scale contrast where "worlds" is literal for games
+   174→
+   175→Verification (agent-browser + VLM at 1440x900, pinned section at 380vh):
+   176→- Start: "03 — The Circuit" / "5 lanes. One standard." / dark card "The pipeline / 2 live today. 7 more spinning." / cards 01–03 with new blurbs — all quoted exactly by VLM
+   177→- Mid: Automation / Social "Feeds with real gravity." / E-Commerce "Storefronts built to sell." / Games "Worlds worth playing." confirmed
+   178→- Intro body paragraph quoted verbatim by VLM; outro "…and the next spin." confirmed via DOM textContent
+   179→- Mobile 390px: no horizontal overflow (scrollWidth 390); console clean; committed as 5a5109f; screenshots cleaned
+   180→
+   181→Stage Summary:
+   182→- Chapter 3 is now "The Circuit — 5 lanes. One standard." with vortex-voiced blurbs and a forward-motion outro; the section's racing language matches the neon racer background instead of generic catalog copy
+   183→
+   184→---
+   185→Task ID: 7
+   186→Agent: Main Agent (Super Z)
+   187→Task: Per user feedback — (1) lighten the click shockwave (too dark), (2) remove the moving snake-line streak animation from the background entirely.
+   188→
+   189→Work Log:
+   190→- Full rewrite of vortex-background.tsx ("HEX ARCADE FIELD — the calm cut"):
+   191→  - REMOVED: all racer code (Racer interface, SPEEDS, makeRacer, respawn, stepRacers, angDelta, edge steering, nitro boosts, trail shedding, wrap logic, racer clamping in onResize) — the moving neon snake lines are gone
+   192→  - Background is now a STILL hexagonal lattice; the dynamic canvas animates only on click/tap
+   193→  - Lightened the click shockwave: main ring dark teal [13,148,136] @ alpha 0.5 / 2.5px → bright teal [45,212,191] @ alpha 0.3 / 2px; echo ring cyan alpha 0.24 → 0.14
+   194→  - Palette swapped to lighter set (bright teal / cyan / emerald — dropped dark & deep teal); hex ignition fill cap 0.11 → 0.10, stroke 0.09 → 0.08; sparks alpha 0.85 → 0.7, cap 110 → 60, click burst 10 → 8
+   195→  - fadeFrame 0.07 → 0.12 — cleaner residue-free ring afterglow
+   196→  - Reduced-motion still frame recomposed: gentle ring of lit cells around center + a few sparks (was warmed-up racers)
+   197→  - Kept: static hex lattice, brand tints, grain, vignette, click shockwave + radial hex ignition + sparks, DPR cap, visibilitychange pause, passive listeners
+   198→
+   199→Verification (agent-browser + VLM, 1440x900 + 390px):
+   200→- Idle frames 1.6s apart: VLM confirmed background is a completely still hex grid, zero streaks/snake lines; frames identical
+   201→- Click: shockwave ring + radial hex ignition present; VLM confirmed color reads "light and subtle (pale bright teal) rather than dark or saturated"
+   202→- Mid-scroll content over the calm background: clean, text/cards legible
+   203→- Mobile 390px: no horizontal overflow, no layout breaks; zero console errors
+   204→- tsc clean for src/; committed as 9d05d2f; screenshots cleaned
+   205→
+   206→Stage Summary:
+   207→- The background is now a calm, still hex board that reacts only to clicks with a light bright-teal shockwave + cell ignition + sparks — no roaming lines, no cursor dependence, nothing dark
+   208→
+   209→---
+   210→Task ID: 8
+   211→Agent: Main Agent (Super Z)
+   212→Task: Per user feedback — (1) rewrite the four Chapter 2 craft rows so they relate to what Vortex is about, (2) review ALL site wordings for logical correctness and fix where needed.
+   213→
+   214→Work Log:
+   215→- Full-copy audit across hero, story chapters, showcase, hub, whatsnew, chrome, data layer, metadata. Verified as CORRECT: counts (2 live / 7 pipeline / 5 categories everywhere), changelog chronology vs product dates (founded 2025-11-01 → games 2026-08-10 → milestone 2026-08-25), motto consistency, marquee, circuit card meta lines, no founder/solo phrasing, zero "digital products" phrase.
+   216→- CRAFT_ROWS rewritten (vortex-landing-story.tsx):
+   217→  1. "Ships whole, always" — "Every product leaves the vortex complete — screens, flows, states, edge cases and docs included. Not a starter kit, not a promising beta. A finished thing, running live." (was "you can launch the same afternoon" — template-seller speak contradicting Vortex's own live products)
+   218→  2. "One system, one voice" — "…crafted as one system, under one roof. Nothing gets lost between disciplines — so the product speaks with a single voice, end to end." (was "teams that don't talk" — generic corporate jab)
+   219→  3. "Effortless is the bar" — kept the ledger/feed/game-HUD line; "isn't just the motto" → "isn't a slogan on a wall here"
+   220→  4. "Dependable by default" — "Clean code, honest docs and support that answers. From live ledgers to worlds still loading… it has to work — and keep working." (was "accountability… isn't a department")
+   221→- Logic fixes found by the audit:
+   222→  - Footer brand blurb + metadata description/OG: "Ready-made websites, tools and platforms" → "Ready-made software — tools, platforms and game worlds…" (catalog contains ZERO websites — factually wrong claim)
+   223→  - Featured section label "In the Wild" → "The Lineup" (Zypra is In development — not "in the wild"; lineup = accurate for live + upcoming)
+   224→  - FinalCta overline "Spin one up" → "Take one for a spin" (imperative told the VISITOR to create a product — visitors adopt, the studio spins up) + closing line "for whoever launches next" → "one lane at a time." (agency-vibe ambiguity, ties to Circuit)
+   225→  - Hub header "Two products live, seven more spinning" hardcoded → dynamic {LIVE_COUNT}/{PIPELINE_COUNT}
+   226→  - Hub footer note "Head back to the story to see what's coming next" → "…to see where the momentum comes from." ("what's coming next" is What's New's job; the story explains the studio)
+   227→  - Hub live-product toast "This catalog is a live preview. Product links open from the public hub." → "This hub is a live preview — public product links arrive at launch." (old copy confused: we ARE in the hub)
+   228→
+   229→Verification (agent-browser + VLM + DOM):
+   230→- Craft rows 02/03 + "04 — THE LINEUP" + card statuses (Haypbooks LIVE, Qyra LIVE, Zypra IN DEVELOPMENT) quoted exactly by VLM
+   231→- DOM asserts all green: all 4 new craft row titles+bodies, The Lineup label, "Take one for a spin", "one lane at a time.", footer blurb swap
+   232→- Hub header renders "2 products live, 7 more spinning…" (dynamic); CTA panel visually verified clean with all new copy; zero console errors; tsc clean for src/
+   233→- Committed as 2eac12e; screenshots cleaned
+   234→
+   235→Stage Summary:
+   236→- Craft rows now speak pure Vortex (whole-shipping, one-voice, effortless bar, dependability) and every factual/logical copy error found in the site-wide audit is fixed — most notably the false "websites" claim and the mislabeled "In the Wild" section
+   237→
+   238→---
+   239→Task ID: 9
+   240→Agent: Main Agent (Super Z)
+   241→Task: Per user feedback — change the hero headline "Ready-made software, done properly." because "done properly" over-promises (a shipped bug would make it a joke). Find a bug-proof replacement.
+   242→
+   243→Work Log:
+   244→- Reasoning: "done properly" is an OUTCOME claim (perfect execution) that a single bug disproves; replaced with a MOMENTUM claim the studio can always keep. Chose "built to move." — software that's alive, evolving, continuously updated (the What's New changelog literally proves it); a bug doesn't contradict it, a fix CONFIRMS it. Avoided "with momentum."/"in motion." (collide with the hero paragraph's "built on momentum"/"engineering and motion" in the same viewport) and "no shortcuts." (negative construction + repeats Ch.1 canon)
+   245→- Grep audit: "properly" existed in exactly ONE place in src/ (hero H1 line 3); zero other perfection claims site-wide (no "perfect/flawless/bug-free/bulletproof")
+   246→- Edit (vortex-landing-hero.tsx): H1 line 3 "done properly." → "built to move." — accent span (italic serif + vortex-gradient) now wraps "move."; identical 14-char length so the 3-line masked reveal layout is unchanged
+   247→- Deliberately unchanged: metadata title "Vortex.studio — Ready-Made Software" (no perfection claim), OrbitBadge "precision-built" (build-intent, not outcome), craft rows "Ships whole, always"/"has to work" (scope/standard statements, distinct from the flawlessness promise the user rejected)
+   248→
+   249→Verification (agent-browser + VLM, 1440x900 + 390px):
+   250→- DOM assert: h1.textContent = "Ready-made software, built to move."; accent node = "move." with italic + teal gradient backgroundImage
+   251→- VLM: quoted headline verbatim line-by-line; confirmed "move" italic-serif gradient accent, 3-line layout balanced, no clipping/glitches
+   252→- Mobile 390px: headline correct, no horizontal overflow; console clean (zero errors/warnings); tsc clean for src/
+   253→- Committed as 4eb4895; screenshots cleaned from /tmp
+   254→
+   255→Stage Summary:
+   256→- Hero headline is now "Ready-made software, built to move." — bug-proof positioning that trades the perfection promise for the momentum promise, keeping the 3-line masked reveal + serif gradient finale intact
+   257→
+   258→---
+   259→Task ID: 10
+   260→Agent: Main Agent (Super Z)
+   261→Task: Per user feedback — fix all logically-incorrect details caught in a full-page text dump + fix the hydration console error. The dump revealed: stats section reading "0 Live products / 0 In the pipeline / 0 Categories" (contradicting hero's 02/07/05), final CTA omitting Zypra, and a React hydration mismatch on <body>.
+   262→
+   263→Work Log:
+   264→- Fix 1 (vortex-landing-story.tsx CountUp): useState(0) meant SSR/initial DOM text claimed "0 live products" until scroll — wrong for copy-paste dumps, a11y tree, crawlers. Now useState(to) so DOM always carries truth (2/7/5); count-up 0→to still plays on inView; added prefers-reduced-motion guard (skips animation, value stays final)
+   265→- Fix 2 (vortex-landing-showcase.tsx FinalCta): "From Haypbooks and Qyra today to Cirqa, Lumora and game worlds tomorrow" skipped Zypra (in development) — now "…to Zypra, Cirqa, Lumora and game worlds tomorrow" (all 9 products referenced, ordered live → in development → planned → concept)
+   266→- Fix 3 (vortex-landing-story.tsx Ch.1 caption): dropped "— every time" from "What leaves the vortex lands ahead of expectation" — last absolute-outcome claim of the "done properly" class (one underwhelming release would falsify it)
+   267→- Fix 4 (layout.tsx): hydration error root-caused to a Chrome extension (bekkpoinfaf…) injecting __processed_…="true" into <body> before React hydrates — attribute-only mismatch, tree hydrates fine. Added suppressHydrationWarning to <body> (canonical React remedy; <html> already had it) with an explanatory comment. Not reproducible in headless (no extension) but the mismatch diff shown in the error trace is body-attributes-only
+   268→- Deliberately kept after audit: "Ships whole, always" (scope-completeness claim defined explicitly in its body — bugs don't make software "not whole"), "nothing ships until it feels effortless" + "acceptance test" (process gates, not outcome promises), "it has to work" (obligation framing), "Every product. Built by Vortex Studios. No exceptions." (factual). All counts/dates/statuses re-verified correct: 2/7/5, category metas (1·1live/2·1live/1/1/4), lineup dates, © 2026, est. 2025
+   269→
+   270→Verification (agent-browser + VLM, 1440x900 + 390px):
+   271→- Stats at page load (BEFORE scroll): innerText = "2 | LIVE PRODUCTS | 7 | IN THE PIPELINE | 5 | CATEGORIES | ∞ | GROWING" — no more zero claims; hasZeroLive=false across full body text
+   272→- After scrollIntoView + 3s: count-up fired and settled back at 2/7/5
+   273→- Final CTA quoted verbatim by VLM with Zypra included; stats strip clean, no glitches (the noted corner "glow" is the intentional teal radial tint in the CTA panel)
+   274→- Ch.1 caption: "What leaves the vortex lands ahead of expectation." — "every time" gone (DOM assert)
+   275→- Mobile 390px: stats correct, no horizontal overflow, headline intact; console clean (zero errors/warnings); tsc clean for src/
+   276→- Committed as caeaed4; screenshots cleaned
+   277→
+   278→Stage Summary:
+   279→- Page text dump is now logically consistent end-to-end (stats match hero claims everywhere, all 9 products appear in the CTA range, zero remaining absolute-outcome qualifiers), and the extension-triggered hydration warning is suppressed at the source
+   280→
+   281→---
+   282→Task ID: 11
+   283→Agent: Main Agent (Super Z)
+   284→Task: Per user feedback — de-specificize Chapter 2 "The Craft" copy. The section kept naming individual categories (accounting systems, ledgers, feeds, game HUDs, game worlds) while Vortex spans ALL software categories; the user wants no single-category emphasis.
+   285→
+   286→Work Log:
+   287→- Three swaps in vortex-landing-story.tsx, each preserving the original rhetorical device but with universal software language:
+   288→  - Ch.2 intro: "Then spin up the next one — from accounting systems to game worlds." → "Then spin up the next one — from the practical to the playful." (keeps the from-X-to-Y range contrast; practical covers tools, playful covers games — without naming either)
+   289→  - Craft row 03 "Effortless is the bar": "Every screen — a ledger, a feed or a game HUD — is tuned around…" → "Every screen — from the first open to the deepest setting — is tuned around…" (universal app depth range: every app has a first open and settings; keeps the em-dash aside rhythm)
+   290→  - Craft row 04 "Dependable by default": "From live ledgers to worlds still loading, everything in the pipeline…" → "From what's live to what's loading, everything in the pipeline…" (live/loading alliteration; preserves the 2-live/7-pipeline truth without categories)
+   291→- Site-wide grep sweep for remaining category nouns (ledger/game HUD/accounting system/game world/bookkeeping/storefront) — every remaining hit verified legitimately specific: Circuit category-card blurbs, Haypbooks product data (tagline/desc/tags), the Haypbooks-launch changelog entry, SEO keyword "accounting system" in metadata, and the balanced "tools, platforms and game worlds" trio in footer/metadata (spans all categories in one breath, not a single-category lean). Logo file's "game HUD" hit is a dev code comment, not user-facing
+   292→- Unchanged craft rows 01/02 — already universal ("screens, flows, states, edge cases and docs"; "Identity, interface, motion and copy")
+   293→
+   294→Verification (agent-browser + VLM, 1440x900 + 390px):
+   295→- DOM asserts: all 3 new phrases present; all 3 old category phrases absent; all 4 row titles + Ready.Set.Ship. + "No templates." quote intact
+   296→- VLM quoted intro, row 03 and row 04 bodies verbatim; confirmed ZERO mentions of accounting/ledgers/feeds/bookkeeping/games in the section; no layout problems/clipping
+   297→- Mobile 390px: new copy present, no horizontal overflow; console clean (zero errors/warnings); tsc clean for src/
+   298→- Committed as 6de15db; screenshots cleaned
+   299→
+   300→Stage Summary:
+   301→- The Craft section now speaks about software universally (practical→playful range, first open→deepest setting depth, live→loading pipeline) with zero category nouns; category names remain only where they are the actual content (Circuit cards, Hub, product data, changelog, SEO)
+   302→
+   303→---
+   304→Task ID: 12
+   305→Agent: Main Agent (Super Z)
+   306→Task: Per user feedback — reframe Chapter 3 "The Circuit" concept. "5 lanes. One standard." locked the studio to exactly 5 categories; Vortex will expand to more, so the section must not fix the count.
+   307→
+   308→Work Log:
+   309→- Concept change (vortex-landing-story.tsx):
+   310→  - Headline: "{CATEGORIES.length} lanes. One standard." → "New lanes. Same standard." — count-free and expansion-minded; keeps the X-lanes/Y-standard parallel rhythm and the serif-gradient accent on the second phrase
+   311→  - Intro card body: inserted "New lanes open as the studio grows." between the standard sentence and the Hub sentence (keeps both original sentences intact)
+   312→  - Outro card: "…and the next spin." → "…and the next lane." — after the 5 category cards it now says the circuit isn't closed, another lane is coming
+   313→  - Section comment updated: "five lanes of the pipeline" → "today's lanes, one lap. The count is open by design"
+   314→- Robustness: all hardcoded counts now derive from the data layer so the site auto-scales when Vortex expands:
+   315→  - vortex-data.ts STATS: value 2/7/5 → LIVE_COUNT / PIPELINE_COUNT / CATEGORIES.length (with comment); renders identically today
+   316→  - vortex-landing-hero.tsx spec strip: "02"/"07"/"05" → String(LIVE_COUNT/PIPELINE_COUNT/CATEGORIES.length).padStart(2,"0"); added data import + comment
+   317→- Deliberately kept: changelog cl-08 "across five categories" (dated 2026-08-25 historical record — factually true at that moment; "The vortex is just getting started" already carries expansion); progress rail "05 / 05" (dynamic scroll indicator); category cards themselves (they ARE today's lanes); "one lane at a time" in FinalCta (count-agnostic)
+   318→
+   319→Verification (agent-browser + VLM, 1440x900 + 390px):
+   320→- Headline DOM assert: "New lanes. Same standard."; "5 lanes" gone from full body text
+   321→- Hero spec strip (case-insensitive asserts): 02 LIVE PRODUCTS / 07 IN THE PIPELINE / 05 CATEGORIES / ∞ — rendering identical to before, now data-driven
+   322→- Stats section innerText: "2 | LIVE PRODUCTS | 7 | IN THE PIPELINE | 5 | CATEGORIES | ∞ | GROWING"
+   323→- VLM quoted headline, dark-card paragraph (with new expansion sentence) and outro "…and the next lane." verbatim; category cards render cleanly (numbers, icons, blurbs, meta lines, Explore); zero layout problems across 3 scroll positions of the pinned gallery
+   324→- Mobile 390px: headline present, no horizontal overflow; console clean; tsc clean for src/
+   325→- Committed as 6a8c7e6; screenshots cleaned
+   326→
+   327→Stage Summary:
+   328→- The Circuit is now an open circuit: "New lanes. Same standard." with the intro/outro both promising growth, and every count on the site (hero strip, stats) derived from the data layer — add a category or product tomorrow and every number updates itself
+   329→
+   330→---
+   331→Task ID: 13
+   332→Agent: Main Agent (Super Z)
+   333→Task: Per user feedback — fix a new hydration console error (uploaded error trace file). Trace showed 153 attribute mismatches, ALL of them bis_skin_checked="1" — the Bitdefender browser extension stamping every <div> before React hydrates. suppressHydrationWarning on <body> (previous fix) only covers one level deep, so it can't handle deep-tree extension stamps.
+   334→
+   335→Work Log:
+   336→- Root cause analysis: parsed the uploaded trace; every mismatched line is bis_skin_checked (Bitdefender's marker attribute); zero code-caused mismatches (no Date.now/Math.random/window branches). The affected divs span Next internals (MetadataWrapper hidden div) and app divs (background, page root) — many unreachable by per-element suppressHydrationWarning
+   337→- Fix (layout.tsx): EXTENSION_ATTR_SCRUBBER — a ~600-byte inline script rendered as the first child of <body> so it executes during HTML parsing, BEFORE the extension stamps and BEFORE React hydrates. It: (1) strips any already-stamped attributes (race safety), (2) installs a MutationObserver filtered to a blocklist [bis_skin_checked, data-gr-ext-installed, data-gr-ext-enabled, data-new-gr-c-s-check-loaded] (Bitdefender + Grammarly) that removes each stamp the instant it's added, (3) disconnects at window load + 5s (hydration is long done; bounded lifetime avoids an unbounded remove/re-add loop with the extension). Wrapped in try/catch so it can never break the page
+   338→- attributeFilter keeps the observer cheap: it only fires for the 4 blocklisted names — framer-motion's constant style mutations never trigger it
+   339→
+   340→Verification (agent-browser, 1440x900 + 390px):
+   341→- Script placement: scrubber is <body> child #1, immediately before the app content div — runs first
+   342→- Functional simulation of Bitdefender: stamped bis_skin_checked="1" onto 50 divs via eval → within 400ms ALL stripped (0 remaining); same test passed on mobile
+   343→- Disconnect window verified: stamping after load+5s correctly leaves attributes (observer disconnected by design — initial test "failure" was actually the intended lifecycle; Bitdefender stamps during load, well inside the window)
+   344→- Page health after fix: headline "Ready-made software, built to move." + stats 2/7/5/∞ render correctly; no horizontal overflow at 390px; console clean (zero errors/warnings)
+   345→- Committed as c1c39d0
+   346→
+   347→Stage Summary:
+   348→- Extension-induced hydration warnings are now scrubbed at the source for all visitors: Bitdefender/Grammy-style attributes are stripped pre-hydration by an early inline MutationObserver, complementing the existing body-level suppressHydrationWarning
+   349→
+   350→---
+   351→Task ID: 14
+   352→Agent: Main Agent (Super Z)
+   353→Task: Per user feedback — compile the project files (root listing screenshot: db, download, examples, prisma, public, src, tests, upload folders + config files + worklog.md) into a zip named vortex.zip.
+   354→
+   355→Work Log:
+   356→- Read the user's file-explorer screenshot via VLM to extract the exact item list
+   357→- Audited root: identified heavy/secret items to EXCLUDE (not in user's listing or unsafe): .env (secrets), node_modules (~567 packages), .next build cache, .git, dev.log, tsconfig.tsbuildinfo, skills/, mini-services/, .zscripts/
+   358→- Staged everything listed into a vortex/ top-level folder (so extraction is tidy), PLUS .gitignore + next-env.d.ts (2 tiny essentials that make the archive a runnable/restorable project)
+   359→- Excluded download/ from contents (destination dir; only a 34-byte placeholder README inside)
+   360→- Created /home/z/my-project/download/vortex.zip (254KB, 112 entries)
+   361→- Verified: unzip -t integrity OK; top-level structure correct (all 8 listed folders + 10 listed files + 2 essentials); security check confirms ZERO .env/node_modules/.next/.git entries; spot-check confirms all key Vortex source files present (layout.tsx, vortex-logo/background/landing-hero, vortex-data.ts — 76 files under vortex/src/)
+   362→- Cleaned staging directory
+   363→
+   364→Stage Summary:
+   365→- Deliverable: /home/z/my-project/download/vortex.zip — 254KB compilation of the Vortex project (source, configs, prisma, public, db, tests, examples, worklog), secrets-free and share-ready; extracts into a single vortex/ folder, runnable after bun/npm install
+   366→
+   367→---
+   368→Task ID: 15
+   369→Agent: Main Agent (Super Z)
+   370→Task: Per user feedback — rebrand Vortex Studios to Hayp Studios across the entire site (name, logo, wordmark, copy, metadata, code internals).
+   371→
+   372→Work Log:
+   373→- Logo redesign (hayp-logo.tsx): new HaypMark — faceted letter "H" (twin tapered blades joined by a RISING crossbar, right side 6 units higher = forward momentum) inside the same pointy-top hex frame; blade edge highlights, crossbar facet highlight, and a bright mint "heart spark" diamond at the crossbar center (replaces the V's apex spark); same component API so all usages (navbar, footer, intro curtain, orbit badge, transition BrandMoment, motto watermark) update automatically. Wordmark: [H badge] + "ayp" + ".studio" → reads "Hayp . studio". aria-label "Hayp Studios logo", idPrefix vx→hp
+   374→- Copy rewrites (~30 user-facing strings):
+   375→  - Identity: "Hayp is momentum, made software — …" (was "Vortex is momentum made visible"); "Every product. Built by Hayp Studios. No exceptions." (accentWords hayp/studios); hero paragraph "Hayp.studio is an independent digital studio… motion moving as one force"
+   376→  - Vortex-anchored metaphors reworked: "leaves the vortex" → "leaves the studio" (craft row 01 + Ch.1 caption); "7 more spinning" → "7 more in motion" (Circuit card, hub header, changelog "2 Live, 7 in Motion"); "spinning up next" → "in the works"; "spinning as one force" → "moving as one force"; "day the vortex first spun up" → "the day Hayp first opened its doors"
+   377→  - Kept generic idioms: "spin up the next one" (Ch.2), "Take one for a spin" (CTA), "spin up · ship · repeat" (footer) — jargon, not vortex references
+   378→  - Names/labels: "Hayp . studio" intro + transition labels, "The Hayp Hub" + "Enter the Hayp Hub", "Fresh from the studio." (Lineup), "the hayp way — since day one" (Motto), "Hayp Games" (marquee), hub "built by Hayp Studios", © Hayp.studio, aria "Hayp.studio — home"
+   379→  - Data layer: Zypra "The Hayp automation engine", Cirqa "Hayp's next major platform", Arena "forged in motion", changelog "Hayp.studio is Founded" / "Hayp Games Division" / "2 Live, 7 in Motion" / "Hayp Studios is just getting started"
+   380→  - Metadata: title/OG "Hayp.studio — Ready-Made Software", siteName Hayp.studio, authors Hayp Studios, keywords + "Hayp Studios"
+   381→- Mechanical rename (git mv + sed): src/components/vortex/ → src/components/hayp/ with all 11 files vortex-*.tsx → hayp-*.tsx; src/lib/vortex-data.ts → hayp-data.ts; all identifiers Vortex→Hayp (components, types) and vortex→hayp (CSS tokens --color-hayp-*, classes, keyframes, scrollbar, imports). Final grep: ZERO vortex references in src/
+   382→- Favicon: new src/app/icon.svg (white H on filled gradient hex badge — reads at 16px); replaced leftover template public/logo.svg with the Hayp H badge mark
+   383→- Brand brief regenerated: download/hayp-studios-brief.md (updated identity, voice rules incl. "Vortex is retired" rule, logo description, timeline as Hayp, one-liners); deleted outdated vortex-studio-brief.md
+   384→- Fresh archive: download/hayp.zip (230KB, integrity-verified, rebranded code) — vortex.zip left in place (user-created artifact)
+   385→
+   386→Verification (agent-browser + VLM, 1440x900 + 390px):
+   387→- DOM asserts: title "Hayp.studio — Ready-Made Software"; h1 unchanged "Ready-made software, built to move."; hero para, Ch.1 statement + "momentum, made software" caption, "Enter the Hayp Hub", "The Hayp Hub", "built by Hayp Studios", "7 more in motion" all present; ZERO case-insensitive "vortex" in full body innerText
+   388→- VLM: H-badge logo confirmed visible & clearly reads as H in hexagon across navbar/footer/motto watermark; wordmark reads Hayp + .STUDIO; footer © "2026 Hayp.studio — designed, built and shipped with momentum."; logo "professional, balanced, well-centered, no glitches"; no leftover Vortex branding
+   389→- Hub verified: heading, status chips intact, no Vortex text; mobile 390px: H logo renders (aria "Hayp Studios logo"), no horizontal overflow, console clean; tsc clean for src/ after full rename
+   390→- Committed as 16c0f5c
+   391→
+   392→Stage Summary:
+   393→- Full rebrand shipped: Vortex Studios → Hayp Studios — new faceted-H hex badge with rising crossbar + heart spark, Hayp wordmark, all ~30 copy strings rebranded with vortex-anchored metaphors reworked to motion language, code internals renamed (hayp-* files/components/tokens), new favicon, regenerated brand brief, and fresh hayp.zip archive
+   394→
