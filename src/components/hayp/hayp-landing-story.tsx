@@ -32,7 +32,7 @@ export function ChapterOne() {
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
         {/* giant watermark H drifting behind */}
         <motion.span
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[46vw] font-bold leading-none text-hayp-ink/[0.032]"
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[46vw] font-bold leading-none text-hayp-ink/[3.2%]"
           style={{ y: watermarkY }}
           aria-hidden="true"
         >

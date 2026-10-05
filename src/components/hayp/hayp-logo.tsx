@@ -1,15 +1,20 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { motion, useReducedMotion } from "framer-motion";
 
 /**
  * The Hayp mark — an esports-grade badge.
  *
- * A sharp faceted "H" (twin blades joined by a rising crossbar — forward
- * momentum forged into the letterform) set inside a hexagonal frame —
- * the same hex language as the arcade-field lattice. Animated mode adds
- * a slowly rotating dashed reticle hex with a comet dot, like a game HUD
- * target lock.
+ * A wide, confident letter "H" custom-cut for the hexagon: two chamfered
+ * stems (the 45° cuts echo the hex's pointed geometry) welded by a level
+ * crossbar that seats 3 units into each stem — one forged piece, no
+ * hairline joints. A bright diamond spark sits at its heart.
+ *
+ * On mount the letter forges itself: the left stem drops in, the right
+ * stem rises to meet it, the crossbar sweeps across, and the spark pings.
+ * The hex frame draws itself around the finished letter. All of it honors
+ * prefers-reduced-motion and the `animated` flag.
  */
 
 /** Pointy-top hexagon path centered at (cx, cy) with circumradius R */
@@ -22,6 +27,21 @@ function hexPoints(cx: number, cy: number, R: number): string {
   }
   return `M ${pts.join(" L ")} Z`;
 }
+
+/* --- the letterform, drawn for the 120×120 canvas ------------------- */
+/* Letter box: x 33→87 (54 wide), y 31→89 (58 tall) — a wide stance that
+   fills the badge. Stems 17 wide, counter 20, crossbar 13 thick seated
+   at the optical center (y 53→66), welded 3 units into each stem.      */
+
+const STEM_L = "M 38 31 L 50 31 L 50 89 L 38 89 L 33 84 L 33 36 Z";
+const STEM_R = "M 82 31 L 87 36 L 87 84 L 82 89 L 70 89 L 70 31 Z";
+const CROSSBAR = "M 47 53 L 73 53 L 73 66 L 47 66 Z";
+const SPARK = "M 60 53.5 L 65 59.5 L 60 65.5 L 55 59.5 Z";
+
+/* machined facet highlights — light catching the inner edges */
+const HL_STEM_L = "M 48.3 36.5 L 48.3 83.5";
+const HL_STEM_R = "M 71.7 36.5 L 71.7 83.5";
+const HL_BAR = "M 48.5 54.7 L 71.5 54.7";
 
 interface HaypMarkProps {
   size?: number;
@@ -38,11 +58,14 @@ export function HaypMark({
   className,
   idPrefix = "hp",
 }: HaypMarkProps) {
-  // hex frame: center (60,60), circumradius 52 → top (60,8), bottom (60,112),
-  // left/right walls at x = 60 ± 45
+  const reduce = useReducedMotion();
+  const build = animated && !reduce; // one-time forge-in; false = render final state
+
+  // hex frame: center (60,60), circumradius 52; rotating reticle slightly larger
   const frame = hexPoints(60, 60, 52);
-  // outer rotating reticle hex (slightly larger, dashed)
   const reticle = hexPoints(60, 60, 55);
+
+  const spring = { type: "spring" as const, stiffness: 240, damping: 22 };
 
   return (
     <svg
@@ -85,88 +108,126 @@ export function HaypMark({
       </defs>
 
       {/* soft energy aura behind the badge */}
-      <circle cx="60" cy="62" r="46" fill={`url(#${idPrefix}-core)`} />
+      <motion.circle
+        cx="60"
+        cy="62"
+        r="46"
+        fill={`url(#${idPrefix}-core)`}
+        initial={build ? { opacity: 0 } : false}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.25, duration: 0.6 }}
+      />
 
       {/* rotating reticle ring — HUD target lock */}
       {showOrbit && (
-        <g
-          className={animated ? "hayp-rot-cw" : undefined}
-          style={{ transformOrigin: "60px 60px" }}
+        <motion.g
+          initial={build ? { opacity: 0 } : false}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.45, duration: 0.5 }}
         >
-          <path
-            d={reticle}
-            stroke="#0d9488"
-            strokeWidth="1.1"
-            strokeDasharray="1.5 7"
-            strokeLinecap="round"
-            opacity="0.55"
-            fill="none"
-          />
-          {/* comet dot riding the reticle */}
-          <circle cx="60" cy="5" r="2.8" fill="#06b6d4" stroke="none" filter={`url(#${idPrefix}-glow)`} />
-          <circle cx="60" cy="5" r="1.3" fill="#ccfbf1" stroke="none" />
-        </g>
+          <g
+            className={animated ? "hayp-rot-cw" : undefined}
+            style={{ transformOrigin: "60px 60px" }}
+          >
+            <path
+              d={reticle}
+              stroke="#0d9488"
+              strokeWidth="1.1"
+              strokeDasharray="1.5 7"
+              strokeLinecap="round"
+              opacity="0.55"
+              fill="none"
+            />
+            {/* comet dot riding the reticle */}
+            <circle cx="60" cy="5" r="2.8" fill="#06b6d4" stroke="none" filter={`url(#${idPrefix}-glow)`} />
+            <circle cx="60" cy="5" r="1.3" fill="#ccfbf1" stroke="none" />
+          </g>
+        </motion.g>
       )}
 
-      {/* hexagonal badge frame */}
-      <path
+      {/* hexagonal badge frame — draws itself around the letter */}
+      <motion.path
         d={frame}
         stroke={`url(#${idPrefix}-frame)`}
         strokeWidth="2.6"
         strokeLinejoin="round"
         fill="none"
         filter={`url(#${idPrefix}-glow)`}
+        initial={build ? { pathLength: 0, opacity: 0 } : false}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ pathLength: { duration: 1.05, ease: "easeInOut" }, opacity: { duration: 0.3 } }}
       />
       {/* inner frame echo — depth facet */}
-      <path
+      <motion.path
         d={hexPoints(60, 60, 46)}
         stroke="#0d9488"
         strokeWidth="0.8"
         strokeLinejoin="round"
         opacity="0.22"
         fill="none"
+        initial={build ? { opacity: 0 } : false}
+        animate={{ opacity: 0.22 }}
+        transition={{ delay: 0.55, duration: 0.5 }}
       />
 
-      {/* the H — twin blades joined by a rising crossbar */}
+      {/* the H — forged piece by piece */}
       <g filter={`url(#${idPrefix}-glow)`}>
-        <path
-          d="M 38 34 L 52 34 L 52 58 L 68 52 L 68 34 L 82 34 L 80 88 L 68 88 L 68 64 L 52 70 L 50 88 L 40 88 Z"
-          fill={`url(#${idPrefix}-blade)`}
-          strokeLinejoin="round"
-        />
-        {/* blade edge highlights */}
-        <path
-          d="M 40 36.5 L 50.5 36.5 L 50.5 57.5"
-          stroke="#ccfbf1"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          opacity="0.5"
-          fill="none"
-        />
-        <path
-          d="M 80 36.5 L 69.5 36.5 L 69.5 51.5"
-          stroke="#ccfbf1"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          opacity="0.5"
-          fill="none"
-        />
-        {/* crossbar facet highlight */}
-        <path
-          d="M 53.5 57 L 66.5 51.5"
-          stroke="#ccfbf1"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          opacity="0.55"
-          fill="none"
-        />
-        {/* heart spark — the energy core at the center of the H */}
-        <path
-          d="M 60 55.5 L 64.8 61 L 60 66.5 L 55.2 61 Z"
-          fill="#ccfbf1"
-          opacity="0.95"
-          filter={`url(#${idPrefix}-glow)`}
-        />
+        {/* left stem — drops in from above */}
+        <motion.g
+          initial={build ? { opacity: 0, y: -18 } : false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...spring, delay: 0.05 }}
+        >
+          <path d={STEM_L} fill={`url(#${idPrefix}-blade)`} strokeLinejoin="round" />
+          <path d={HL_STEM_L} stroke="#ccfbf1" strokeWidth="1.4" strokeLinecap="round" opacity="0.45" fill="none" />
+        </motion.g>
+
+        {/* right stem — rises from below */}
+        <motion.g
+          initial={build ? { opacity: 0, y: 18 } : false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...spring, delay: 0.15 }}
+        >
+          <path d={STEM_R} fill={`url(#${idPrefix}-blade)`} strokeLinejoin="round" />
+          <path d={HL_STEM_R} stroke="#ccfbf1" strokeWidth="1.4" strokeLinecap="round" opacity="0.45" fill="none" />
+        </motion.g>
+
+        {/* crossbar — sweeps across the joint */}
+        <motion.g
+          initial={build ? { opacity: 0, scaleX: 0 } : false}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ type: "spring", stiffness: 200, damping: 18, delay: 0.34 }}
+          style={{ transformOrigin: "47px 59.5px" }}
+        >
+          <path d={CROSSBAR} fill={`url(#${idPrefix}-blade)`} strokeLinejoin="round" />
+          <path d={HL_BAR} stroke="#ccfbf1" strokeWidth="1.4" strokeLinecap="round" opacity="0.5" fill="none" />
+        </motion.g>
+
+        {/* heart spark — the energy core, pings awake */}
+        <motion.g
+          initial={build ? { opacity: 0, scale: 0 } : false}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 420, damping: 15, delay: 0.58 }}
+          style={{ transformOrigin: "60px 59.5px" }}
+        >
+          <path d={SPARK} fill="#ccfbf1" opacity="0.95" filter={`url(#${idPrefix}-glow)`} />
+        </motion.g>
+
+        {/* one-shot ping ring radiating from the heart */}
+        {build && (
+          <motion.circle
+            cx="60"
+            cy="59.5"
+            r="7"
+            fill="none"
+            stroke="#ccfbf1"
+            strokeWidth="1.2"
+            initial={{ scale: 0.3, opacity: 0.85 }}
+            animate={{ scale: 2.4, opacity: 0 }}
+            transition={{ delay: 0.7, duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: "60px 59.5px" }}
+          />
+        )}
       </g>
     </svg>
   );

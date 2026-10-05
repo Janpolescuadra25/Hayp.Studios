@@ -417,3 +417,28 @@ Verification (agent-browser + VLM, 1440x900 + 390x844):
 
 Stage Summary:
 - The Vortex → Hayp rebrand is now visually complete: every brand monogram on the site is the letter H, the last vortex-anchored copy is reworked to motion language, the Hub's pre-existing mobile overflow is fixed, and repo artifacts are aligned (vortex.zip removed, hayp.zip + brand brief refreshed)
+
+---
+Task ID: 17
+Agent: Main Agent (Super Z)
+Task: Per user feedback (screenshot) — the "H" looked ugly; make it visually good with proper animation.
+
+Work Log:
+- VLM-critiqued the user's screenshot: the giant Chapter-01 watermark H rendered as a SOLID near-black letter obscuring the headline (intended: 3.2% opacity), and the badge H read as narrow/malformed (rising crossbar looked broken)
+- Root-cause hunt, two bugs found:
+  1. Tailwind 4 rejects bare-decimal arbitrary alpha: text-hayp-ink/[0.032] generated NO css rule → watermark at inherited full opacity. Fixed to text-hayp-ink/[3.2%] (verified generated: computed color lab(... / 0.032)). Same bug in hayp-data.ts concept chip bg-hayp-ink/[0.05] → [5%] (verified: chips render lab(... / 0.05))
+  2. CRITICAL OPS DISCOVERY: the dev server (running since before the Task-15 vortex→hayp mass rename) served a STALE Turbopack CSS chunk — served CSS still contained 21 "vortex" strings (vortex-rot keyframes, vortex-gradient class) and ZERO hayp rules. Every hayp-* utility sitewide silently no-oped: no text-hayp-gradient, no hayp-rot-cw reticle spin, no hayp color utilities, no chip backgrounds — the whole brand palette was falling back to inherited/default styles since the rename. Fix: killed dev server, rm -rf .next, relaunched detached (setsid bun run dev &, survives shell exit). Fresh CSS now has 86 hayp rules, 0 vortex; gradients/teal/reticle-spin all restored
+- HaypMark redesign (hayp-logo.tsx): replaced the narrow rising-crossbar H with a wide, chunky letterform custom-cut for the hexagon — letter box 54×58 (was 44×54) filling the badge; twin 17-wide stems with 45° chamfered outer corners (echo hex vertices); LEVEL 13-thick crossbar at optical center (y 53–66) welded 3 units into each stem (no hairline joints at small sizes); straight inner-edge facet highlights; diamond spark at the crossbar heart. Same component API
+- Forge-in animation (framer-motion, honors prefers-reduced-motion via useReducedMotion + animated prop): left stem drops from above (spring 240/22, delay .05) → right stem rises (delay .15) → crossbar sweeps scaleX 0→1 from its left edge (delay .34) → spark pops (spring 420/15, delay .58) → one-shot ping ring radiates (delay .7); hex frame draws itself via pathLength 0→1 (1.05s) while aura/echo/reticle fade in staged. Plays on intro curtain, navbar mount, orbit badge, and every view-transition BrandMoment; Motto watermark + footer stay static (animated=false)
+- Updated favicon src/app/icon.svg + public/logo.svg to the new H geometry (white knockout H + cyan spark on gradient hex; outlined badge version)
+- Brand brief §7 rewritten (new letterform + forge-in description)
+
+Verification (agent-browser + VLM, 1440x900 + 390x844):
+- Computed styles: watermark color lab(... / 0.032) — properly faint; concept chip bg lab(... / 0.05); fresh CSS: 86 hayp utilities, 0 vortex, hayp-rot-cw + text-hayp-gradient present
+- VLM (intro mid-build): H described "wide, well-balanced, chunky… professionally designed, esports badge style, not malformed"; hex frame caught mid-draw around the assembled letter
+- VLM (hero): gradient confirmed on "move."; navbar + orbit badge H clean; "no black ugly giant letter; visual quality excellent"
+- VLM (Ch.1/Hub/What's New): watermark = "very faint editorial texture, does not obscure"; Hub gradient heading + colored chips/pills; tail H badge + "The studio keeps moving…"
+- Mobile 390: no horizontal overflow, console + page errors clean, tsc clean
+
+Stage Summary:
+- The ugly H is gone for good: watermark renders at true 3.2% opacity, the badge wears a redesigned chunky chamfered H that forges itself in with a frame-draw + assembly + spark-ping animation, and the sitewide brand palette (gradients, teal utilities, reticle spin) is fully restored after exhuming the stale-CSS regression from the rename

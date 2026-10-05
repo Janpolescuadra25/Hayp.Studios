@@ -63,7 +63,7 @@ export const STATUS_META: Record<
   },
   concept: {
     label: "Concept",
-    chip: "bg-hayp-ink/[0.05] text-hayp-ink/60 border border-hayp-ink/10",
+    chip: "bg-hayp-ink/[5%] text-hayp-ink/60 border border-hayp-ink/10",
   },
 };
 
