@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { HaypBackground } from "@/components/hayp/hayp-background";
 import { HaypNavbar, HaypFooter } from "@/components/hayp/hayp-chrome";
 import { HaypLanding } from "@/components/hayp/hayp-landing";
@@ -22,6 +23,12 @@ const VARIANT_FOR: Record<HaypView, TransitionVariant> = {
 
 export default function Home() {
   const [view, setView] = useState<HaypView>("landing");
+  const { trackPageView } = useAnalytics();
+
+  useEffect(() => {
+    trackPageView(view);
+  }, [view, trackPageView]);
+
   const [transition, setTransition] = useState<TransitionState | null>(null);
   const busyRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);

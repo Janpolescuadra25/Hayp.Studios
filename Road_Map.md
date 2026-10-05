@@ -70,9 +70,3 @@ We build ready-made software products that solve specific business problems. Eve
 - Market analysis and customer discovery
 - Technical architecture planning
 - Planned: 2026-12-01
-
-### Phase 6: New Product Development
-- Research and development for next Hayp product
-- Market analysis and customer discovery
-- Technical architecture planning
-- Planned: 2026-12-01
