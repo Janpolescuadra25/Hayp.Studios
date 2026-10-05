@@ -121,20 +121,35 @@ function HubCard({ product, index }: { product: Product; index: number }) {
                 year: "numeric",
               })}
           </span>
-          <button
-            onClick={() =>
-              toast({
-                title: isLive ? `${product.name} — demo link` : `${product.name} — in the pipeline`,
-                description: isLive
-                  ? "This hub is a live preview — public product links arrive at launch."
-                  : `Target: ${product.eta}. Follow the changelog for launch news.`,
-              })
-            }
-            className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal transition-colors hover:text-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
-          >
-            {isLive ? "Visit product" : "Follow progress"}
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </button>
+          {/* live product with a public site links out; live without one
+              (Haypbooks) stays hub-only — no website affordance; pipeline
+              products keep the progress toast */}
+          {product.url ? (
+            <a
+              href={product.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal transition-colors hover:text-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
+            >
+              Visit product
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          ) : (
+            !isLive && (
+              <button
+                onClick={() =>
+                  toast({
+                    title: `${product.name} — in the pipeline`,
+                    description: `Target: ${product.eta}. Follow the changelog for launch news.`,
+                  })
+                }
+                className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal transition-colors hover:text-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
+              >
+                Follow progress
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </button>
+            )
+          )}
         </div>
       </div>
     </motion.article>

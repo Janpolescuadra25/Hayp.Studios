@@ -1,5 +1,5 @@
 #!/bin/bash
-# Refresh download/hayp.zip with the Task-17 logo redesign + CSS fixes
+# Refresh download/hayp.zip with the Task-18 Qyra product-link changes
 set -e
 cd /home/z/my-project
 
@@ -7,13 +7,10 @@ STAGE=.zip-staging
 rm -rf "$STAGE" && mkdir "$STAGE"
 unzip -q download/hayp.zip -d "$STAGE"
 
-# Overlay files changed in Task 17
-cp src/components/hayp/hayp-logo.tsx          "$STAGE/hayp/src/components/hayp/"
-cp src/components/hayp/hayp-landing-story.tsx "$STAGE/hayp/src/components/hayp/"
-cp src/lib/hayp-data.ts                       "$STAGE/hayp/src/lib/"
-cp src/app/icon.svg                           "$STAGE/hayp/src/app/"
-cp public/logo.svg                            "$STAGE/hayp/public/"
-cp worklog.md                                 "$STAGE/hayp/"
+# Overlay files changed in Task 18
+cp src/components/hayp/hayp-hub.tsx "$STAGE/hayp/src/components/hayp/"
+cp src/lib/hayp-data.ts             "$STAGE/hayp/src/lib/"
+cp worklog.md                       "$STAGE/hayp/"
 
 rm download/hayp.zip
 ( cd "$STAGE" && zip -qr ../download/hayp.zip hayp )

@@ -31,6 +31,8 @@ export interface Product {
   releasedAt: string; // ISO date
   /** for unreleased products — shown instead of the date */
   eta?: string;
+  /** public website — live products without one stay hub-only */
+  url?: string;
   icon: LucideIcon;
   /** two hex colors used to paint the CSS-art thumbnail */
   hue: [string, string];
@@ -97,6 +99,7 @@ export const PRODUCTS: Product[] = [
     category: "Automation",
     status: "live",
     releasedAt: "2026-02-18",
+    url: "https://qyra.space",
     icon: Zap,
     hue: ["#06b6d4", "#0d9488"],
     tags: ["QuickBooks", "Auto-posting", "Sync"],

@@ -30,7 +30,7 @@ Hayp does not build client commissions or starter kits. It creates **complete, f
 | Product | Category | Status | Date | Description |
 |---|---|---|---|---|
 | **Haypbooks** | Accounting | **LIVE** | Dec 2025 | "The accounting system that speaks human." Complete accounting suite — ledgers, invoicing, expenses, financial reports. |
-| **Qyra** | Automation | **LIVE** | Feb 2026 | "Your data, auto-posted to QuickBooks." Automation pipeline that maps, validates and reconciles transactions into QuickBooks without manual entry. |
+| **Qyra** | Automation | **LIVE** | Feb 2026 | "Your data, auto-posted to QuickBooks." Automation pipeline that maps, validates and reconciles transactions into QuickBooks without manual entry. Public site: **qyra.space** (the Hub card's "Visit product" links out to it). |
 | **Zypra** | Automation | In development | Late 2026 | "The same magic, wired to Xero." The Hayp automation engine retooled for Xero — auto-posting, account mapping, sync pipelines. |
 | **Cirqa** | Social | Planned | — | "A social network, built circle-first." Planned as Hayp's next major platform. |
 | **Lumora** | E-Commerce | Planned | — | "Storefronts built to sell." Marketplace. |
@@ -77,6 +77,8 @@ Five lanes today — **Accounting, Automation, Social, E-Commerce, Games** — u
 ## 8. WEB PRESENCE (hayp.studio)
 
 Single-page app, 3 views with cinematic transitions: **Landing** (Hero → Chapters: The Studio, The Craft, The Circuit → Stats → The Lineup → The Motto → Final CTA) / **The Hayp Hub** (product catalog: search, category filter, live-first sort, status chips LIVE / IN DEVELOPMENT / PLANNED / CONCEPT) / **What's New** (changelog timeline: launch / update / announcement / milestone).
+
+**Product links in the Hub:** a live product only shows a "Visit product" link when it has a public website (Qyra → **https://qyra.space**, opens in a new tab). Haypbooks is live but hub-only — its card carries no website link by design. Pipeline products show "Follow progress".
 
 ## 9. ONE-LINERS (use as needed)
 
