@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { HaypMark } from "./hayp-logo";
 
-export type HaypView = "landing" | "hub" | "whatsnew";
+export type HaypView = "landing" | "hub" | "whatsnew" | "analytics";
 
 /**
  * Variant keys are kept stable (they are wired in page.tsx), but the

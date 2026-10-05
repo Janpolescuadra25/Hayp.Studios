@@ -60,9 +60,11 @@ We build ready-made software products that solve specific business problems. Eve
 
 ## Next Active Phase
 ### Phase 5B: Analytics Dashboard — 🔄 IN PROGRESS (2026-10-06)
-- Product usage tracking and customer metrics aggregation
-- Owner dashboard analytics module for internal studio visibility
-- Data pipeline integration with Prisma ORM
+- [x] 5B-1: Analytics architecture and schema
+- [x] 5B-2: Ingestion API route
+- [x] 5B-3: Client telemetry hooks
+- [x] 5B-4: Studio analytics dashboard and aggregation layer
+- [ ] 5B-5: Owner authentication and dashboard access control
 
 ## Future Phases
 ### Phase 6: New Product Development

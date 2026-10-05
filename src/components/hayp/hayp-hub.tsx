@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
@@ -42,6 +43,7 @@ type Filter = Category | "All";
 
 function HubCard({ product, index }: { product: Product; index: number }) {
   const { toast } = useToast();
+  const { trackCardClick, trackExternalNav } = useAnalytics();
   const [h1, h2] = product.hue;
   const isLive = product.status === "live";
 
@@ -129,6 +131,10 @@ function HubCard({ product, index }: { product: Product; index: number }) {
               href={product.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                trackCardClick(product.id);
+                trackExternalNav(product.url ?? "", product.id);
+              }}
               className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal transition-colors hover:text-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
             >
               Visit product
@@ -137,12 +143,13 @@ function HubCard({ product, index }: { product: Product; index: number }) {
           ) : (
             !isLive && (
               <button
-                onClick={() =>
+                onClick={() => {
+                  trackCardClick(product.id);
                   toast({
                     title: `${product.name} — in the pipeline`,
                     description: `Target: ${product.eta}. Follow the changelog for launch news.`,
-                  })
-                }
+                  });
+                }}
                 className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal transition-colors hover:text-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
               >
                 Follow progress

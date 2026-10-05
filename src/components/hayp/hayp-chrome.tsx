@@ -6,12 +6,14 @@ import { Menu, X, ArrowUpRight, Github, Twitter, Mail } from "lucide-react";
 import { HaypWordmark } from "./hayp-logo";
 import { EASE } from "./hayp-shared";
 import type { HaypView } from "./hayp-transition";
+import { useAnalytics } from "@/hooks/use-analytics";
 import { CATEGORIES } from "@/lib/hayp-data";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS: { view: HaypView; label: string }[] = [
   { view: "landing", label: "The Story" },
   { view: "hub", label: "Hub" },
+  { view: "analytics", label: "Analytics" },
   { view: "whatsnew", label: "What's New" },
 ];
 
@@ -25,6 +27,7 @@ export function HaypNavbar({
   view: HaypView;
   onNavigate: (v: HaypView) => void;
 }) {
+  const { trackPageView } = useAnalytics();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -73,7 +76,10 @@ export function HaypNavbar({
               return (
                 <button
                   key={link.view}
-                  onClick={() => onNavigate(link.view)}
+                  onClick={() => {
+                    trackPageView(link.view);
+                    onNavigate(link.view);
+                  }}
                   className={cn(
                     "label-editorial relative py-2 transition-colors duration-400 focus-visible:outline-2 focus-visible:outline-hayp-teal",
                     active ? "text-hayp-ink" : "text-hayp-ink/50 hover:text-hayp-ink"
@@ -96,7 +102,10 @@ export function HaypNavbar({
           {/* right */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => onNavigate("hub")}
+              onClick={() => {
+                trackPageView("hub");
+                onNavigate("hub");
+              }}
               className="group hidden items-center gap-2 rounded-full border border-hayp-ink/15 bg-white/60 px-5 py-2.5 font-display text-[13px] font-semibold text-hayp-ink backdrop-blur transition-all duration-500 hover:border-hayp-ink hover:bg-hayp-ink hover:text-white focus-visible:outline-2 focus-visible:outline-hayp-teal sm:inline-flex"
             >
               Enter Hub
@@ -133,6 +142,7 @@ export function HaypNavbar({
                   exit={{ opacity: 0, y: 16 }}
                   transition={{ duration: 0.7, delay: 0.08 + i * 0.08, ease: EASE }}
                   onClick={() => {
+                    trackPageView(link.view);
                     setOpen(false);
                     onNavigate(link.view);
                   }}
@@ -178,6 +188,8 @@ export function HaypNavbar({
 /* FOOTER — quiet, editorial, hairline                                 */
 /* ------------------------------------------------------------------ */
 export function HaypFooter({ onNavigate }: { onNavigate: (v: HaypView) => void }) {
+  const { trackExternalNav, trackPageView } = useAnalytics();
+
   return (
     <footer className="relative mt-auto border-t hairline bg-white/60 backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-6 pb-10 pt-16">
@@ -192,13 +204,17 @@ export function HaypFooter({ onNavigate }: { onNavigate: (v: HaypView) => void }
             </p>
             <div className="mt-6 flex gap-2.5">
               {[
-                { icon: Twitter, label: "Twitter" },
-                { icon: Github, label: "GitHub" },
-                { icon: Mail, label: "Email" },
+                { icon: Twitter, label: "Twitter", href: "https://x.com" },
+                { icon: Github, label: "GitHub", href: "https://github.com" },
+                { icon: Mail, label: "Email", href: "mailto:hello@hayp.studio" },
               ].map((s) => (
                 <button
                   key={s.label}
                   aria-label={s.label}
+                  onClick={() => {
+                    trackExternalNav(s.href, `footer-${s.label.toLowerCase()}`);
+                    window.open(s.href, "_blank", "noopener,noreferrer");
+                  }}
                   className="grid h-10 w-10 place-items-center rounded-full border hairline text-hayp-navy/55 transition-all duration-400 hover:-translate-y-0.5 hover:border-hayp-teal/50 hover:text-hayp-teal focus-visible:outline-2 focus-visible:outline-hayp-teal"
                 >
                   <s.icon className="h-4 w-4" />
@@ -214,7 +230,10 @@ export function HaypFooter({ onNavigate }: { onNavigate: (v: HaypView) => void }
               {NAV_LINKS.map((l) => (
                 <li key={l.view}>
                   <button
-                    onClick={() => onNavigate(l.view)}
+                    onClick={() => {
+                      trackPageView(l.view);
+                      onNavigate(l.view);
+                    }}
                     className="text-sm font-medium text-hayp-navy/70 transition-colors duration-300 hover:text-hayp-teal focus-visible:outline-2 focus-visible:outline-hayp-teal"
                   >
                     {l.label}
@@ -231,7 +250,10 @@ export function HaypFooter({ onNavigate }: { onNavigate: (v: HaypView) => void }
               {CATEGORIES.map((c) => (
                 <li key={c.name}>
                   <button
-                    onClick={() => onNavigate("hub")}
+                    onClick={() => {
+                      trackPageView("hub");
+                      onNavigate("hub");
+                    }}
                     className="text-sm font-medium text-hayp-navy/70 transition-colors duration-300 hover:text-hayp-teal focus-visible:outline-2 focus-visible:outline-hayp-teal"
                   >
                     {c.name}
