@@ -54,11 +54,14 @@ We build ready-made software products that solve specific business problems. Eve
 - Completion record: HYDRA-verified complete — What's New timeline live, commit 8d17ac1. JP browser acceptance PENDING — both 5A-3 and 5A-4 acceptances to happen in 5A-4b's matrix session.
 
 ## Next Active Phase
-### Phase 5A-4b: Matrix Acceptance Session (Next up)
-- Schedule joint browser acceptance for 5A-3 and 5A-4
-- Document feedback and bug reports
-- Prioritize fixes for launch
-- Final sign-off for public deployment of both phases
+### Phase 5A-4b: Matrix Acceptance Session — 🔄 IN PROGRESS (2026-10-06)
+- Joint browser acceptance for 5A-3 (Chrome Components) and 5A-4 (What's New Timeline) underway
+- Testing all three client SPA views via in-app navigation on `http://localhost:3000`:
+  * Landing View (`view === "landing"`)
+  * The Hub View (`view === "hub"`)
+  * What's New View (`view === "whatsnew"`)
+- Tracking feedback, responsive viewports, and bug reports in `Docs/matrix-acceptance-2026-10-06.md`
+- Final sign-off pending browser verification on `http://localhost:3000`
 
 ## Future Phases
 ### Phase 5B: Analytics Dashboard
