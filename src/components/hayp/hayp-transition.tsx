@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { VortexMark } from "./vortex-logo";
+import { HaypMark } from "./hayp-logo";
 
-export type VortexView = "landing" | "hub" | "whatsnew";
+export type HaypView = "landing" | "hub" | "whatsnew";
 
 /**
  * Variant keys are kept stable (they are wired in page.tsx), but the
@@ -17,7 +17,7 @@ export type TransitionVariant = "tunnel" | "wave" | "portal";
 export interface TransitionState {
   active: boolean;
   variant: TransitionVariant;
-  target: VortexView;
+  target: HaypView;
   nonce: number;
 }
 
@@ -52,7 +52,7 @@ function BrandMoment({
           animate={{ scale: [0.86, 0.86, 1, 1, 1.04], y: [8, 8, 0, 0, -6] }}
           transition={{ duration: 1.6, times: [0, 0.24, 0.42, 0.72, 1], ease: EASE_SOFT }}
         >
-          <VortexMark size={104} animated idPrefix={markId} showOrbit={false} />
+          <HaypMark size={104} animated idPrefix={markId} showOrbit={false} />
         </motion.div>
         <motion.div
           className="flex items-center gap-4"
@@ -60,15 +60,15 @@ function BrandMoment({
           animate={{ opacity: [0, 0, 1, 1, 0], y: [10, 10, 0, 0, -6] }}
           transition={{ duration: 1.6, times: [0, 0.3, 0.48, 0.7, 1], ease: "easeInOut" }}
         >
-          <span className={`h-px w-8 ${dark ? "bg-white/30" : "bg-vortex-ink/20"}`} />
+          <span className={`h-px w-8 ${dark ? "bg-white/30" : "bg-hayp-ink/20"}`} />
           <span
             className={`label-editorial ${
-              dark ? "text-white/80" : "text-vortex-ink/70"
+              dark ? "text-white/80" : "text-hayp-ink/70"
             }`}
           >
             {label}
           </span>
-          <span className={`h-px w-8 ${dark ? "bg-white/30" : "bg-vortex-ink/20"}`} />
+          <span className={`h-px w-8 ${dark ? "bg-white/30" : "bg-hayp-ink/20"}`} />
         </motion.div>
       </div>
     </motion.div>
@@ -105,7 +105,7 @@ function CurtainVariant() {
           }}
         />
       </motion.div>
-      <BrandMoment label="Vortex Hub" markId="tr-curtain" />
+      <BrandMoment label="Hayp Hub" markId="tr-curtain" />
     </>
   );
 }
@@ -188,14 +188,14 @@ function IrisVariant() {
       {[0, 1].map((i) => (
         <motion.div
           key={i}
-          className="absolute left-1/2 top-1/2 z-0 rounded-full border border-vortex-teal/25"
+          className="absolute left-1/2 top-1/2 z-0 rounded-full border border-hayp-teal/25"
           style={{ width: "36vmax", height: "36vmax", marginLeft: "-18vmax", marginTop: "-18vmax" }}
           initial={{ scale: 0.45, opacity: 0 }}
           animate={{ scale: [0.45, 0.45, 1.25, 1.5], opacity: [0, 0, 0.7, 0] }}
           transition={{ duration: 1.6, delay: i * 0.12, times: [0, 0.22, 0.66, 1], ease: "easeOut" }}
         />
       ))}
-      <BrandMoment label="Vortex . studio" markId="tr-iris" dark={false} />
+      <BrandMoment label="Hayp . studio" markId="tr-iris" dark={false} />
     </>
   );
 }
@@ -204,7 +204,7 @@ function IrisVariant() {
  * Full-screen cinematic transition overlay. The parent swaps the underlying
  * view at TRANSITION.swapAt while the screen is fully covered.
  */
-export function VortexTransition({ state }: { state: TransitionState }) {
+export function HaypTransition({ state }: { state: TransitionState }) {
   if (!state.active) return null;
   return (
     <motion.div

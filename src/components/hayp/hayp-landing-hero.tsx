@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { VortexMark } from "./vortex-logo";
-import { EASE, FadeUp, Magnetic } from "./vortex-shared";
-import { CATEGORIES, LIVE_COUNT, PIPELINE_COUNT } from "@/lib/vortex-data";
+import { HaypMark } from "./hayp-logo";
+import { EASE, FadeUp, Magnetic } from "./hayp-shared";
+import { CATEGORIES, LIVE_COUNT, PIPELINE_COUNT } from "@/lib/hayp-data";
 
 /* plays once per browser session */
 let introPlayed = false;
@@ -34,7 +34,7 @@ function IntroCurtain({ onDone }: { onDone: () => void }) {
           animate={{ opacity: [0, 1, 1, 0], scale: [0.82, 1, 1, 0.94] }}
           transition={{ duration: 1.5, times: [0, 0.3, 0.75, 1], ease: "easeInOut" }}
         >
-          <VortexMark size={92} animated idPrefix="intro" showOrbit={false} />
+          <HaypMark size={92} animated idPrefix="intro" showOrbit={false} />
         </motion.div>
         <motion.div
           className="flex items-center gap-4"
@@ -42,9 +42,9 @@ function IntroCurtain({ onDone }: { onDone: () => void }) {
           animate={{ opacity: [0, 1, 1, 0], y: [8, 0, 0, -6] }}
           transition={{ duration: 1.5, delay: 0.15, times: [0, 0.32, 0.78, 1], ease: "easeInOut" }}
         >
-          <span className="h-px w-10 bg-vortex-ink/20" />
-          <span className="label-editorial text-vortex-ink/70">Vortex . studio</span>
-          <span className="h-px w-10 bg-vortex-ink/20" />
+          <span className="h-px w-10 bg-hayp-ink/20" />
+          <span className="label-editorial text-hayp-ink/70">Hayp . studio</span>
+          <span className="h-px w-10 bg-hayp-ink/20" />
         </motion.div>
       </div>
     </motion.div>
@@ -67,14 +67,14 @@ function OrbitBadge({ className }: { className?: string }) {
               fill="none"
             />
           </defs>
-          <text className="fill-vortex-ink/55 font-mono text-[10.5px] uppercase" style={{ letterSpacing: "0.34em" }}>
+          <text className="fill-hayp-ink/55 font-mono text-[10.5px] uppercase" style={{ letterSpacing: "0.34em" }}>
             <textPath href="#badge-circle">
-              precision-built · ready-made · vortex.studio ·
+              precision-built · ready-made · hayp.studio ·
             </textPath>
           </text>
         </svg>
         <div className="absolute inset-0 grid place-items-center">
-          <VortexMark size={58} animated idPrefix="badge" showOrbit={false} />
+          <HaypMark size={58} animated idPrefix="badge" showOrbit={false} />
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@ function OrbitBadge({ className }: { className?: string }) {
 /* ------------------------------------------------------------------ */
 /* Hero — the opening shot                                             */
 /* ------------------------------------------------------------------ */
-export function VortexHero({
+export function HaypHero({
   onEnterHub,
   onWhatsNew,
 }: {
@@ -144,21 +144,21 @@ export function VortexHero({
           transition={{ duration: 0.9, delay: introDelay }}
         >
           <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-vortex-teal opacity-60" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-vortex-teal" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-hayp-teal opacity-60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-hayp-teal" />
           </span>
-          <span className="label-editorial text-vortex-ink/60">
+          <span className="label-editorial text-hayp-ink/60">
             A digital product studio — est. 2025
           </span>
         </motion.div>
 
-        <h1 className="font-display text-[clamp(2.9rem,8.6vw,7.6rem)] font-bold leading-[0.98] tracking-[-0.035em] text-vortex-ink">
+        <h1 className="font-display text-[clamp(2.9rem,8.6vw,7.6rem)] font-bold leading-[0.98] tracking-[-0.035em] text-hayp-ink">
           {line("Ready-made", introDelay + 0.05)}
           {line("software,", introDelay + 0.17)}
           {line(
             <>
               built to{" "}
-              <span className="font-serif-accent italic font-normal text-vortex-gradient tracking-[-0.01em]">
+              <span className="font-serif-accent italic font-normal text-hayp-gradient tracking-[-0.01em]">
                 move.
               </span>
             </>,
@@ -169,15 +169,15 @@ export function VortexHero({
         {/* copy + ctas */}
         <div className="mt-10 flex flex-col gap-8 sm:mt-12 md:flex-row md:items-end md:justify-between">
           <motion.p
-            className="max-w-md text-[15px] leading-relaxed text-vortex-navy/70 sm:text-base"
+            className="max-w-md text-[15px] leading-relaxed text-hayp-navy/70 sm:text-base"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: introDelay + 0.5, ease: EASE }}
           >
-            Vortex.studio is an independent digital studio built on momentum
-            — strategy, design, engineering and motion spinning as one
+            Hayp.studio is an independent digital studio built on momentum
+            — strategy, design, engineering and motion moving as one
             force. We obsess over the details others skip, and{" "}
-            <span className="font-medium text-vortex-ink">
+            <span className="font-medium text-hayp-ink">
               nothing ships until it feels effortless.
             </span>
           </motion.p>
@@ -191,7 +191,7 @@ export function VortexHero({
             <Magnetic>
               <button
                 onClick={onEnterHub}
-                className="group inline-flex items-center gap-3 rounded-full bg-vortex-ink px-7 py-4 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-vortex-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
+                className="group inline-flex items-center gap-3 rounded-full bg-hayp-ink px-7 py-4 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-hayp-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hayp-teal"
               >
                 Explore the products
                 <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
@@ -200,7 +200,7 @@ export function VortexHero({
             <Magnetic strength={5}>
               <button
                 onClick={onWhatsNew}
-                className="group inline-flex items-center gap-2 rounded-full border border-vortex-ink/15 bg-white/50 px-6 py-4 font-display text-sm font-semibold text-vortex-ink backdrop-blur transition-all duration-500 hover:border-vortex-teal/50 hover:text-vortex-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
+                className="group inline-flex items-center gap-2 rounded-full border border-hayp-ink/15 bg-white/50 px-6 py-4 font-display text-sm font-semibold text-hayp-ink backdrop-blur transition-all duration-500 hover:border-hayp-teal/50 hover:text-hayp-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hayp-teal"
               >
                 What&apos;s new
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -229,10 +229,10 @@ export function VortexHero({
         transition={{ duration: 1, delay: introDelay + 1 }}
         aria-hidden="true"
       >
-        <span className="label-editorial text-[10px] text-vortex-ink/45">scroll</span>
-        <span className="relative h-10 w-px overflow-hidden bg-vortex-ink/10">
+        <span className="label-editorial text-[10px] text-hayp-ink/45">scroll</span>
+        <span className="relative h-10 w-px overflow-hidden bg-hayp-ink/10">
           <motion.span
-            className="absolute left-0 top-0 h-4 w-px bg-vortex-teal"
+            className="absolute left-0 top-0 h-4 w-px bg-hayp-teal"
             animate={{ y: [-16, 44] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
           />
@@ -261,10 +261,10 @@ export function VortexHero({
                 i > 0 ? "border-l hairline" : ""
               } ${i >= 2 ? "border-t hairline md:border-t-0" : ""}`}
             >
-              <span className="font-display text-2xl font-semibold tracking-tight text-vortex-ink">
+              <span className="font-display text-2xl font-semibold tracking-tight text-hayp-ink">
                 {s.k}
               </span>
-              <span className="label-editorial text-[10px] text-vortex-ink/50">{s.v}</span>
+              <span className="label-editorial text-[10px] text-hayp-ink/50">{s.v}</span>
             </div>
           ))}
         </div>
@@ -282,14 +282,14 @@ const TICKER = [
   "Zypra — Xero Automation",
   "Cirqa — Social",
   "Lumora — Marketplace",
-  "Vortex Games",
+  "Hayp Games",
   "Independent Studio",
   "Less friction. More momentum.",
 ];
 
 function Star() {
   return (
-    <svg viewBox="0 0 24 24" className="h-3 w-3 shrink-0 text-vortex-teal/60" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-3 w-3 shrink-0 text-hayp-teal/60" aria-hidden="true">
       <path
         d="M12 2 L13.8 10.2 L22 12 L13.8 13.8 L12 22 L10.2 13.8 L2 12 L10.2 10.2 Z"
         fill="currentColor"
@@ -298,7 +298,7 @@ function Star() {
   );
 }
 
-export function VortexMarquee() {
+export function HaypMarquee() {
   const items = [...TICKER, ...TICKER];
   return (
     <div
@@ -311,10 +311,10 @@ export function VortexMarquee() {
       }}
       aria-hidden="true"
     >
-      <div className="animate-vortex-marquee flex w-max items-center gap-10">
+      <div className="animate-hayp-marquee flex w-max items-center gap-10">
         {items.map((t, i) => (
           <span key={i} className="flex items-center gap-10">
-            <span className="whitespace-nowrap font-display text-[13px] font-medium uppercase tracking-[0.26em] text-vortex-ink/45">
+            <span className="whitespace-nowrap font-display text-[13px] font-medium uppercase tracking-[0.26em] text-hayp-ink/45">
               {t}
             </span>
             <Star />

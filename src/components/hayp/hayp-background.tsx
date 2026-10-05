@@ -87,7 +87,7 @@ interface Pulse {
   color: RGB;
 }
 
-export function VortexBackground() {
+export function HaypBackground() {
   const latticeRef = useRef<HTMLCanvasElement>(null);
   const dynRef = useRef<HTMLCanvasElement>(null);
 

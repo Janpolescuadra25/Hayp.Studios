@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hayp Studios favicon — white H on filled gradient hex badge -->
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hp-badge" x1="15" y1="8" x2="105" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="0.45" stop-color="#0d9488"/>
+      <stop offset="0.75" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <path d="M 60 8 L 105 34 L 105 86 L 60 112 L 15 86 L 15 34 Z" fill="url(#hp-badge)"/>
+  <path d="M 38 34 L 52 34 L 52 58 L 68 52 L 68 34 L 82 34 L 80 88 L 68 88 L 68 64 L 52 70 L 50 88 L 40 88 Z" fill="#ffffff"/>
+  <path d="M 60 55.5 L 64.8 61 L 60 66.5 L 55.2 61 Z" fill="#06b6d4"/>
+</svg>

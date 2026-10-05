@@ -1,15 +1,15 @@
 "use client";
 
-import { VortexHero, VortexMarquee } from "./vortex-landing-hero";
-import { ChapterOne, ChapterTwo, ChapterThree, StatsSection } from "./vortex-landing-story";
-import { FeaturedTeaser, MottoSection, FinalCta } from "./vortex-landing-showcase";
+import { HaypHero, HaypMarquee } from "./hayp-landing-hero";
+import { ChapterOne, ChapterTwo, ChapterThree, StatsSection } from "./hayp-landing-story";
+import { FeaturedTeaser, MottoSection, FinalCta } from "./hayp-landing-showcase";
 
 /**
- * The Vortex landing page — a scroll-driven story:
+ * The Hayp landing page — a scroll-driven story:
  * Hero → Marquee → Ch.1 The Studio → Ch.2 The Craft →
  * Ch.3 Horizontal Catalog Fly-through → Stats → Featured → Motto → CTA
  */
-export function VortexLanding({
+export function HaypLanding({
   onEnterHub,
   onWhatsNew,
 }: {
@@ -18,8 +18,8 @@ export function VortexLanding({
 }) {
   return (
     <main className="relative">
-      <VortexHero onEnterHub={onEnterHub} onWhatsNew={onWhatsNew} />
-      <VortexMarquee />
+      <HaypHero onEnterHub={onEnterHub} onWhatsNew={onWhatsNew} />
+      <HaypMarquee />
       <ChapterOne />
       <ChapterTwo />
       <ChapterThree onEnterHub={onEnterHub} />

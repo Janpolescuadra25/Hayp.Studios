@@ -51,7 +51,7 @@ export const STATUS_META: Record<
 > = {
   live: {
     label: "Live",
-    chip: "bg-vortex-teal text-white",
+    chip: "bg-hayp-teal text-white",
   },
   development: {
     label: "In development",
@@ -63,7 +63,7 @@ export const STATUS_META: Record<
   },
   concept: {
     label: "Concept",
-    chip: "bg-vortex-ink/[0.05] text-vortex-ink/60 border border-vortex-ink/10",
+    chip: "bg-hayp-ink/[0.05] text-hayp-ink/60 border border-hayp-ink/10",
   },
 };
 
@@ -106,7 +106,7 @@ export const PRODUCTS: Product[] = [
     name: "Zypra",
     tagline: "The same magic, wired to Xero",
     description:
-      "The Vortex automation engine, retooled for Xero — auto-posting, account mapping and sync pipelines for teams that run their books on Xero. In active development.",
+      "The Hayp automation engine, retooled for Xero — auto-posting, account mapping and sync pipelines for teams that run their books on Xero. In active development.",
     category: "Automation",
     status: "development",
     releasedAt: "2026-06-15",
@@ -120,7 +120,7 @@ export const PRODUCTS: Product[] = [
     name: "Cirqa",
     tagline: "A social network, built circle-first",
     description:
-      "The studio's take on social — feeds, communities and messaging reimagined around your real-world circles. Planned as Vortex's next major platform.",
+      "The studio's take on social — feeds, communities and messaging reimagined around your real-world circles. Planned as Hayp's next major platform.",
     category: "Social",
     status: "planned",
     releasedAt: "2026-07-20",
@@ -146,7 +146,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "project-arena",
     name: "Project: Arena",
-    tagline: "A MOBA, forged in the vortex",
+    tagline: "A MOBA, forged in motion",
     description:
       "A multiplayer online battle arena built on fast, readable combat and true team play. First playable targeted after the automation wave.",
     category: "Games",
@@ -219,9 +219,9 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     id: "cl-01",
     kind: "milestone",
-    title: "Vortex.studio is Founded",
+    title: "Hayp.studio is Founded",
     date: "2025-11-01",
-    body: "Day one: Vortex opens its doors with a single mission — ship complete, ready-to-use software with no templates and no shortcuts.",
+    body: "Day one: Hayp opens its doors with a single mission — ship complete, ready-to-use software with no templates and no shortcuts.",
   },
   {
     id: "cl-02",
@@ -264,16 +264,16 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     id: "cl-07",
     kind: "announcement",
-    title: "Vortex Games Division",
+    title: "Hayp Games Division",
     date: "2026-08-10",
     body: "Four game concepts enter the pipeline: a MOBA, a base-building strategy, an open-world action title and a story-driven RPG.",
   },
   {
     id: "cl-08",
     kind: "milestone",
-    title: "2 Live, 7 Spinning",
+    title: "2 Live, 7 in Motion",
     date: "2026-08-25",
-    body: "Haypbooks and Qyra serve users daily while seven more products spin up across five categories. The vortex is just getting started.",
+    body: "Haypbooks and Qyra serve users daily while seven more products take shape across five categories. Hayp Studios is just getting started.",
   },
 ];
 

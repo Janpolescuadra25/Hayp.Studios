@@ -10,8 +10,8 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { CATEGORIES, PRODUCTS, STATS, LIVE_COUNT, PIPELINE_COUNT } from "@/lib/vortex-data";
-import { EASE, FadeUp, MaskedLine, SectionTag, WordIlluminate } from "./vortex-shared";
+import { CATEGORIES, PRODUCTS, STATS, LIVE_COUNT, PIPELINE_COUNT } from "@/lib/hayp-data";
+import { EASE, FadeUp, MaskedLine, SectionTag, WordIlluminate } from "./hayp-shared";
 
 /* ================================================================== */
 /* CHAPTER 01 — THE STUDIO                                             */
@@ -32,7 +32,7 @@ export function ChapterOne() {
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
         {/* giant watermark V drifting behind */}
         <motion.span
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[46vw] font-bold leading-none text-vortex-ink/[0.032]"
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[46vw] font-bold leading-none text-hayp-ink/[0.032]"
           style={{ y: watermarkY }}
           aria-hidden="true"
         >
@@ -41,9 +41,9 @@ export function ChapterOne() {
 
         {/* progress rail — left edge */}
         <div className="absolute left-6 top-1/2 hidden h-40 -translate-y-1/2 sm:block" aria-hidden="true">
-          <div className="h-full w-px bg-vortex-ink/10">
+          <div className="h-full w-px bg-hayp-ink/10">
             <motion.div
-              className="h-full w-full origin-top bg-gradient-to-b from-vortex-teal to-vortex-cyan"
+              className="h-full w-full origin-top bg-gradient-to-b from-hayp-teal to-hayp-cyan"
               style={{ scaleY: railScale }}
             />
           </div>
@@ -52,25 +52,25 @@ export function ChapterOne() {
         <div className="mx-auto w-full max-w-6xl px-6">
           <SectionTag index="01" label="The Studio" className="mb-10" />
 
-          <h2 className="font-display text-[clamp(2rem,5.6vw,4.9rem)] font-semibold leading-[1.08] tracking-[-0.025em] text-vortex-ink">
+          <h2 className="font-display text-[clamp(2rem,5.6vw,4.9rem)] font-semibold leading-[1.08] tracking-[-0.025em] text-hayp-ink">
             <WordIlluminate
-              text="Every product. Built by Vortex Studios. No exceptions."
+              text="Every product. Built by Hayp Studios. No exceptions."
               progress={scrollYProgress}
               start={0.1}
               end={0.72}
-              accentWords={["vortex", "studios"]}
+              accentWords={["hayp", "studios"]}
             />
           </h2>
 
           <motion.p
-            className="mt-10 max-w-md border-l-2 border-vortex-teal/50 pl-5 text-[15px] leading-relaxed text-vortex-navy/75"
+            className="mt-10 max-w-md border-l-2 border-hayp-teal/50 pl-5 text-[15px] leading-relaxed text-hayp-navy/75"
             style={{ opacity: captionOpacity, y: captionY }}
           >
-            Vortex is momentum made visible — an independent studio built on
-            a single obsession: software that feels effortless.
-            Strategy, design, engineering and motion spin here as one force.
-            No templates, no shortcuts, no settling. What leaves the vortex
-            lands ahead of expectation.
+            Hayp is momentum, made software — an independent studio built
+            on a single obsession: software that feels effortless.
+            Strategy, design, engineering and motion move here as one
+            force. No templates, no shortcuts, no settling. What leaves
+            the studio lands ahead of expectation.
           </motion.p>
         </div>
       </div>
@@ -85,7 +85,7 @@ export function ChapterOne() {
 const CRAFT_ROWS = [
   {
     title: "Ships whole, always",
-    body: "Every product leaves the vortex complete — screens, flows, states, edge cases and docs included. Not a starter kit, not a promising beta. A finished thing, running live.",
+    body: "Every product leaves the studio complete — screens, flows, states, edge cases and docs included. Not a starter kit, not a promising beta. A finished thing, running live.",
   },
   {
     title: "One system, one voice",
@@ -108,24 +108,24 @@ export function ChapterTwo() {
         {/* sticky editorial column */}
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionTag index="02" label="The Craft" className="mb-8" />
-          <h2 className="font-display text-[clamp(2.2rem,4.4vw,3.8rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
+          <h2 className="font-display text-[clamp(2.2rem,4.4vw,3.8rem)] font-bold leading-[1.02] tracking-[-0.03em] text-hayp-ink">
             <MaskedLine>Ready.</MaskedLine>
             <MaskedLine delay={0.1}>Set.</MaskedLine>
             <MaskedLine delay={0.2}>
-              <span className="font-serif-accent font-normal italic text-vortex-gradient">
+              <span className="font-serif-accent font-normal italic text-hayp-gradient">
                 Ship.
               </span>
             </MaskedLine>
           </h2>
           <FadeUp delay={0.25} className="mt-7 max-w-sm">
-            <p className="text-[15px] leading-relaxed text-vortex-navy/70">
+            <p className="text-[15px] leading-relaxed text-hayp-navy/70">
               The studio runs on a simple loop: pick the product, obsess over
               every detail, ship it whole. Then spin up the next one — from
               the practical to the playful.
             </p>
           </FadeUp>
           <FadeUp delay={0.35} className="mt-9">
-            <p className="font-serif-accent text-2xl italic leading-snug text-vortex-ink/80">
+            <p className="font-serif-accent text-2xl italic leading-snug text-hayp-ink/80">
               &ldquo;No templates.
               <br />
               No shortcuts.&rdquo;
@@ -145,14 +145,14 @@ export function ChapterTwo() {
               className="group border-t hairline py-9 last:border-b"
             >
               <div className="flex items-start gap-6 sm:gap-10">
-                <span className="label-editorial mt-2 shrink-0 text-vortex-teal/80 transition-colors duration-500 group-hover:text-vortex-teal">
+                <span className="label-editorial mt-2 shrink-0 text-hayp-teal/80 transition-colors duration-500 group-hover:text-hayp-teal">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-display text-xl font-semibold tracking-tight text-vortex-ink transition-transform duration-500 group-hover:translate-x-1.5 sm:text-2xl">
+                  <h3 className="font-display text-xl font-semibold tracking-tight text-hayp-ink transition-transform duration-500 group-hover:translate-x-1.5 sm:text-2xl">
                     {row.title}
                   </h3>
-                  <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-vortex-navy/70">
+                  <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-hayp-navy/70">
                     {row.body}
                   </p>
                 </div>
@@ -228,9 +228,9 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
         {/* header */}
         <div className="mx-auto mb-12 w-full max-w-7xl px-6">
           <SectionTag index="03" label="The Circuit" className="mb-7" />
-          <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
+          <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-hayp-ink">
             New lanes.{" "}
-            <span className="font-serif-accent font-normal italic text-vortex-gradient">
+            <span className="font-serif-accent font-normal italic text-hayp-gradient">
               Same standard.
             </span>
           </h2>
@@ -240,18 +240,18 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
         <motion.div ref={stripRef} style={{ x: stripX }} className="flex items-stretch gap-6 pl-6 pr-6 sm:gap-8">
           {/* intro card */}
           <GalleryCard index={0} total={total} progress={scrollYProgress}>
-            <div className="flex h-[340px] w-[min(78vw,300px)] flex-col justify-between rounded-[1.75rem] bg-vortex-ink p-8 text-white sm:h-[380px]">
+            <div className="flex h-[340px] w-[min(78vw,300px)] flex-col justify-between rounded-[1.75rem] bg-hayp-ink p-8 text-white sm:h-[380px]">
               <span className="label-editorial text-teal-200/80">The pipeline</span>
               <div>
                 <p className="font-display text-3xl font-semibold leading-tight">
                   {LIVE_COUNT} live today.
                   <br />
-                  {PIPELINE_COUNT} more spinning.
+                  {PIPELINE_COUNT} more in motion.
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-white/60">
                   Every lane runs the same standard — strategy, design,
                   engineering and motion as one force. New lanes open as the
-                  studio grows. Live today or spinning up next, it all lives
+                  studio grows. Live today or in the works, it all lives
                   in the Hub.
                 </p>
               </div>
@@ -275,28 +275,28 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
                 : `${inCat.length} in the pipeline`;
             return (
               <GalleryCard key={cat.name} index={i + 1} total={total} progress={scrollYProgress}>
-                <div className="group flex h-[340px] w-[min(78vw,340px)] flex-col justify-between rounded-[1.75rem] border hairline bg-white/85 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-vortex-teal/40 hover:shadow-editorial sm:h-[380px] sm:w-[360px]">
+                <div className="group flex h-[340px] w-[min(78vw,340px)] flex-col justify-between rounded-[1.75rem] border hairline bg-white/85 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-hayp-teal/40 hover:shadow-editorial sm:h-[380px] sm:w-[360px]">
                   <div className="flex items-start justify-between">
-                    <span className="font-display text-5xl font-semibold tracking-tight text-vortex-ink/12">
+                    <span className="font-display text-5xl font-semibold tracking-tight text-hayp-ink/12">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="grid h-11 w-11 place-items-center rounded-full border hairline text-vortex-teal transition-colors duration-500 group-hover:border-vortex-teal/50 group-hover:bg-vortex-foam">
+                    <span className="grid h-11 w-11 place-items-center rounded-full border hairline text-hayp-teal transition-colors duration-500 group-hover:border-hayp-teal/50 group-hover:bg-hayp-foam">
                       <cat.icon className="h-5 w-5" strokeWidth={1.6} />
                     </span>
                   </div>
                   <div>
-                    <h3 className="font-display text-[1.7rem] font-semibold tracking-tight text-vortex-ink">
+                    <h3 className="font-display text-[1.7rem] font-semibold tracking-tight text-hayp-ink">
                       {cat.name}
                     </h3>
-                    <p className="mt-2 text-sm text-vortex-navy/65">{cat.blurb}</p>
+                    <p className="mt-2 text-sm text-hayp-navy/65">{cat.blurb}</p>
                   </div>
                   <div className="flex items-center justify-between border-t hairline pt-5">
-                    <span className="label-editorial text-[10px] text-vortex-ink/50">
+                    <span className="label-editorial text-[10px] text-hayp-ink/50">
                       {meta}
                     </span>
                     <button
                       onClick={onEnterHub}
-                      className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-vortex-teal transition-colors hover:text-vortex-deep focus-visible:outline-2 focus-visible:outline-vortex-teal"
+                      className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal transition-colors hover:text-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
                     >
                       Explore <ArrowRight className="h-3.5 w-3.5" />
                     </button>
@@ -309,14 +309,14 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
           {/* outro spacer card */}
           <GalleryCard index={total} total={total} progress={scrollYProgress}>
             <div className="flex h-[340px] w-[min(60vw,240px)] flex-col items-start justify-center gap-5 sm:h-[380px]">
-              <p className="font-serif-accent text-3xl italic leading-snug text-vortex-ink/70">
+              <p className="font-serif-accent text-3xl italic leading-snug text-hayp-ink/70">
                 …and the
                 <br />
                 next lane.
               </p>
               <button
                 onClick={onEnterHub}
-                className="inline-flex items-center gap-2 rounded-full bg-vortex-teal px-6 py-3.5 font-display text-[13px] font-semibold text-white transition-colors duration-500 hover:bg-vortex-deep focus-visible:outline-2 focus-visible:outline-vortex-teal"
+                className="inline-flex items-center gap-2 rounded-full bg-hayp-teal px-6 py-3.5 font-display text-[13px] font-semibold text-white transition-colors duration-500 hover:bg-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
               >
                 Browse everything <ArrowRight className="h-4 w-4" />
               </button>
@@ -327,14 +327,14 @@ export function ChapterThree({ onEnterHub }: { onEnterHub: () => void }) {
         {/* progress rail */}
         <div className="mx-auto mt-14 w-full max-w-7xl px-6" aria-hidden="true">
           <div className="flex items-center gap-5">
-            <span className="label-editorial text-[10px] text-vortex-ink/40">scroll</span>
-            <div className="h-px flex-1 bg-vortex-ink/10">
+            <span className="label-editorial text-[10px] text-hayp-ink/40">scroll</span>
+            <div className="h-px flex-1 bg-hayp-ink/10">
               <motion.div
-                className="h-full w-full origin-left bg-gradient-to-r from-vortex-teal to-vortex-cyan"
+                className="h-full w-full origin-left bg-gradient-to-r from-hayp-teal to-hayp-cyan"
                 style={{ scaleX: railScale }}
               />
             </div>
-            <span className="label-editorial text-[10px] text-vortex-ink/40">
+            <span className="label-editorial text-[10px] text-hayp-ink/40">
               0{CATEGORIES.length} / 0{CATEGORIES.length}
             </span>
           </div>
@@ -385,19 +385,19 @@ export function StatsSection() {
               i >= 2 ? "border-t hairline lg:border-t-0" : ""
             }`}
           >
-            <div className="font-display text-5xl font-semibold tracking-tight text-vortex-ink sm:text-6xl">
+            <div className="font-display text-5xl font-semibold tracking-tight text-hayp-ink sm:text-6xl">
               {s.value === null ? (
-                <span className="font-serif-accent font-normal italic text-vortex-gradient">∞</span>
+                <span className="font-serif-accent font-normal italic text-hayp-gradient">∞</span>
               ) : (
                 <>
                   <CountUp to={s.value} />
-                  <span className="font-serif-accent font-normal italic text-vortex-teal">
+                  <span className="font-serif-accent font-normal italic text-hayp-teal">
                     {s.suffix}
                   </span>
                 </>
               )}
             </div>
-            <p className="label-editorial mt-4 text-[10px] text-vortex-ink/50">{s.label}</p>
+            <p className="label-editorial mt-4 text-[10px] text-hayp-ink/50">{s.label}</p>
           </FadeUp>
         ))}
       </div>

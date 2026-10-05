@@ -43,15 +43,15 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Vortex brand palette */
-  --color-vortex-teal: #0d9488;
-  --color-vortex-emerald: #10b981;
-  --color-vortex-cyan: #06b6d4;
-  --color-vortex-navy: #1e3a5f;
-  --color-vortex-deep: #0f766e;
-  --color-vortex-ink: #0b2e33;
-  --color-vortex-mint: #ccfbf1;
-  --color-vortex-foam: #f0fdfa;
+  /* Hayp brand palette */
+  --color-hayp-teal: #0d9488;
+  --color-hayp-emerald: #10b981;
+  --color-hayp-cyan: #06b6d4;
+  --color-hayp-navy: #1e3a5f;
+  --color-hayp-deep: #0f766e;
+  --color-hayp-ink: #0b2e33;
+  --color-hayp-mint: #ccfbf1;
+  --color-hayp-foam: #f0fdfa;
   --font-serif: var(--font-instrument-serif);
 }
 
@@ -155,18 +155,18 @@
     border-color: rgba(11, 46, 51, 0.1);
   }
 
-  /* Vortex gradient text: teal -> emerald -> cyan (slow, barely moving) */
-  .text-vortex-gradient {
+  /* Hayp gradient text: teal -> emerald -> cyan (slow, barely moving) */
+  .text-hayp-gradient {
     background: linear-gradient(100deg, #0d9488 0%, #10b981 38%, #06b6d4 75%, #0d9488 100%);
     background-size: 220% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: vortex-gradient-flow 16s ease-in-out infinite;
+    animation: hayp-gradient-flow 16s ease-in-out infinite;
   }
 
-  .text-vortex-gradient-static {
+  .text-hayp-gradient-static {
     background: linear-gradient(100deg, #0d9488 0%, #10b981 45%, #06b6d4 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -198,24 +198,24 @@
     box-shadow: 0 1px 2px rgba(11, 46, 51, 0.05), 0 30px 80px -30px rgba(13, 148, 136, 0.22);
   }
 
-  .scrollbar-vortex {
+  .scrollbar-hayp {
     scrollbar-width: thin;
     scrollbar-color: rgba(13, 148, 136, 0.3) transparent;
   }
-  .scrollbar-vortex::-webkit-scrollbar {
+  .scrollbar-hayp::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
-  .scrollbar-vortex::-webkit-scrollbar-track {
+  .scrollbar-hayp::-webkit-scrollbar-track {
     background: transparent;
   }
-  .scrollbar-vortex::-webkit-scrollbar-thumb {
+  .scrollbar-hayp::-webkit-scrollbar-thumb {
     background: rgba(13, 148, 136, 0.35);
     border-radius: 999px;
   }
 }
 
-@keyframes vortex-gradient-flow {
+@keyframes hayp-gradient-flow {
   0%,
   100% {
     background-position: 0% 50%;
@@ -262,7 +262,7 @@
   80% { transform: translate(2%, 1%); }
 }
 
-@keyframes vortex-scroll-dot {
+@keyframes hayp-scroll-dot {
   0% {
     transform: translateY(0);
     opacity: 1;
@@ -277,7 +277,7 @@
   }
 }
 
-@keyframes vortex-marquee {
+@keyframes hayp-marquee {
   from {
     transform: translateX(0);
   }
@@ -287,17 +287,17 @@
 }
 
 /* Logo rotation — slow, confident */
-.vortex-rot-cw {
-  animation: vortex-rotate-cw 28s linear infinite;
+.hayp-rot-cw {
+  animation: hayp-rotate-cw 28s linear infinite;
 }
-.vortex-rot-ccw {
-  animation: vortex-rotate-ccw 44s linear infinite;
+.hayp-rot-ccw {
+  animation: hayp-rotate-ccw 44s linear infinite;
 }
-.vortex-rot-cw-slow {
-  animation: vortex-rotate-cw 22s linear infinite;
+.hayp-rot-cw-slow {
+  animation: hayp-rotate-cw 22s linear infinite;
 }
 
-@keyframes vortex-rotate-cw {
+@keyframes hayp-rotate-cw {
   from {
     transform: rotate(0deg);
   }
@@ -306,7 +306,7 @@
   }
 }
 
-@keyframes vortex-rotate-ccw {
+@keyframes hayp-rotate-ccw {
   from {
     transform: rotate(360deg);
   }
@@ -324,8 +324,8 @@
   animation: spin-slow 22s linear infinite;
 }
 
-.animate-vortex-marquee {
-  animation: vortex-marquee 55s linear infinite;
+.animate-hayp-marquee {
+  animation: hayp-marquee 55s linear infinite;
 }
 
 /* Hide scrollbar utility for horizontal chip rows */

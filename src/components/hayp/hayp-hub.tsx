@@ -21,7 +21,7 @@ import {
   PIPELINE_COUNT,
   type Category,
   type Product,
-} from "@/lib/vortex-data";
+} from "@/lib/hayp-data";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -71,7 +71,7 @@ function HubCard({ product, index }: { product: Product; index: number }) {
         />
 
         {/* category label */}
-        <span className="label-editorial absolute left-5 top-5 text-[10px] text-vortex-ink/45">
+        <span className="label-editorial absolute left-5 top-5 text-[10px] text-hayp-ink/45">
           {product.category}
         </span>
 
@@ -84,7 +84,7 @@ function HubCard({ product, index }: { product: Product; index: number }) {
 
         {/* icon */}
         <div
-          className="absolute bottom-5 right-6 grid h-12 w-12 place-items-center rounded-full bg-white/80 text-vortex-ink shadow-editorial backdrop-blur transition-all duration-500 group-hover:bg-vortex-ink group-hover:text-white"
+          className="absolute bottom-5 right-6 grid h-12 w-12 place-items-center rounded-full bg-white/80 text-hayp-ink shadow-editorial backdrop-blur transition-all duration-500 group-hover:bg-hayp-ink group-hover:text-white"
         >
           <product.icon className="h-5 w-5" strokeWidth={1.6} />
         </div>
@@ -94,27 +94,27 @@ function HubCard({ product, index }: { product: Product; index: number }) {
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h3 className="font-display text-lg font-bold leading-tight tracking-tight text-vortex-ink transition-colors group-hover:text-vortex-teal">
+            <h3 className="font-display text-lg font-bold leading-tight tracking-tight text-hayp-ink transition-colors group-hover:text-hayp-teal">
               {product.name}
             </h3>
-            <p className="mt-1 font-serif-accent text-base italic leading-snug text-vortex-navy/60">
+            <p className="mt-1 font-serif-accent text-base italic leading-snug text-hayp-navy/60">
               {product.tagline}
             </p>
           </div>
         </div>
 
-        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-vortex-navy/70">{product.description}</p>
+        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-hayp-navy/70">{product.description}</p>
 
         <div className="mt-4 flex flex-wrap gap-1.5">
           {product.tags.map((t) => (
-            <span key={t} className="rounded-full border border-vortex-teal/15 bg-vortex-foam px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-vortex-teal/90">
+            <span key={t} className="rounded-full border border-hayp-teal/15 bg-hayp-foam px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-hayp-teal/90">
               {t}
             </span>
           ))}
         </div>
 
         <div className="mt-5 flex items-center justify-between border-t hairline pt-4">
-          <span className="label-editorial text-[10px] text-vortex-ink/45">
+          <span className="label-editorial text-[10px] text-hayp-ink/45">
             {product.eta ??
               new Date(product.releasedAt).toLocaleDateString("en-US", {
                 month: "short",
@@ -130,7 +130,7 @@ function HubCard({ product, index }: { product: Product; index: number }) {
                   : `Target: ${product.eta}. Follow the changelog for launch news.`,
               })
             }
-            className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-vortex-teal transition-colors hover:text-vortex-deep focus-visible:outline-2 focus-visible:outline-vortex-teal"
+            className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal transition-colors hover:text-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
           >
             {isLive ? "Visit product" : "Follow progress"}
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -145,7 +145,7 @@ function HubCard({ product, index }: { product: Product; index: number }) {
 /* The Hub page                                                        */
 /* ------------------------------------------------------------------ */
 
-export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
+export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
   const [sort, setSort] = useState<SortKey>("status");
@@ -195,34 +195,34 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-70" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-500" />
             </span>
-            <span className="label-editorial text-vortex-ink/80">
+            <span className="label-editorial text-hayp-ink/80">
               The full pipeline
             </span>
           </div>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-vortex-ink sm:text-6xl">
-            The <span className="text-vortex-gradient">Vortex Hub</span>
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-hayp-ink sm:text-6xl">
+            The <span className="text-hayp-gradient">Hayp Hub</span>
           </h1>
-          <p className="mt-5 text-lg leading-relaxed text-vortex-navy/70">
-            {LIVE_COUNT} products live, {PIPELINE_COUNT} more spinning — accounting,
+          <p className="mt-5 text-lg leading-relaxed text-hayp-navy/70">
+            {LIVE_COUNT} products live, {PIPELINE_COUNT} more in motion — accounting,
             automation, social, e-commerce and games. Every one of them built by{" "}
-            <span className="font-medium text-vortex-ink">Vortex Studios</span>.
+            <span className="font-medium text-hayp-ink">Hayp Studios</span>.
           </p>
         </motion.div>
 
         <motion.div
-          className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-vortex-navy/60"
+          className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-hayp-navy/60"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.25, duration: 0.7 }}
         >
           <span className="inline-flex items-center gap-2">
-            <LayoutGrid className="h-4 w-4 text-vortex-teal" /> {PRODUCTS.length} products
+            <LayoutGrid className="h-4 w-4 text-hayp-teal" /> {PRODUCTS.length} products
           </span>
           <span className="inline-flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-vortex-teal" /> {LIVE_COUNT} live
+            <Sparkles className="h-4 w-4 text-hayp-teal" /> {LIVE_COUNT} live
           </span>
           <span className="inline-flex items-center gap-2">
-            <Rocket className="h-4 w-4 text-vortex-teal" /> {PIPELINE_COUNT} in the pipeline
+            <Rocket className="h-4 w-4 text-hayp-teal" /> {PIPELINE_COUNT} in the pipeline
           </span>
         </motion.div>
       </div>
@@ -236,31 +236,31 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
       >
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative flex-1">
-            <Search className="pointer-events-none absolute left-4 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-vortex-teal/70" />
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-hayp-teal/70" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search products, tags, categories…"
-              className="h-12 rounded-2xl border-vortex-teal/20 bg-white/70 pl-11 text-[15px] shadow-none placeholder:text-vortex-navy/40 focus-visible:ring-vortex-teal/40"
+              className="h-12 rounded-2xl border-hayp-teal/20 bg-white/70 pl-11 text-[15px] shadow-none placeholder:text-hayp-navy/40 focus-visible:ring-hayp-teal/40"
               aria-label="Search products"
             />
           </div>
           <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
             <SelectTrigger
-              className="h-12 w-full rounded-2xl border-vortex-teal/20 bg-white/70 font-display text-sm font-medium text-vortex-navy shadow-none focus-visible:ring-vortex-teal/40 lg:w-[190px]"
+              className="h-12 w-full rounded-2xl border-hayp-teal/20 bg-white/70 font-display text-sm font-medium text-hayp-navy shadow-none focus-visible:ring-hayp-teal/40 lg:w-[190px]"
               aria-label="Sort products"
             >
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="rounded-2xl border-vortex-teal/20">
+            <SelectContent className="rounded-2xl border-hayp-teal/20">
               <SelectItem value="status" className="rounded-xl gap-2">
-                <Sparkles className="h-3.5 w-3.5 text-vortex-teal" /> Live first
+                <Sparkles className="h-3.5 w-3.5 text-hayp-teal" /> Live first
               </SelectItem>
               <SelectItem value="newest" className="rounded-xl gap-2">
-                <Clock className="h-3.5 w-3.5 text-vortex-teal" /> Newest
+                <Clock className="h-3.5 w-3.5 text-hayp-teal" /> Newest
               </SelectItem>
               <SelectItem value="az" className="rounded-xl gap-2">
-                <ArrowDownAZ className="h-3.5 w-3.5 text-vortex-teal" /> A → Z
+                <ArrowDownAZ className="h-3.5 w-3.5 text-hayp-teal" /> A → Z
               </SelectItem>
             </SelectContent>
           </Select>
@@ -276,16 +276,16 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
                 key={cat}
                 onClick={() => setFilter(cat)}
                 className={cn(
-                  "relative shrink-0 rounded-full px-4 py-2 font-display text-[13px] font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-vortex-teal",
+                  "relative shrink-0 rounded-full px-4 py-2 font-display text-[13px] font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-hayp-teal",
                   active
-                    ? "bg-vortex-ink text-white"
-                    : "text-vortex-navy/65 hover:bg-vortex-teal/10 hover:text-vortex-teal"
+                    ? "bg-hayp-ink text-white"
+                    : "text-hayp-navy/65 hover:bg-hayp-teal/10 hover:text-hayp-teal"
                 )}
                 aria-pressed={active}
               >
                 <span className="relative flex items-center gap-1.5">
                   {cat}
-                  <span className={cn("font-mono text-[10px]", active ? "text-teal-200/90" : "text-vortex-navy/40")}>
+                  <span className={cn("font-mono text-[10px]", active ? "text-teal-200/90" : "text-hayp-navy/40")}>
                     {count}
                   </span>
                 </span>
@@ -297,7 +297,7 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
 
       {/* result count */}
       <div className="mt-8 flex items-center justify-between">
-        <p className="label-editorial text-[10px] text-vortex-ink/50" aria-live="polite">
+        <p className="label-editorial text-[10px] text-hayp-ink/50" aria-live="polite">
           {results.length} {results.length === 1 ? "product" : "products"} · {filter === "All" ? "all categories" : filter}
         </p>
         {(query || filter !== "All") && (
@@ -306,7 +306,7 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
               setQuery("");
               setFilter("All");
             }}
-            className="rounded-full border border-vortex-teal/25 px-4 py-1.5 text-xs font-semibold text-vortex-teal transition-colors hover:bg-vortex-teal/10 focus-visible:outline-2 focus-visible:outline-vortex-teal"
+            className="rounded-full border border-hayp-teal/25 px-4 py-1.5 text-xs font-semibold text-hayp-teal transition-colors hover:bg-hayp-teal/10 focus-visible:outline-2 focus-visible:outline-hayp-teal"
           >
             Reset filters
           </button>
@@ -327,22 +327,22 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-6 flex flex-col items-center gap-4 rounded-[2rem] border-2 border-dashed border-vortex-teal/25 bg-white/40 px-8 py-20 text-center"
+          className="mt-6 flex flex-col items-center gap-4 rounded-[2rem] border-2 border-dashed border-hayp-teal/25 bg-white/40 px-8 py-20 text-center"
         >
-          <div className="grid h-16 w-16 place-items-center rounded-3xl bg-vortex-foam">
-            <PackageSearch className="h-7 w-7 text-vortex-teal" />
+          <div className="grid h-16 w-16 place-items-center rounded-3xl bg-hayp-foam">
+            <PackageSearch className="h-7 w-7 text-hayp-teal" />
           </div>
-          <h3 className="font-display text-xl font-bold text-vortex-ink">Nothing spun into view</h3>
-          <p className="max-w-sm text-sm leading-relaxed text-vortex-navy/65">
-            No products match <span className="font-semibold text-vortex-teal">“{query}”</span>
-            {filter !== "All" && <> in <span className="font-semibold text-vortex-teal">{filter}</span></>}. Try a different term or category.
+          <h3 className="font-display text-xl font-bold text-hayp-ink">Nothing spun into view</h3>
+          <p className="max-w-sm text-sm leading-relaxed text-hayp-navy/65">
+            No products match <span className="font-semibold text-hayp-teal">“{query}”</span>
+            {filter !== "All" && <> in <span className="font-semibold text-hayp-teal">{filter}</span></>}. Try a different term or category.
           </p>
           <button
             onClick={() => {
               setQuery("");
               setFilter("All");
             }}
-            className="mt-2 rounded-full bg-vortex-teal px-6 py-3 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-vortex-deep focus-visible:outline-2 focus-visible:outline-vortex-teal"
+            className="mt-2 rounded-full bg-hayp-teal px-6 py-3 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-hayp-deep focus-visible:outline-2 focus-visible:outline-hayp-teal"
           >
             Clear search
           </button>
@@ -351,12 +351,12 @@ export function VortexHub({ onGoHome }: { onGoHome: () => void }) {
 
       {/* hub footer note */}
       <div className="mt-20 text-center">
-        <p className="font-display text-lg font-semibold text-vortex-navy/70">
+        <p className="font-display text-lg font-semibold text-hayp-navy/70">
           Can&apos;t find what you need?
         </p>
-        <p className="mt-2 text-sm text-vortex-navy/55">
+        <p className="mt-2 text-sm text-hayp-navy/55">
           The pipeline grows every month. Head back to{" "}
-          <button onClick={onGoHome} className="font-semibold text-vortex-teal underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-vortex-teal">
+          <button onClick={onGoHome} className="font-semibold text-hayp-teal underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-hayp-teal">
             the story
           </button>{" "}
           to see where the momentum comes from.

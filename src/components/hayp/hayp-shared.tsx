@@ -89,7 +89,7 @@ export function SectionTag({
       <span
         className={cn(
           "label-editorial",
-          tone === "light" ? "text-vortex-teal" : "text-teal-300"
+          tone === "light" ? "text-hayp-teal" : "text-teal-300"
         )}
       >
         {index}
@@ -97,13 +97,13 @@ export function SectionTag({
       <span
         className={cn(
           "h-px w-12",
-          tone === "light" ? "bg-vortex-ink/20" : "bg-white/25"
+          tone === "light" ? "bg-hayp-ink/20" : "bg-white/25"
         )}
       />
       <span
         className={cn(
           "label-editorial",
-          tone === "light" ? "text-vortex-ink/55" : "text-white/60"
+          tone === "light" ? "text-hayp-ink/55" : "text-white/60"
         )}
       >
         {label}
@@ -133,7 +133,7 @@ function Word({
       style={{ opacity, y }}
       className={cn(
         "inline-block will-change-transform",
-        accent && "text-vortex-gradient"
+        accent && "text-hayp-gradient"
       )}
     >
       {children}

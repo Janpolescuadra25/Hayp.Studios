@@ -3,9 +3,9 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { PRODUCTS, STATUS_META } from "@/lib/vortex-data";
-import { VortexMark } from "./vortex-logo";
-import { EASE, FadeUp, MaskedLine, SectionTag, Magnetic } from "./vortex-shared";
+import { PRODUCTS, STATUS_META } from "@/lib/hayp-data";
+import { HaypMark } from "./hayp-logo";
+import { EASE, FadeUp, MaskedLine, SectionTag, Magnetic } from "./hayp-shared";
 
 /* ================================================================== */
 /* FEATURED — a magazine spread of the flagship drops                  */
@@ -21,11 +21,11 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
         <div>
           <SectionTag index="04" label="The Lineup" className="mb-7" />
-          <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-vortex-ink">
+          <h2 className="font-display text-[clamp(2rem,4.6vw,3.9rem)] font-bold leading-[1.02] tracking-[-0.03em] text-hayp-ink">
             <MaskedLine>Fresh from</MaskedLine>
             <MaskedLine delay={0.12}>
-              <span className="font-serif-accent font-normal italic text-vortex-gradient">
-                the vortex.
+              <span className="font-serif-accent font-normal italic text-hayp-gradient">
+                the studio.
               </span>
             </MaskedLine>
           </h2>
@@ -33,7 +33,7 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
         <FadeUp delay={0.2}>
           <button
             onClick={onEnterHub}
-            className="group inline-flex items-center gap-2.5 border-b border-vortex-ink/20 pb-1.5 font-display text-sm font-semibold text-vortex-ink transition-colors duration-500 hover:border-vortex-teal hover:text-vortex-teal focus-visible:outline-2 focus-visible:outline-vortex-teal"
+            className="group inline-flex items-center gap-2.5 border-b border-hayp-ink/20 pb-1.5 font-display text-sm font-semibold text-hayp-ink transition-colors duration-500 hover:border-hayp-teal hover:text-hayp-teal focus-visible:outline-2 focus-visible:outline-hayp-teal"
           >
             View the full pipeline
             <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
@@ -70,7 +70,7 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
                 className="absolute -bottom-24 -left-14 h-48 w-48 rounded-full border hairline opacity-50 transition-transform duration-[1200ms] ease-out group-hover:-rotate-30 group-hover:scale-105"
                 style={{ borderColor: `${p.hue[0]}28` }}
               />
-              <span className="label-editorial absolute left-6 top-6 text-[10px] text-vortex-ink/45">
+              <span className="label-editorial absolute left-6 top-6 text-[10px] text-hayp-ink/45">
                 {String(i + 1).padStart(2, "0")} — {p.category}
               </span>
               <span
@@ -78,31 +78,31 @@ export function FeaturedTeaser({ onEnterHub }: { onEnterHub: () => void }) {
               >
                 {STATUS_META[p.status].label}
               </span>
-              <div className="absolute bottom-5 right-6 grid h-12 w-12 place-items-center rounded-full bg-white/80 text-vortex-ink shadow-editorial backdrop-blur transition-all duration-500 group-hover:bg-vortex-ink group-hover:text-white">
+              <div className="absolute bottom-5 right-6 grid h-12 w-12 place-items-center rounded-full bg-white/80 text-hayp-ink shadow-editorial backdrop-blur transition-all duration-500 group-hover:bg-hayp-ink group-hover:text-white">
                 <p.icon className="h-5 w-5" strokeWidth={1.6} />
               </div>
             </div>
 
             {/* body */}
             <div className="flex flex-1 flex-col p-7">
-              <h3 className="font-display text-2xl font-semibold tracking-tight text-vortex-ink transition-colors duration-500 group-hover:text-vortex-teal">
+              <h3 className="font-display text-2xl font-semibold tracking-tight text-hayp-ink transition-colors duration-500 group-hover:text-hayp-teal">
                 {p.name}
               </h3>
-              <p className="mt-1.5 font-serif-accent text-lg italic leading-snug text-vortex-navy/60">
+              <p className="mt-1.5 font-serif-accent text-lg italic leading-snug text-hayp-navy/60">
                 {p.tagline}
               </p>
-              <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-vortex-navy/70">
+              <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-hayp-navy/70">
                 {p.description}
               </p>
               <div className="mt-auto flex items-center justify-between border-t hairline pt-5">
-                <span className="label-editorial text-[10px] text-vortex-ink/45">
+                <span className="label-editorial text-[10px] text-hayp-ink/45">
                   {p.eta ??
                     new Date(p.releasedAt).toLocaleDateString("en-US", {
                       month: "short",
                       year: "numeric",
                     })}
                 </span>
-                <span className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-vortex-teal">
+                <span className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-hayp-teal">
                   {p.status === "live" ? "In the Hub" : "On the roadmap"}
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </span>
@@ -139,14 +139,14 @@ export function MottoSection() {
           style={{ opacity: markOpacity, scale: markScale }}
           aria-hidden="true"
         >
-          <VortexMark size={560} animated={false} showOrbit={false} idPrefix="motto-wm" />
+          <HaypMark size={560} animated={false} showOrbit={false} idPrefix="motto-wm" />
         </motion.div>
 
         <SectionTag index="05" label="The Motto" className="absolute left-1/2 top-24 -translate-x-1/2 md:left-6 md:translate-x-0" />
 
         <div className="relative text-center">
           <motion.h2
-            className="font-display text-[clamp(3rem,9vw,8.5rem)] font-bold leading-[1.02] tracking-[-0.035em] text-vortex-ink"
+            className="font-display text-[clamp(3rem,9vw,8.5rem)] font-bold leading-[1.02] tracking-[-0.035em] text-hayp-ink"
             style={{ opacity: line1Opacity, y: line1Y }}
           >
             Less friction.
@@ -154,7 +154,7 @@ export function MottoSection() {
 
           {/* hairline that draws itself between the lines */}
           <motion.div
-            className="mx-auto my-6 h-px w-40 origin-center bg-gradient-to-r from-transparent via-vortex-teal to-transparent sm:my-8 sm:w-64"
+            className="mx-auto my-6 h-px w-40 origin-center bg-gradient-to-r from-transparent via-hayp-teal to-transparent sm:my-8 sm:w-64"
             style={{ scaleX: ruleScale }}
             aria-hidden="true"
           />
@@ -163,15 +163,15 @@ export function MottoSection() {
             className="font-display text-[clamp(3rem,9vw,8.5rem)] font-bold leading-[1.02] tracking-[-0.035em]"
             style={{ opacity: line2Opacity, y: line2Y }}
           >
-            <span className="text-vortex-gradient">More momentum.</span>
+            <span className="text-hayp-gradient">More momentum.</span>
           </motion.h2>
         </div>
 
         <motion.p
-          className="absolute bottom-24 label-editorial text-[10px] text-vortex-ink/45"
+          className="absolute bottom-24 label-editorial text-[10px] text-hayp-ink/45"
           style={{ opacity: line2Opacity }}
         >
-          the vortex way — since day one
+          the hayp way — since day one
         </motion.p>
       </div>
     </section>
@@ -206,14 +206,14 @@ export function FinalCta({ onEnterHub }: { onEnterHub: () => void }) {
             aria-hidden="true"
           />
 
-          <p className="label-editorial text-vortex-teal">Take one for a spin</p>
-          <h2 className="mx-auto mt-6 max-w-2xl font-display text-[clamp(2.2rem,5.2vw,4.4rem)] font-bold leading-[1.04] tracking-[-0.03em] text-vortex-ink">
+          <p className="label-editorial text-hayp-teal">Take one for a spin</p>
+          <h2 className="mx-auto mt-6 max-w-2xl font-display text-[clamp(2.2rem,5.2vw,4.4rem)] font-bold leading-[1.04] tracking-[-0.03em] text-hayp-ink">
             Find your next{" "}
-            <span className="font-serif-accent font-normal italic text-vortex-gradient">
+            <span className="font-serif-accent font-normal italic text-hayp-gradient">
               product.
             </span>
           </h2>
-          <p className="mx-auto mt-6 max-w-md text-[15px] leading-relaxed text-vortex-navy/70">
+          <p className="mx-auto mt-6 max-w-md text-[15px] leading-relaxed text-hayp-navy/70">
             From Haypbooks and Qyra today to Zypra, Cirqa, Lumora and game
             worlds tomorrow — browse the full pipeline, live to concept.
           </p>
@@ -222,15 +222,15 @@ export function FinalCta({ onEnterHub }: { onEnterHub: () => void }) {
             <Magnetic>
               <button
                 onClick={onEnterHub}
-                className="group inline-flex items-center gap-3 rounded-full bg-vortex-ink px-8 py-4.5 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-vortex-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vortex-teal"
+                className="group inline-flex items-center gap-3 rounded-full bg-hayp-ink px-8 py-4.5 font-display text-sm font-semibold text-white transition-colors duration-500 hover:bg-hayp-teal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hayp-teal"
               >
-                Enter the Vortex Hub
+                Enter the Hayp Hub
                 <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
               </button>
             </Magnetic>
           </div>
 
-          <p className="mt-8 font-serif-accent text-base italic text-vortex-navy/55">
+          <p className="mt-8 font-serif-accent text-base italic text-hayp-navy/55">
             Designed, engineered and shipped with momentum — one lane at
             a time.
           </p>

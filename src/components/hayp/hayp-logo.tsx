@@ -3,12 +3,13 @@
 import { cn } from "@/lib/utils";
 
 /**
- * The Vortex mark — an esports-grade badge.
+ * The Hayp mark — an esports-grade badge.
  *
- * A sharp faceted "V" (twin blades meeting in a point) forged inside a
- * hexagonal frame — the same hex language as the arcade-field lattice.
- * Animated mode adds a slowly rotating dashed reticle hex with a comet
- * dot, like a game HUD target lock.
+ * A sharp faceted "H" (twin blades joined by a rising crossbar — forward
+ * momentum forged into the letterform) set inside a hexagonal frame —
+ * the same hex language as the arcade-field lattice. Animated mode adds
+ * a slowly rotating dashed reticle hex with a comet dot, like a game HUD
+ * target lock.
  */
 
 /** Pointy-top hexagon path centered at (cx, cy) with circumradius R */
@@ -22,7 +23,7 @@ function hexPoints(cx: number, cy: number, R: number): string {
   return `M ${pts.join(" L ")} Z`;
 }
 
-interface VortexMarkProps {
+interface HaypMarkProps {
   size?: number;
   animated?: boolean;
   showOrbit?: boolean;
@@ -30,13 +31,13 @@ interface VortexMarkProps {
   idPrefix?: string;
 }
 
-export function VortexMark({
+export function HaypMark({
   size = 64,
   animated = true,
   showOrbit = true,
   className,
-  idPrefix = "vx",
-}: VortexMarkProps) {
+  idPrefix = "hp",
+}: HaypMarkProps) {
   // hex frame: center (60,60), circumradius 52 → top (60,8), bottom (60,112),
   // left/right walls at x = 60 ± 45
   const frame = hexPoints(60, 60, 52);
@@ -52,7 +53,7 @@ export function VortexMark({
       xmlns="http://www.w3.org/2000/svg"
       className={cn("select-none", className)}
       role="img"
-      aria-label="Vortex Studios logo"
+      aria-label="Hayp Studios logo"
     >
       <defs>
         {/* blade fill — teal forging into cyan edge */}
@@ -89,7 +90,7 @@ export function VortexMark({
       {/* rotating reticle ring — HUD target lock */}
       {showOrbit && (
         <g
-          className={animated ? "vortex-rot-cw" : undefined}
+          className={animated ? "hayp-rot-cw" : undefined}
           style={{ transformOrigin: "60px 60px" }}
         >
           <path
@@ -126,24 +127,16 @@ export function VortexMark({
         fill="none"
       />
 
-      {/* the V — twin blades forged to a point */}
+      {/* the H — twin blades joined by a rising crossbar */}
       <g filter={`url(#${idPrefix}-glow)`}>
         <path
-          d="M 32 34 L 48 34 L 60 72 L 72 34 L 88 34 L 65.5 94 L 54.5 94 Z"
+          d="M 38 34 L 52 34 L 52 58 L 68 52 L 68 34 L 82 34 L 80 88 L 68 88 L 68 64 L 52 70 L 50 88 L 40 88 Z"
           fill={`url(#${idPrefix}-blade)`}
           strokeLinejoin="round"
         />
-        {/* center facet seam */}
-        <path
-          d="M 60 72 L 60 94"
-          stroke="#ccfbf1"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          opacity="0.4"
-        />
         {/* blade edge highlights */}
         <path
-          d="M 34 36 L 47 36 L 59 71"
+          d="M 40 36.5 L 50.5 36.5 L 50.5 57.5"
           stroke="#ccfbf1"
           strokeWidth="1.4"
           strokeLinecap="round"
@@ -151,30 +144,44 @@ export function VortexMark({
           fill="none"
         />
         <path
-          d="M 86 36 L 73 36 L 61 71"
+          d="M 80 36.5 L 69.5 36.5 L 69.5 51.5"
           stroke="#ccfbf1"
           strokeWidth="1.4"
           strokeLinecap="round"
           opacity="0.5"
           fill="none"
         />
-        {/* apex spark */}
-        <path d="M 60 100 L 63.4 104.5 L 60 109 L 56.6 104.5 Z" fill="#06b6d4" opacity="0.85" />
+        {/* crossbar facet highlight */}
+        <path
+          d="M 53.5 57 L 66.5 51.5"
+          stroke="#ccfbf1"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          opacity="0.55"
+          fill="none"
+        />
+        {/* heart spark — the energy core at the center of the H */}
+        <path
+          d="M 60 55.5 L 64.8 61 L 60 66.5 L 55.2 61 Z"
+          fill="#ccfbf1"
+          opacity="0.95"
+          filter={`url(#${idPrefix}-glow)`}
+        />
       </g>
     </svg>
   );
 }
 
-interface VortexWordmarkProps {
+interface HaypWordmarkProps {
   size?: "sm" | "md" | "lg" | "hero";
   animated?: boolean;
   className?: string;
 }
 
 /**
- * Full wordmark: [V badge] + gradient "ortex" with ".studio" set below.
+ * Full wordmark: [H badge] + gradient "ayp" with ".studio" set below.
  */
-export function VortexWordmark({ size = "md", animated = true, className }: VortexWordmarkProps) {
+export function HaypWordmark({ size = "md", animated = true, className }: HaypWordmarkProps) {
   const markSize = { sm: 34, md: 46, lg: 60, hero: 132 }[size];
   const textClass = {
     sm: "text-[1.35rem]",
@@ -191,7 +198,7 @@ export function VortexWordmark({ size = "md", animated = true, className }: Vort
 
   return (
     <div className={cn("flex items-center gap-1", className)}>
-      <VortexMark
+      <HaypMark
         size={markSize}
         animated={animated}
         showOrbit={size === "hero" || size === "lg" || size === "md"}
@@ -200,13 +207,13 @@ export function VortexWordmark({ size = "md", animated = true, className }: Vort
       <div className="flex flex-col items-start -ml-1">
         <span
           className={cn(
-            "font-display font-bold leading-[0.95] tracking-tight text-vortex-gradient",
+            "font-display font-bold leading-[0.95] tracking-tight text-hayp-gradient",
             textClass
           )}
         >
-          ortex
+          ayp
         </span>
-        <span className={cn("font-display font-medium text-vortex-navy/70 uppercase", subClass)}>
+        <span className={cn("font-display font-medium text-hayp-navy/70 uppercase", subClass)}>
           .studio
         </span>
       </div>

@@ -27,11 +27,12 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Vortex.studio — Ready-Made Software",
+  title: "Hayp.studio — Ready-Made Software",
   description:
     "An independent digital product studio. Ready-made software — tools, platforms and game worlds — designed, engineered and shipped with momentum. No templates, no shortcuts.",
   keywords: [
-    "Vortex.studio",
+    "Hayp.studio",
+    "Hayp Studios",
     "Haypbooks",
     "Qyra",
     "Zypra",
@@ -43,12 +44,12 @@ export const metadata: Metadata = {
     "Xero automation",
     "indie studio",
   ],
-  authors: [{ name: "Vortex Studios" }],
+  authors: [{ name: "Hayp Studios" }],
   openGraph: {
-    title: "Vortex.studio — Ready-Made Software",
+    title: "Hayp.studio — Ready-Made Software",
     description:
       "Ready-made software — tools, platforms and game worlds — designed, engineered and shipped with momentum.",
-    siteName: "Vortex.studio",
+    siteName: "Hayp.studio",
     type: "website",
   },
 };

@@ -9,7 +9,7 @@ import {
   Trophy,
   Newspaper,
 } from "lucide-react";
-import { CHANGELOG, type ChangelogKind } from "@/lib/vortex-data";
+import { CHANGELOG, type ChangelogKind } from "@/lib/hayp-data";
 import { cn } from "@/lib/utils";
 
 const KIND_STYLE: Record<
@@ -19,7 +19,7 @@ const KIND_STYLE: Record<
   launch: { icon: Rocket, label: "Launch", hue: "#0d9488", ring: "bg-teal-500" },
   update: { icon: RefreshCw, label: "Update", hue: "#06b6d4", ring: "bg-cyan-500" },
   announcement: { icon: Megaphone, label: "Announcement", hue: "#10b981", ring: "bg-emerald-500" },
-  milestone: { icon: Trophy, label: "Milestone", hue: "#1e3a5f", ring: "bg-vortex-navy" },
+  milestone: { icon: Trophy, label: "Milestone", hue: "#1e3a5f", ring: "bg-hayp-navy" },
 };
 
 function TimelineEntry({
@@ -63,7 +63,7 @@ function TimelineEntry({
       </span>
 
       {/* connector to spine (mobile) */}
-      <span className="absolute left-[44px] top-10 h-px w-5 bg-gradient-to-r from-vortex-teal/50 to-transparent md:hidden" />
+      <span className="absolute left-[44px] top-10 h-px w-5 bg-gradient-to-r from-hayp-teal/50 to-transparent md:hidden" />
 
       <div className="glass-strong group flex-1 rounded-[1.6rem] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-22px_rgba(13,148,136,0.45)]">
         <div className={cn("flex items-center gap-3", left && "md:flex-row-reverse")}>
@@ -73,17 +73,17 @@ function TimelineEntry({
           >
             {kind.label}
           </span>
-          <span className="font-mono text-[11px] text-vortex-navy/50">{date}</span>
+          <span className="font-mono text-[11px] text-hayp-navy/50">{date}</span>
           {entry.version && (
-            <span className="rounded-full border border-vortex-teal/25 bg-vortex-foam px-2 py-0.5 font-mono text-[10px] font-semibold text-vortex-teal">
+            <span className="rounded-full border border-hayp-teal/25 bg-hayp-foam px-2 py-0.5 font-mono text-[10px] font-semibold text-hayp-teal">
               {entry.version}
             </span>
           )}
         </div>
-        <h3 className="mt-3.5 font-display text-xl font-bold leading-snug text-vortex-ink transition-colors group-hover:text-vortex-teal">
+        <h3 className="mt-3.5 font-display text-xl font-bold leading-snug text-hayp-ink transition-colors group-hover:text-hayp-teal">
           {entry.title}
         </h3>
-        <p className={cn("mt-2 text-sm leading-relaxed text-vortex-navy/70", left && "md:ml-auto")}>
+        <p className={cn("mt-2 text-sm leading-relaxed text-hayp-navy/70", left && "md:ml-auto")}>
           {entry.body}
         </p>
       </div>
@@ -91,7 +91,7 @@ function TimelineEntry({
   );
 }
 
-export function VortexWhatsNew() {
+export function HaypWhatsNew() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -109,34 +109,34 @@ export function VortexWhatsNew() {
           transition={{ duration: 0.7, ease: [0.22, 0.8, 0.28, 1] }}
           className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5"
         >
-          <Newspaper className="h-3.5 w-3.5 text-vortex-teal" />
-          <span className="font-display text-[11px] font-medium uppercase tracking-[0.22em] text-vortex-navy/80">
+          <Newspaper className="h-3.5 w-3.5 text-hayp-teal" />
+          <span className="font-display text-[11px] font-medium uppercase tracking-[0.22em] text-hayp-navy/80">
             Changelog &amp; milestones
           </span>
         </motion.div>
         <motion.h1
-          className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-vortex-ink sm:text-6xl"
+          className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-hayp-ink sm:text-6xl"
           initial={{ opacity: 0, y: 34 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 0.8, 0.28, 1] }}
         >
-          What&apos;s <span className="text-vortex-gradient">New.</span>
+          What&apos;s <span className="text-hayp-gradient">New.</span>
         </motion.h1>
         <motion.p
-          className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-vortex-navy/70"
+          className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-hayp-navy/70"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 0.8, 0.28, 1] }}
         >
-          Every launch, update and milestone from inside the studio — from the
-          day the vortex first spun up to what shipped this month.
+          Every launch, update and milestone from inside the studio — from
+          the day Hayp first opened its doors to what shipped this month.
         </motion.p>
       </div>
 
       {/* timeline */}
       <div ref={ref} className="relative mt-16 sm:mt-20">
         {/* spine */}
-        <div className="absolute bottom-0 left-[22px] top-0 w-[2.5px] rounded-full bg-vortex-teal/10 md:left-1/2 md:-translate-x-1/2">
+        <div className="absolute bottom-0 left-[22px] top-0 w-[2.5px] rounded-full bg-hayp-teal/10 md:left-1/2 md:-translate-x-1/2">
           <motion.div
             style={{ scaleY: spineScale }}
             className="h-full w-full origin-top rounded-full bg-gradient-to-b from-teal-500 via-emerald-400 to-cyan-400"
@@ -160,8 +160,8 @@ export function VortexWhatsNew() {
               <span className="font-display text-lg font-bold">V</span>
             </span>
             <div className="pt-2 md:pt-16">
-              <p className="font-display text-lg font-bold text-vortex-ink">The vortex keeps spinning…</p>
-              <p className="mt-1 text-sm text-vortex-navy/60">Next update drops soon. Stay in the loop.</p>
+              <p className="font-display text-lg font-bold text-hayp-ink">The hayp keeps spinning…</p>
+              <p className="mt-1 text-sm text-hayp-navy/60">Next update drops soon. Stay in the loop.</p>
             </div>
           </motion.li>
         </ol>
