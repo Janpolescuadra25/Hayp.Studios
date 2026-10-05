@@ -391,3 +391,29 @@ Verification (agent-browser + VLM, 1440x900 + 390px):
 
 Stage Summary:
 - Full rebrand shipped: Vortex Studios → Hayp Studios — new faceted-H hex badge with rising crossbar + heart spark, Hayp wordmark, all ~30 copy strings rebranded with vortex-anchored metaphors reworked to motion language, code internals renamed (hayp-* files/components/tokens), new favicon, regenerated brand brief, and fresh hayp.zip archive
+
+---
+Task ID: 16
+Agent: Main Agent (Super Z)
+Task: Per user feedback — finish the Hayp rebrand: replace every remaining "V" brand mark with "H" and align the whole repo to Hayp Studios.
+
+Work Log:
+- Repo-wide audit for leftover "V" branding (text marks, single-letter spans, SVG letter shapes, aria-labels): found 2 visual survivors the Task-15 file rename missed + 1 vortex-anchored string:
+  - hayp-landing-story.tsx — giant 46vw watermark letter "V" drifting behind Chapter One's pinned statement (the most visible V on the landing page)
+  - hayp-whatsnew.tsx — "V" inside the gradient circle badge at the changelog timeline tail
+  - hayp-whatsnew.tsx — tail heading "The hayp keeps spinning…" (a lazy s/vortex/hayp/ that kept the vortex verb)
+- Fixes: watermark V → H (+ comment), tail badge V → H, "The hayp keeps spinning…" → "The studio keeps moving…" (motion language, matches "7 more in motion")
+- Verified every other letter mark is already H: HaypMark badge (navbar, footer, hero OrbitBadge, Motto watermark, transition BrandMoment), favicon src/app/icon.svg, public/logo.svg; kept "spin" idioms ("Take one for a spin", "spin up · ship · repeat") are generic jargon per Task-15 voice rules
+- Bonus bug found during mobile sweep: Hub view had a 295px horizontal overflow at 390px (scrollW 685). Root cause: Hub <main> is a flex item with mx-auto (stretch disabled → shrink-to-fit) and the category pill scroller (six shrink-0 pills ≈ 685px min-content) inflated its fit-content width. Empirically confirmed: hiding the pills row collapses main 685 → 390
+- Fix: added w-full to Hub <main> — definite width severs the min-content dependency; max-w-7xl + mx-auto still cap/center on desktop
+- Brand brief §7 Visual Identity: added monogram-watermark rule ("Never a V — the Vortex monogram is retired with the name")
+- download/: removed stale vortex.zip (outdated Vortex-branded archive — everything now aligns to Hayp); refreshed hayp.zip by overlaying the 3 changed source files + updated worklog into the existing archive structure
+
+Verification (agent-browser + VLM, 1440x900 + 390x844):
+- DOM asserts across all 3 views (Landing / Hub / What's New): zero case-insensitive "vortex" in body text; the only single-letter spans are "H" (landing watermark, whatsnew tail badge); "The studio keeps moving…" present, "keeps spinning" absent; title "Hayp.studio — Ready-Made Software"
+- VLM: watermark letter reads "H" behind "Every product. Built by Hayp Studios. No exceptions."; whatsnew tail badge = H, heading "The studio keeps moving…" / "Next update drops soon. Stay in the loop."; hero wordmark [H]ayp .STUDIO with H badge; hub mobile properly laid out, no right-edge cut-off; no V marks, no "Vortex" word anywhere
+- Mobile 390px: all 3 views scrollW = 390, no overflow (Hub was 685 pre-fix); Hub Games pill filter works (4 cards, counter "4 products · Games"); Whats New showed transient scrollW 426 while the transition veil settled — 390 at rest (overlay is by design)
+- tsc clean for src/; console + page errors clean after reload (one stale hot-reload error from a mid-edit state cleared)
+
+Stage Summary:
+- The Vortex → Hayp rebrand is now visually complete: every brand monogram on the site is the letter H, the last vortex-anchored copy is reworked to motion language, the Hub's pre-existing mobile overflow is fixed, and repo artifacts are aligned (vortex.zip removed, hayp.zip + brand brief refreshed)

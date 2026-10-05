@@ -181,8 +181,10 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
     return list;
   }, [query, filter, sort]);
 
+  // w-full — definite width so the category pill scroller's min-content
+  // (six shrink-0 pills) can't inflate the shrink-to-fit main on mobile
   return (
-    <main className="relative mx-auto max-w-7xl px-6 pb-28 pt-32 sm:pt-36">
+    <main className="relative mx-auto w-full max-w-7xl px-6 pb-28 pt-32 sm:pt-36">
       {/* header */}
       <div className="max-w-2xl">
         <motion.div

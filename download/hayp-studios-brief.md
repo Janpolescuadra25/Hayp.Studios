@@ -68,6 +68,7 @@ Five lanes today — **Accounting, Automation, Social, E-Commerce, Games** — u
 
 - **Logo:** hexagonal esports-style badge — sharp faceted letter **H** (twin blades joined by a **rising crossbar** for forward momentum) with a bright **diamond spark at its heart**, inside a pointy-top hex frame with rotating dashed reticle.
 - **Wordmark:** [H badge] + gradient "ayp" with ".studio" set below → reads "Hayp . studio".
+- **Monogram watermark:** a faint giant letter **H** drifts behind the pinned studio statement (Chapter 01) and an **H** badge closes the What's New timeline ("The studio keeps moving…"). Never a "V" — the Vortex monogram is retired with the name.
 - **Palette (white-dominant):** teal `#0d9488`, emerald `#10b981`, cyan `#06b6d4`, deep navy `#1e3a5f` ink, near-white base `#fbfdfd`.
 - **Typography:** Space Grotesk (display/headlines) + Inter (body) + Instrument Serif italic (editorial accent words) + Geist Mono (labels).
 - **Background signature:** still hexagonal lattice ("Hex Arcade Field") that ignites cells on click with a light teal shockwave.

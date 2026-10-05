@@ -157,10 +157,10 @@ export function HaypWhatsNew() {
             className="relative pl-16 md:pl-0 md:text-center"
           >
             <span className="absolute left-[11px] top-1 grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-teal-600 to-cyan-500 text-white shadow-[0_14px_35px_-8px_rgba(13,148,136,0.7)] md:left-1/2 md:-translate-x-1/2">
-              <span className="font-display text-lg font-bold">V</span>
+              <span className="font-display text-lg font-bold">H</span>
             </span>
             <div className="pt-2 md:pt-16">
-              <p className="font-display text-lg font-bold text-hayp-ink">The hayp keeps spinning…</p>
+              <p className="font-display text-lg font-bold text-hayp-ink">The studio keeps moving…</p>
               <p className="mt-1 text-sm text-hayp-navy/60">Next update drops soon. Stay in the loop.</p>
             </div>
           </motion.li>
