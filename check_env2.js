@@ -1,0 +1,10 @@
+const dotenv = require('dotenv');
+const fs = require('fs');
+const path = require('path');
+const envPath = path.resolve('/home/deploy/vortex-repo/Backend_Vortex/.env');
+console.log('envPath=' + envPath);
+const result = dotenv.config({ path: envPath });
+console.log('dotenvError=' + (result.error ? result.error.message : 'none'));
+console.log('OWNER_EMAIL=' + (process.env.OWNER_EMAIL || '<missing>'));
+console.log('OWNER_PASSWORD_HASH=' + (process.env.OWNER_PASSWORD_HASH || '<missing>'));
+console.log('SESSION_SECRET=' + (process.env.SESSION_SECRET || '<missing>'));

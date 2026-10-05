@@ -6,7 +6,7 @@ HYDRA-verified repository state, never intentions. Updated as phases
 complete; completed phases are compressed or removed when they no longer
 aid tracking.
 
-**Current position:** PHASE 7+8 COMPLETE — vortexsdo.com LIVE over HTTPS on the Hetzner VPS · Incidents #4–#10 recorded and remediated · Phase 5A-4b next (What's New console editor) — Phases 5B–6 remain
+**Current position:** Phase 5A content complete (5A-1/2/3/3b) · Incidents #4–#7 recorded and remediated · build blocker parked · Phase 5A-4 next — Phases 5B–8 not started
 
 ## Ground rules
 1. Repository root is this folder. Reference material (Docs\Vortex_reference)
@@ -127,6 +127,7 @@ masked input (rotation 3); .env-only startup rule made permanent;
 mask-input-then-discard pattern reaffirmed. Functional proof: JP's
 masked login with the new credential.
 
+<<<<<<< HEAD
 Security record (Incidents #8–#10): incidents #8/#9 (server .env
 displayed; server hash corrupted via unquoted heredoc) remediated
 via argument-passing fixers + bcrypt compareSync diagnostic
@@ -138,17 +139,22 @@ Owner password: JP's choice at the masked prompt (rotation or
 retention — owner ruling). HARDENED .env rule unchanged: agents
 never hold secrets.
 
+=======
+>>>>>>> 7410a28 (feat: rebrand to Hayp Studios, promote reference app, remove Haypbooks, and update Qyra link)
 Completion record (5A-3b): HYDRA-verified complete — the Hub live
 via useLiveProducts (shared hook, derived counts, unified clickable
 links, static fallback on both views); commit 7515b55. JP browser
 acceptance COMPLETE (this commit cycle) — landing + Hub verified
 in-browser by JP.
+<<<<<<< HEAD
 Completion record (5A-4): HYDRA-verified complete — What's New
 timeline live via useLiveChangelog (type normalization from backend
 uppercase enum, order reversal to oldest-first, static version merge
 by title, static fallback); commit 8d17ac1. JP browser acceptance
 PENDING — both 5A-3 and 5A-4 acceptances happen in 5A-4b's matrix
 session (all three public views in one sitting).
+=======
+>>>>>>> 7410a28 (feat: rebrand to Hayp Studios, promote reference app, remove Haypbooks, and update Qyra link)
 
 ## Phase 6 — Integration — ⚪ NOT STARTED
 Objective: public site renders live from the Backend — data AND
@@ -163,6 +169,7 @@ Dependencies: Phases 2, 3 (and 5 for config rendering).
 Completion criteria: all dynamic views render API data locally; config
 changes propagate without redeploy; no visual regressions; HYDRA-verified.
 
+<<<<<<< HEAD
 ## Phase 7 — Deployment — ✅ COMPLETED (live on Hetzner: PM2 + nginx + SSL via vortexsdo.com)
 Completion record (VPS-3-SEC/8-DOMAIN): HYDRA-verified — login
 reconciled through the public endpoint (bcrypt compareSync
@@ -220,6 +227,31 @@ nginx virtual hosts: apex + www → Frontend_Vortex (PM2), api.vortexsdo.com
 → Backend_Vortex (PM2); SSL via certbot (Let's Encrypt); production API
 base URL updated in the frontend env; admin entrance verified over HTTPS.
 Completion criteria: https://vortexsdo.com serves all three views; API
+=======
+## Phase 7 — Deployment — ⚪ NOT STARTED
+Implementation: self-hosted on a Hetzner VPS (multi-repo server, shared
+with other JP projects): Frontend_Vortex → Next.js production build
+served via PM2 + nginx reverse proxy; Backend_Vortex → Express API via
+PM2 behind nginx (api subdomain); PostgreSQL self-hosted on the same
+VPS (localhost-only binding, dedicated vortex database + role, pg_dump
+backups scheduled); auto-deploy from GitHub (webhook or Actions SSH →
+git pull → bun install → prisma migrate deploy → pm2 reload); all
+secrets in VPS .env files — never in the repo; CORS tightened to
+production origins; ADMIN_PATH set in production env. FIRST VPS
+EXPERIMENT: run bunx next build on Linux — if the internal error-page
+prerender failure does not reproduce on Linux, the build blocker
+dissolves; if it reproduces, evaluate dev-mode-behind-PM2 (temporary)
+or the Next 16.1.4+ upgrade path.
+Completion criteria: both deployments live and healthy over public URLs;
+HYDRA verifies through the public URLs.
+
+## Phase 8 — Domain — ⚪ NOT STARTED
+Implementation: DNS for vortexsdu.com → the Hetzner VPS (A record);
+nginx virtual hosts: apex + www → Frontend_Vortex (PM2), api.vortexsdu.com
+→ Backend_Vortex (PM2); SSL via certbot (Let's Encrypt); production API
+base URL updated in the frontend env; admin entrance verified over HTTPS.
+Completion criteria: https://vortexsdu.com serves all three views; API
+>>>>>>> 7410a28 (feat: rebrand to Hayp Studios, promote reference app, remove Haypbooks, and update Qyra link)
 reachable on its subdomain; admin entrance verified over HTTPS; HYDRA-
 verified.
 

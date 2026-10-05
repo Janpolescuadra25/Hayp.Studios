@@ -27,29 +27,30 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Hayp.studio — Ready-Made Software",
+  title: {
+    default: "Hayp Studios — Ready-Made Software",
+    template: "%s | Hayp Studios",
+  },
   description:
     "An independent digital product studio. Ready-made software — tools, platforms and game worlds — designed, engineered and shipped with momentum. No templates, no shortcuts.",
   keywords: [
-    "Hayp.studio",
-    "Hayp Studios",
-    "Haypbooks",
+    "Ready-made software",
+    "Automation pipelines",
+    "Accounting automation",
     "Qyra",
+    "QuickBooks automation",
     "Zypra",
+    "Xero automation",
     "Cirqa",
     "Lumora",
-    "ready-made software",
-    "accounting system",
-    "QuickBooks automation",
-    "Xero automation",
-    "indie studio",
+    "Hayp Studios",
   ],
   authors: [{ name: "Hayp Studios" }],
   openGraph: {
-    title: "Hayp.studio — Ready-Made Software",
+    title: "Hayp Studios — Ready-Made Software",
     description:
       "Ready-made software — tools, platforms and game worlds — designed, engineered and shipped with momentum.",
-    siteName: "Hayp.studio",
+    siteName: "Hayp Studios",
     type: "website",
   },
 };

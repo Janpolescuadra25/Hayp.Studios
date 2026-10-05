@@ -1,58 +1,61 @@
-# VORTEX STUDIOS
+# Hayp Studios — Ready-Made Software
 
-An independent digital product studio. Ready-made software — built to move.
-
-> Less friction. More momentum.
-
-## What this repository is
-
-The source of truth for the Vortex Studios web presence and services:
-
-- `Frontend_Vortex/` — the vortex.studio experience (Landing · The Hub · What's New)
-- `Backend_Vortex/` — the API service powering The Hub, What's New, Stats and
-  site configuration
-- `Owner Dashboard` — a hidden, authenticated control surface for the
-  studio owner: landing content, appearance, media and What's New management
-
-Every product. Built by Vortex Studios. No exceptions.
-
-## The lineup
-
-Snapshot — canonical data lives in the platform's data layer.
-
-| Product | Lane | Status |
-|---|---|---|
-| Haypbooks | Accounting | LIVE |
-| Qyra | Automation | LIVE |
-| Zypra | Automation | IN DEVELOPMENT |
-| Cirqa | Social | PLANNED |
-| Lumora | E-Commerce | PLANNED |
-| Project: Arena | Games | CONCEPT |
-| Project: Bastion | Games | CONCEPT |
-| Project: Overdrive | Games | CONCEPT |
-| Project: Emberfall | Games | CONCEPT |
-
-New lanes. Same standard.
-
-## Stack
-
-- Frontend: Next.js · React · TypeScript · Tailwind CSS
-- Backend: Node.js API · Prisma · PostgreSQL (local dev · Neon in production)
-- Hosting: Hetzner VPS — Frontend + Backend via PM2/nginx, self-hosted PostgreSQL
-
-## Working this repo
-
-- `Road_Map.md` — phase tracking; the verified source of project position.
-- Roles: CYPRA plans · HYDRA verifies · MANTRA executes. No crossings.
-- Secrets never enter git or chat. Credentials live in `.env` (local) and
-  platform env vars (production). `.env.example` documents key names only.
-- Owner credentials are stored hashed. Never in code, never in prompts.
-
-## Status
-
-Phase 1 — bootstrap in progress. Implementation lands phase by phase
-(see Road_Map.md).
+Official website and digital hub for **Hayp Studios** (`haypstudios.com`), crafting purposeful, ready-made software and financial automation products.
 
 ---
 
-spin up · ship · repeat
+## 🌟 Overview
+
+Hayp Studios builds focused, production-grade applications with zero fluff. Every product is engineered to solve a specific workflow friction point—from transaction reconciliation to automated ledger synchronization.
+
+### Active & Upcoming Products
+- **Qyra** (`https://qyra.space`): Financial automation Chrome extension and pipeline that auto-posts POS and transaction data straight into QuickBooks Online. (Live)
+- **Zypra**: The Hayp automation engine retooled for Xero auto-posting and sync pipelines. (Development — ETA Late 2026)
+- **Cirqa**: Circle-first social feeds, communities, and messaging. (Planned — ETA 2027)
+- **Lumora**: High-converting digital storefronts built to sell. (Planned — ETA 2027)
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Server Components)
+- **Runtime & Package Manager**: [Bun](https://bun.sh/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **UI Components**: [ShadCN UI](https://ui.shadcn.com/) (Radix UI Primitives)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Database / ORM**: [Prisma ORM](https://www.prisma.io/)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- [Bun](https://bun.sh/) installed locally (v1.1+)
+
+### Installation
+```bash
+# Install dependencies
+bun install
+
+# Start development server
+bun dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+### Production Build
+```bash
+# Generate production bundle
+bun run build
+
+# Start production standalone server
+bun run start
+```
+
+---
+
+## 🌐 Deployment & Domain
+
+- **Live Domain**: `https://haypstudios.com`
+- **Infrastructure**: Hetzner Cloud VPS (`vortex` at `2.28.120.85`), PM2 process `hayp-frontend` on port 3002, reverse-proxied via Nginx with Let's Encrypt SSL.
+- **Repository**: [https://github.com/Janpolescuadra25/Hayp.Studios](https://github.com/Janpolescuadra25/Hayp.Studios)

@@ -78,19 +78,6 @@ export const STATUS_ORDER: Record<ProductStatus, number> = {
 
 export const PRODUCTS: Product[] = [
   {
-    id: "haypbooks",
-    name: "Haypbooks",
-    tagline: "The accounting system that speaks human",
-    description:
-      "A complete accounting suite — ledgers, invoicing, expenses and financial reports — built to make bookkeeping feel less like paperwork and more like second nature.",
-    category: "Accounting",
-    status: "live",
-    releasedAt: "2025-12-10",
-    icon: BookOpenCheck,
-    hue: ["#0d9488", "#10b981"],
-    tags: ["Ledgers", "Invoicing", "Reports"],
-  },
-  {
     id: "qyra",
     name: "Qyra",
     tagline: "Your data, auto-posted to QuickBooks",
@@ -137,70 +124,14 @@ export const PRODUCTS: Product[] = [
     name: "Lumora",
     tagline: "A marketplace with a glow",
     description:
-      "An e-commerce platform in the spirit of the great marketplaces — stores, discovery and checkout tuned for conversion. On the roadmap after Cirqa.",
+      "High-converting digital storefronts built to sell online, with built-in reconciliation and sync for all your sales channels.",
     category: "E-Commerce",
     status: "planned",
     releasedAt: "2026-07-20",
     eta: "2027",
     icon: ShoppingBag,
-    hue: ["#10b981", "#1e3a5f"],
-    tags: ["Marketplace", "Stores", "Checkout"],
-  },
-  {
-    id: "project-arena",
-    name: "Project: Arena",
-    tagline: "A MOBA, forged in motion",
-    description:
-      "A multiplayer online battle arena built on fast, readable combat and true team play. First playable targeted after the automation wave.",
-    category: "Games",
-    status: "concept",
-    releasedAt: "2026-08-10",
-    eta: "Concept",
-    icon: Swords,
-    hue: ["#1e3a5f", "#0d9488"],
-    tags: ["MOBA", "Multiplayer"],
-  },
-  {
-    id: "project-bastion",
-    name: "Project: Bastion",
-    tagline: "Build. Defend. Conquer.",
-    description:
-      "A base-building strategy game in the Clash tradition — raise a stronghold, raid rivals and climb the ladder, one raid at a time.",
-    category: "Games",
-    status: "concept",
-    releasedAt: "2026-08-10",
-    eta: "Concept",
-    icon: Castle,
-    hue: ["#0f766e", "#1e3a5f"],
-    tags: ["Strategy", "Base-building"],
-  },
-  {
-    id: "project-overdrive",
-    name: "Project: Overdrive",
-    tagline: "An open world you can feel",
-    description:
-      "An ambitious open-world action experience — cities, vehicles and the freedom to carve your own path. Early concept; the long game.",
-    category: "Games",
-    status: "concept",
-    releasedAt: "2026-08-10",
-    eta: "Concept",
-    icon: Car,
-    hue: ["#06b6d4", "#1e3a5f"],
-    tags: ["Open World", "Action"],
-  },
-  {
-    id: "project-emberfall",
-    name: "Project: Emberfall",
-    tagline: "An RPG worth the journey",
-    description:
-      "A story-driven role-playing game with a world that remembers your choices. Early concept — being shaped slowly, deliberately.",
-    category: "Games",
-    status: "concept",
-    releasedAt: "2026-08-10",
-    eta: "Concept",
-    icon: Compass,
-    hue: ["#10b981", "#06b6d4"],
-    tags: ["RPG", "Story-driven"],
+    hue: ["#f59e0b", "#d97706"],
+    tags: ["E-Commerce", "Multi-channel", "Reconciliation"],
   },
 ];
 

@@ -1,0 +1,6 @@
+a. GET / -> 200 contains Haypbooks=True
+b. GET /the-hub -> 200
+c. GET /whats-new -> 200 contains What's New=False contains Haypbooks Ships=True
+d. GET /owner-console -> 404
+e. GET /api/auth/session -> 200 {"authenticated":false}
+f. GET /api/admin/products (no cookie) -> 401

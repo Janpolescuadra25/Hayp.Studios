@@ -1,10 +1,10 @@
 {
-  "name": "nextjs_tailwind_shadcn_ts",
+  "name": "hayp-studios",
   "version": "0.2.1",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",
-    "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
+    "build": "next build && node -e \"const fs=require('fs'); const path=require('path'); const target=path.join('.next','standalone'); fs.mkdirSync(path.join(target,'.next'), { recursive: true }); if (fs.existsSync('.next/static')) fs.cpSync('.next/static', path.join(target,'.next','static'), { recursive: true, force: true }); if (fs.existsSync('public')) fs.cpSync('public', path.join(target,'public'), { recursive: true, force: true });\"",
     "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
     "lint": "eslint .",
     "db:push": "prisma db push --accept-data-loss",
