@@ -1,0 +1,30 @@
+🚀 Initializing Z-AI SDK...
+🚀 Sending vision chat request...
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1) **Yes.** The 'Qyra' card has a \"Visit product\" link with an up-right arrow in its footer.\n2) **Yes.** The 'Haypbooks' card footer displays only the date (\"DEC 2025\") with no link or button on the right.\n3) **Yes.** The cards are visually balanced with consistent spacing, alignment, and typography.\n4) **No.** There are no obvious layout glitches; the grid and elements are well-aligned.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1791206228,
+  "id": "20261005211705703a09c6a77945d2",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20261005211705703a09c6a77945d2",
+  "usage": {
+    "completion_tokens": 104,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1762,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 1866
+  }
+}
