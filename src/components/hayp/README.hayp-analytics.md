@@ -36,9 +36,10 @@ The `HaypAnalytics` component is an internal studio telemetry dashboard providin
 
 ---
 
-## 4. Authentication & Security Context
-- **Current Mechanism**: Authenticates via `x-studio-key` header matching `STUDIO_ANALYTICS_KEY` / `NEXT_PUBLIC_STUDIO_ANALYTICS_KEY`.
-- **Target Architecture (Milestone 5B-5)**: Transition to NextAuth.js server-side session checks, removing client-side key exposure and restricting dashboard access to authenticated studio administrators.
+## 4. Security & Access Control
+- **Active Security Architecture**: The component relies on server-enforced NextAuth.js session cookies. All requests to `/api/analytics/metrics` require an authenticated Studio Owner session (`role: "ADMIN"`).
+- **Access Guard UI**: If the server returns HTTP `401 Unauthorized` or `403 Forbidden`, the component renders a secure lock card prompting the user to sign in, preventing telemetry data leakage.
+- **Zero Client Keys**: All transitional client-side keys (`NEXT_PUBLIC_STUDIO_ANALYTICS_KEY`, `x-studio-key`) have been eliminated.
 
 ---
 
