@@ -1,6 +1,6 @@
 # Phase 5B: Analytics Dashboard & Telemetry Architecture
 
-**Status:** In Progress  
+**Status:** Core Implementation Complete (2026-10-06) — Auth Pending  
 **Initiated:** 2026-10-06  
 **Target:** Owner Studio Telemetry, Usage Metrics, and Performance Dashboard  
 
@@ -35,3 +35,11 @@ Persisted via Prisma ORM (SQLite for local dev, PostgreSQL for production deploy
 - [x] **5B-3:** Client telemetry hooks (`useAnalytics`) embedded in SPA Chrome and product cards.
 - [x] **5B-4:** Studio Analytics Dashboard view (`hayp-analytics.tsx`) with metric cards, engagement charts, and event log table.
 - [ ] **5B-5:** Owner authentication and dashboard access control.
+
+## 4. Current Authentication & Security Architecture
+- **Current Bridge Implementation**: The metrics API (`/api/analytics/metrics`) enforces an `x-studio-key` header verification validated against `process.env.STUDIO_ANALYTICS_KEY` (with dev fallback).
+- **Security Boundary**: The current key mechanism is a transitional measure. Because `NEXT_PUBLIC_STUDIO_ANALYTICS_KEY` is referenced in the client dashboard, true administrative isolation requires server-side session checks.
+- **Upcoming Milestone 5B-5**:
+  - Implement NextAuth.js admin session verification on `/api/analytics/metrics`.
+  - Protect the analytics view in the client SPA so only authenticated studio owners can access it.
+  - Eliminate client-side analytics key exposure in public bundles.

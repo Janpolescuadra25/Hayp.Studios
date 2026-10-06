@@ -59,12 +59,17 @@ We build ready-made software products that solve specific business problems. Eve
 - Completion record: HYDRA-verified complete — all browser acceptance checks passed, Qyra link verified (`https://qyra.space`), zero regressions.
 
 ## Next Active Phase
-### Phase 5B: Analytics Dashboard — 🔄 IN PROGRESS (2026-10-06)
-- [x] 5B-1: Analytics architecture and schema
-- [x] 5B-2: Ingestion API route
-- [x] 5B-3: Client telemetry hooks
-- [x] 5B-4: Studio analytics dashboard and aggregation layer
-- [ ] 5B-5: Owner authentication and dashboard access control
+### Phase 5B: Analytics Dashboard — 🔄 CORE DEPLOYED / AUTH PENDING (2026-10-06)
+- [x] 5B-1: Analytics architecture and schema (`AnalyticsEvent` Prisma model)
+- [x] 5B-2: Ingestion API route (`/api/analytics/event` with rate limiting & validation)
+- [x] 5B-3: Client telemetry hooks (`useAnalytics` in SPA Chrome and product cards)
+- [x] 5B-4: Studio analytics dashboard and aggregation layer (`hayp-analytics.tsx` & `/api/analytics/metrics`)
+- [ ] 5B-5: Owner authentication and dashboard access control (NextAuth.js admin session guard, server-only secret, admin-gated navigation)
+
+#### Phase 5B-5 Implementation Specifications:
+- **Server-Side Protection**: Transition `/api/analytics/metrics` from header key to NextAuth.js admin session verification.
+- **Client Security**: Remove `NEXT_PUBLIC_STUDIO_ANALYTICS_KEY` exposure from browser bundles; restrict `/analytics` view navigation to authenticated admin sessions.
+- **Access Control**: Hide studio analytics nav entry in `HaypNavbar` for unauthenticated visitors.
 
 ## Future Phases
 ### Phase 6: New Product Development
