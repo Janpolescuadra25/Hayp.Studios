@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { AppSessionProvider } from "@/components/providers/session-provider";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -86,7 +87,7 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${inter.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased bg-background text-foreground`}
       >
         <script dangerouslySetInnerHTML={{ __html: EXTENSION_ATTR_SCRUBBER }} />
-        {children}
+        <AppSessionProvider>{children}</AppSessionProvider>
         <Toaster />
       </body>
     </html>

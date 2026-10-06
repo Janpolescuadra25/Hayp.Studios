@@ -54,18 +54,18 @@ export function HaypAnalytics() {
     setError(null);
 
     try {
-      const studioKey = process.env.NEXT_PUBLIC_STUDIO_ANALYTICS_KEY ?? "";
       const response = await fetch("/api/analytics/metrics", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          ...(studioKey ? { "x-studio-key": studioKey } : {}),
         },
       });
 
       if (!response.ok) {
         if (response.status === 401) {
-          throw new Error("Unauthorized: Invalid or missing studio analytics key.");
+          setError("Unauthorized: Studio Owner login required.");
+          setLoading(false);
+          return;
         }
         throw new Error(`Failed to load analytics metrics (HTTP ${response.status}).`);
       }
@@ -121,13 +121,12 @@ export function HaypAnalytics() {
             <AlertTriangle className="h-4 w-4 text-red-300" />
             <span>{error}</span>
           </div>
-          <button
-            type="button"
-            onClick={fetchMetrics}
+          <a
+            href="/api/auth/signin"
             className="rounded-full border border-red-500/40 bg-red-900/40 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-red-100 transition hover:bg-red-900/60"
           >
-            Retry
-          </button>
+            Sign in
+          </a>
         </div>
       )}
 

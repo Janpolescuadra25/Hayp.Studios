@@ -58,18 +58,26 @@ We build ready-made software products that solve specific business problems. Eve
 - All 22 test cases in `Docs/matrix-acceptance-2026-10-06.md` verified across Landing, Hub, What's New, and responsive navigation
 - Completion record: HYDRA-verified complete — all browser acceptance checks passed, Qyra link verified (`https://qyra.space`), zero regressions.
 
-## Next Active Phase
-### Phase 5B: Analytics Dashboard — 🔄 CORE DEPLOYED / AUTH PENDING (2026-10-06)
+## Completed Phase
+### Phase 5B: Internal Analytics & Metrics Dashboard — Completed (100% — 2026-10-06)
 - [x] 5B-1: Analytics architecture and schema (`AnalyticsEvent` Prisma model)
 - [x] 5B-2: Ingestion API route (`/api/analytics/event` with rate limiting & validation)
 - [x] 5B-3: Client telemetry hooks (`useAnalytics` in SPA Chrome and product cards)
 - [x] 5B-4: Studio analytics dashboard and aggregation layer (`hayp-analytics.tsx` & `/api/analytics/metrics`)
-- [ ] 5B-5: Owner authentication and dashboard access control (NextAuth.js admin session guard, server-only secret, admin-gated navigation)
+- [x] 5B-5: Owner authentication and dashboard access control (NextAuth.js admin session guard, server-only secret, admin-gated navigation)
 
-#### Phase 5B-5 Implementation Specifications:
-- **Server-Side Protection**: Transition `/api/analytics/metrics` from header key to NextAuth.js admin session verification.
-- **Client Security**: Remove `NEXT_PUBLIC_STUDIO_ANALYTICS_KEY` exposure from browser bundles; restrict `/analytics` view navigation to authenticated admin sessions.
-- **Access Control**: Hide studio analytics nav entry in `HaypNavbar` for unauthenticated visitors.
+#### Completion record:
+- Server-side owner-only authorization enforced with NextAuth session verification and administrator role checks.
+- Analytics UI now handles 401/403 access denial gracefully and prompts for Studio Owner sign-in.
+- Browser bundles no longer rely on a shared `NEXT_PUBLIC_STUDIO_ANALYTICS_KEY` token.
+- Dashboard navigation is gated to authenticated administrative access for the owner-only telemetry experience.
+
+### Core platform features archived to production baseline
+- Hayp Studios rebrand and product catalog alignment across the public site.
+- Qyra, Zypra, Cirqa, and Lumora product positioning and metadata cleanup.
+- Analytics ingestion, aggregation, and dashboard experience.
+- NextAuth credential authentication for Studio Owner access.
+- Prisma schema and local environment setup for owner administration.
 
 ## Future Phases
 ### Phase 6: New Product Development

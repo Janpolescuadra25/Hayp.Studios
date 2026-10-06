@@ -1,79 +1,76 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
-
-function getStudioKey(): string {
-  return process.env.STUDIO_ANALYTICS_KEY ?? process.env.NEXT_PUBLIC_STUDIO_ANALYTICS_KEY ?? "hayp-studio-internal-key";
-}
-
-function isAuthorized(req: NextRequest): boolean {
-  const providedKey =
-    req.headers.get("x-studio-key") ??
-    req.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ??
-    "";
-
-  const configuredKey = getStudioKey();
-  return Boolean(providedKey) && Boolean(configuredKey) && providedKey === configuredKey;
-}
 
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 204,
     headers: {
       "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-studio-key",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Max-Age": "86400",
     },
   });
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    if (!isAuthorized(req)) {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
       return NextResponse.json(
-        { ok: false, error: "Unauthorized access to studio analytics metrics" },
+        { error: "Unauthorized: Owner session required" },
         { status: 401 }
       );
     }
 
-    const [totalEvents, pageViews, cardClicks, externalNavs] = await Promise.all([
-      db.analyticsEvent.count(),
-      db.analyticsEvent.count({ where: { eventType: "page_view" } }),
-      db.analyticsEvent.count({ where: { eventType: "card_click" } }),
-      db.analyticsEvent.count({ where: { eventType: "external_nav" } }),
-    ]);
+    const role = (session.user as { role?: string }).role;
+    const email = session.user.email?.toLowerCase();
+    const adminEmail = (process.env.ADMIN_EMAIL ?? "paulescuadra25@gmail.com").toLowerCase();
 
-    const sessions = await db.analyticsEvent.findMany({
-      select: { sessionId: true },
-      distinct: ["sessionId"],
-    });
-
-    const eventsByType = await db.analyticsEvent.groupBy({
-      by: ["eventType"],
-      _count: { _all: true },
-    });
-
-    const recentEvents = await db.analyticsEvent.findMany({
-      take: 25,
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        eventType: true,
-        entityType: true,
-        entityId: true,
-        pathname: true,
-        sessionId: true,
-        createdAt: true,
-      },
-    });
+    if (role !== "ADMIN" && email !== adminEmail) {
+      return NextResponse.json(
+        { error: "Unauthorized: Owner session required" },
+        { status: 401 }
+      );
+    }
 
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const weekEvents = await db.analyticsEvent.findMany({
-      where: { createdAt: { gte: sevenDaysAgo } },
-      select: { eventType: true, createdAt: true },
-      orderBy: { createdAt: "asc" },
-    });
+    const [totalEvents, pageViews, cardClicks, externalNavs, sessions, eventsByType, recentEvents, weekEvents] = await Promise.all([
+      db.analyticsEvent.count(),
+      db.analyticsEvent.count({ where: { eventType: "page_view" } }),
+      db.analyticsEvent.count({ where: { eventType: "card_click" } }),
+      db.analyticsEvent.count({ where: { eventType: "external_nav" } }),
+      db.analyticsEvent.groupBy({
+        by: ["sessionId"],
+        _count: { sessionId: true },
+      }),
+      db.analyticsEvent.groupBy({
+        by: ["eventType"],
+        _count: { _all: true },
+      }),
+      db.analyticsEvent.findMany({
+        take: 25,
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          eventType: true,
+          entityType: true,
+          entityId: true,
+          pathname: true,
+          sessionId: true,
+          createdAt: true,
+        },
+      }),
+      db.analyticsEvent.findMany({
+        where: { createdAt: { gte: sevenDaysAgo } },
+        select: { eventType: true, createdAt: true },
+        orderBy: { createdAt: "asc" },
+      }),
+    ]);
 
     const dailyMap: Record<string, { date: string; views: number; clicks: number; navs: number }> = {};
     for (let offset = 6; offset >= 0; offset -= 1) {

@@ -31,6 +31,15 @@ export function HaypNavbar({
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const handleNavClick = (nextView: HaypView) => {
+    trackPageView(nextView);
+    if (nextView === "analytics") {
+      window.location.href = "/api/auth/signin";
+      return;
+    }
+    onNavigate(nextView);
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -76,10 +85,7 @@ export function HaypNavbar({
               return (
                 <button
                   key={link.view}
-                  onClick={() => {
-                    trackPageView(link.view);
-                    onNavigate(link.view);
-                  }}
+                  onClick={() => handleNavClick(link.view)}
                   className={cn(
                     "label-editorial relative py-2 transition-colors duration-400 focus-visible:outline-2 focus-visible:outline-hayp-teal",
                     active ? "text-hayp-ink" : "text-hayp-ink/50 hover:text-hayp-ink"
@@ -142,6 +148,11 @@ export function HaypNavbar({
                   exit={{ opacity: 0, y: 16 }}
                   transition={{ duration: 0.7, delay: 0.08 + i * 0.08, ease: EASE }}
                   onClick={() => {
+                    if (link.view === "analytics") {
+                      setOpen(false);
+                      window.location.href = "/api/auth/signin";
+                      return;
+                    }
                     trackPageView(link.view);
                     setOpen(false);
                     onNavigate(link.view);
