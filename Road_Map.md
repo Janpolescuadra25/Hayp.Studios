@@ -1,6 +1,6 @@
-# Hayp Studios — Product & Platform Roadmap
+# Hayp Studios — Master Software Showcase & Platform Roadmap
 
-> **Platform Mission:** We build ready-made software products that solve specific business problems. Every product is self-contained, domain-specialized, and designed for immediate utility.
+> **Platform Mission:** Hayp Studios is the master portfolio and showcase for all software products built and owned by JP. Every software product under the Hayp Studios umbrella is self-contained, domain-specialized, and designed for immediate real-world utility. Commercial billing and transactions are handled independently by each product.
 
 ---
 
@@ -23,28 +23,29 @@
 
 ### Phase 5B: Internal Analytics & Metrics Dashboard (Completed 100% — 2026-10-06)
 - [x] **5B-1**: Analytics schema (`AnalyticsEvent` model in Prisma with multi-column indexes).
-- [x] **5B-2**: Ingestion API (`/api/analytics/event` with rate limiting, payload validation, and public ingestion).
+- [x] **5B-2**: Ingestion API (`/api/analytics/event` with rate limiting, payload validation, and public telemetry ingestion).
 - [x] **5B-3**: Telemetry hooks (`useAnalytics` tracking page views, product card clicks, external navigations, and session IDs).
-- [x] **5B-4**: Analytics dashboard UI (`HaypAnalytics` with Recharts engagement graph, KPI cards, and event table).
-- [x] **5B-5**: Owner authentication & access control (NextAuth v4 session guard on `/api/analytics/metrics`, `role: "ADMIN"` enforcement, and UI lock card for unauthorized access).
+- [x] **5B-4**: Analytics dashboard UI (`HaypAnalytics` with Recharts engagement graph, KPI cards, and recent events log).
+- [x] **5B-5**: Owner authentication & access control (NextAuth v4 session guard on `/api/analytics/metrics`, `role: "ADMIN"` enforcement, pure placeholder `.env.example`, untracked local credentials, and UI access lock card).
 
 ---
 
-## 🚀 Active Roadmap: Phase 6 — New Product Development & Portfolio Scaling
+## 🚀 Active Roadmap: Phase 6 — Master Software Showcase & Production Deployment
 
-### Milestone 6-1: Qyra Feature Scaling & Billing
-- [ ] Tiered subscription billing integration and automated sync telemetry.
-- [ ] Direct deep-linking between Studio Hub and Qyra web dashboard.
+### Milestone 6-1: Enhanced Product Showcase & Deep-Linking
+- [ ] Expand product catalog schema in `src/lib/hayp-data.ts` to include rich feature breakdowns, tech stack specifications, live status badges, and direct external launch URLs.
+- [ ] Implement detailed product preview modals in `src/components/hayp/hayp-hub.tsx` allowing visitors to explore product architecture and capabilities before navigating to live software.
+- [ ] Wire outbound telemetry tracking to record product click-throughs, feature views, and external navigations.
 
-### Milestone 6-2: Zypra MVP Launch Preparation
-- [ ] Scaffold Zypra core productivity module in standalone workspace.
-- [ ] Implement initial preview demo and update Studio status to Beta.
+### Milestone 6-2: Upcoming Software Previews (Zypra, Cirqa, Lumora)
+- [ ] Scaffold interactive preview cards and technical specs for **Zypra** (active development milestone).
+- [ ] Add roadmap concept previews and domain target overviews for **Cirqa** and **Lumora**.
 
-### Milestone 6-3: Production Server Deployment (vortex VPS)
-- [ ] Provision PM2 process for `hayp-frontend` on port `3002` on Hetzner VPS `vortex` (`2.28.120.85`).
-- [ ] Configure Nginx reverse proxy virtual host for `haypstudios.com` and `www.haypstudios.com` with Let's Encrypt SSL.
-- [ ] Validate live DNS routing separating `haypstudios.com` (port 3002) from `johnpaulescuadra.com` (port 3000).
+### Milestone 6-3: Production Server Deployment (vortex VPS — Port 3002)
+- [ ] Deploy Hayp Studios Next.js production build to Hetzner VPS `vortex` (`2.28.120.85`) under PM2 on allocated port `3002`.
+- [ ] Configure Nginx reverse proxy block with Let's Encrypt SSL for `haypstudios.com` and `www.haypstudios.com`.
+- [ ] Validate live routing so `haypstudios.com` serves Hayp Studios on port 3002, separated from `johnpaulescuadra.com` on port 3000.
 
 ---
 
-*Last Updated & Verified: 2026-10-06 (Post-Phase 5B Stabilization)*
+*Last Updated & Verified: 2026-10-06 (Realigned to Master Showcase Architecture)*
