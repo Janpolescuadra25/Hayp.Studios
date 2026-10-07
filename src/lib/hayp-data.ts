@@ -37,6 +37,11 @@ export interface Product {
   /** two hex colors used to paint the CSS-art thumbnail */
   hue: [string, string];
   tags: string[];
+  // Milestone 6-1 additive showcase metadata
+  highlights?: string[];
+  features?: string[];
+  architecture?: string;
+  techStack?: string[];
 }
 
 export const CATEGORIES: { name: Category; icon: LucideIcon; blurb: string }[] = [
@@ -90,6 +95,29 @@ export const PRODUCTS: Product[] = [
     icon: Zap,
     hue: ["#06b6d4", "#0d9488"],
     tags: ["QuickBooks", "Auto-posting", "Sync"],
+    highlights: [
+      "Live Production SaaS",
+      "Multi-Agent Automation Pipeline",
+      "Real-Time Telemetry & Metric Engine",
+    ],
+    features: [
+      "Autonomous Task Orchestration",
+      "Deterministic Fail-Closed Verification Gates",
+      "Real-time State Synchronization",
+      "Enterprise Analytics Dashboard",
+    ],
+    architecture:
+      "Modern full-stack application deployed on Hetzner VPS (vortex) behind Nginx reverse proxy with Express API backend and PostgreSQL persistence.",
+    techStack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Prisma",
+      "PostgreSQL",
+      "NextAuth",
+      "Radix UI",
+    ],
   },
   {
     id: "zypra",
@@ -104,6 +132,25 @@ export const PRODUCTS: Product[] = [
     icon: Link2,
     hue: ["#10b981", "#06b6d4"],
     tags: ["Xero", "Auto-posting", "Pipeline"],
+    highlights: [
+      "Active Development",
+      "High-Performance Workflow Automation",
+      "Domain Specialized Logic Engine",
+    ],
+    features: [
+      "Real-Time State Tracking",
+      "Automated Action Dispatcher",
+      "Modular Integration Hooks",
+    ],
+    architecture:
+      "Event-driven service architecture with decoupled micro-workers and asynchronous execution pipelines.",
+    techStack: [
+      "TypeScript",
+      "Node.js",
+      "React",
+      "Tailwind CSS",
+      "PostgreSQL",
+    ],
   },
   {
     id: "cirqa",
@@ -118,6 +165,24 @@ export const PRODUCTS: Product[] = [
     icon: Globe,
     hue: ["#1e3a5f", "#06b6d4"],
     tags: ["Feeds", "Communities", "Messaging"],
+    highlights: [
+      "Architecture Planned",
+      "Creative & Media Automation Suite",
+      "Visual Workflow Builder",
+    ],
+    features: [
+      "Visual Pipeline Canvas",
+      "Asset Optimization Engine",
+      "Multi-format Export Pipeline",
+    ],
+    architecture:
+      "Browser-based visual canvas interface coupled with high-throughput cloud rendering workers.",
+    techStack: [
+      "Next.js",
+      "WebGL",
+      "TypeScript",
+      "Tailwind CSS",
+    ],
   },
   {
     id: "lumora",
@@ -132,6 +197,24 @@ export const PRODUCTS: Product[] = [
     icon: ShoppingBag,
     hue: ["#f59e0b", "#d97706"],
     tags: ["E-Commerce", "Multi-channel", "Reconciliation"],
+    highlights: [
+      "Design Phase",
+      "Intelligence & Research Engine",
+      "Knowledge Graph Synthesizer",
+    ],
+    features: [
+      "Multi-Source Data Ingestion",
+      "Autonomous Synthesis Pipelines",
+      "Interactive Graph Exploration",
+    ],
+    architecture:
+      "Hybrid vector and relational data store with streaming client-side response rendering.",
+    techStack: [
+      "TypeScript",
+      "Next.js",
+      "Tailwind CSS",
+      "Vector Search",
+    ],
   },
 ];
 
