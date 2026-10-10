@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
+import { HaypContactForm } from "@/components/hayp/hayp-contact-form";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Search,
@@ -202,6 +203,7 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
   const [sort, setSort] = useState<SortKey>("status");
+  const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
 
   const results = useMemo(() => {
@@ -243,6 +245,19 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
   // (six shrink-0 pills) can't inflate the shrink-to-fit main on mobile
   return (
     <>
+            {/* Contact & Booking Inquiry Modal */}
+      <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">Initiate Project Brief</DialogTitle>
+            <DialogDescription>
+              Connect directly with Hayp Studios for custom creative direction, kinetic systems, and engineering.
+            </DialogDescription>
+          </DialogHeader>
+          <HaypContactForm onSuccess={() => setIsContactOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={!!activeProduct} onOpenChange={(open) => !open && setActiveProduct(null)}>
         <DialogContent className="max-w-2xl border border-zinc-800 bg-zinc-950 text-zinc-100 shadow-2xl">
           {activeProduct && (
@@ -351,12 +366,23 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
                   <div />
                 )}
 
-                <button
-                  onClick={() => setActiveProduct(null)}
-                  className="rounded-md border border-zinc-700 bg-zinc-900 px-3.5 py-2 text-sm text-zinc-200 transition-colors hover:border-zinc-600 hover:text-white"
-                >
-                  Close
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setActiveProduct(null);
+                      setIsContactOpen(true);
+                    }}
+                    className="rounded-md bg-amber-500 px-3.5 py-2 text-sm font-medium text-zinc-950 transition-opacity hover:opacity-90"
+                  >
+                    Send project brief
+                  </button>
+                  <button
+                    onClick={() => setActiveProduct(null)}
+                    className="rounded-md border border-zinc-700 bg-zinc-900 px-3.5 py-2 text-sm text-zinc-200 transition-colors hover:border-zinc-600 hover:text-white"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </>
           )}
