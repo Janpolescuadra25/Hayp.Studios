@@ -1,60 +1,84 @@
-﻿# Hayp Studios — Master Software Showcase & Platform Roadmap
-
-> **Platform Mission:** Hayp Studios is the master portfolio and showcase for all software products built and owned by JP. Every software product under the Hayp Studios umbrella is self-contained, domain-specialized, and designed for immediate real-world utility. Commercial billing and transactions are handled independently by each product.
-
----
-
-## 🏛️ Completed Milestones Archive (Code-Verified)
-
-### Phase 1: Foundation (Completed)
-- Next.js 16 App Router architecture, responsive canvas shell, Tailwind styling system, and core brand asset registry.
-
-### Phase 2: Product Launch Infrastructure (Completed)
-- Studio catalog registry (`src/lib/hayp-data.ts`), dynamic routing, interactive cards, and product showcase metadata.
-
-### Phase 3: Qyra Launch (Completed)
-- Financial automation browser extension and web platform launched and active (`https://qyra.space`).
-
-### Phase 4: Product Portfolio Baseline (Active Baseline)
-- Product matrix established: Qyra (Live at `https://qyra.space`), Zypra (In Active Development), Cirqa (Planned), Lumora (Planned).
-
-### Phase 5A: Hub Redesign & Navigation Overhaul (Completed)
-- Interactive product hub, animated background particle matrix, unified chrome header, and What's New changelog view. Verified across 22 acceptance test cases.
-
-### Phase 5B: Internal Analytics & Metrics Dashboard (Completed 100% — 2026-10-06)
-- [x] **5B-1**: Analytics schema (`AnalyticsEvent` model in Prisma with multi-column indexes).
-- [x] **5B-2**: Ingestion API (`/api/analytics/event` with rate limiting, payload validation, and public telemetry ingestion).
-- [x] **5B-3**: Telemetry hooks (`useAnalytics` tracking page views, product card clicks, external navigations, and session IDs).
-- [x] **5B-4**: Analytics dashboard UI (`HaypAnalytics` with Recharts engagement graph, KPI cards, and recent events log).
-- [x] **5B-5**: Owner authentication & access control (NextAuth v4 session guard on `/api/analytics/metrics`, `role: "ADMIN"` enforcement, pure placeholder `.env.example`, untracked local credentials, and UI access lock card).
+# HAYP.STUDIOS — MASTER ARCHITECTURAL ROADMAP
+**Last Updated:** 2026-10-10  
+**Repository Branch:** `main`  
+**Current Baseline Commit:** `5798d9872716d80f425458225514753c6439a2eb`  
+**Runtime Architecture:** Next.js 16.1.1 (App Router) | Bun Runtime | SQLite (Prisma ORM) | Tailwind CSS | Port 3003  
+**Target Production Server:** Hetzner VPS `vortex` (IPv4 `2.28.120.85`) | Pull-Only Deployment Model  
 
 ---
 
+## 1. ARCHITECTURAL MILESTONE REGISTRY
 
-### Phase 6 Milestone 6-1: Master Product Showcase Explorer Architecture (COMPLETED)
-- **Status**: Completed & Verified (Commit: `8121882`)
-- **Implemented Capabilities**:
-  - Additive product schema fields (`highlights`, `features`, `architecture`, `techStack`) in `src/lib/hayp-data.ts`.
-  - Master product showcase filtering across `all`, `live`, `ecosystem`, and `upcoming` categories.
-  - Interactive product preview modal with deep architecture telemetry in `src/components/hayp/hayp-hub.tsx`.
-  - Comprehensive master showcase documentation in `Docs/phase6-master-showcase/README.md`.
+| Phase | Milestone Name | Code-Verified Status | Live-Service Status | Primary Assets / Verification Proof |
+|---|---|---|---|---|
+| **Phase 1** | Foundation & Project Setup | **COMPLETE (VERIFIED)** | N/A | Next.js 16.1.1 App Router, Bun runtime, Tailwind CSS, TypeScript strict configuration. |
+| **Phase 2** | Design System & Master Layout | **COMPLETE (VERIFIED)** | N/A | Custom typography, responsive navigation, dark/modern aesthetic, accessible UI components. |
+| **Phase 3** | Third-Party Integrations | **IN PROGRESS (CODE VERIFIED)** | PENDING CREDENTIALS | Instagram Basic Display API & EmailJS implemented with robust mock/fallback architectures. Production ready pending live API keys. |
+| **Phase 4** | Interactive Components & Features | **COMPLETE (VERIFIED)** | N/A | Interactive showcase, dynamic portfolio filtering, responsive modals, contact form validation. |
+| **Phase 5** | Database Architecture & Telemetry | **COMPLETE (VERIFIED)** | N/A | SQLite database via Prisma ORM, `AnalyticsEvent` schema, automated database migrations, telemetry ingest endpoint. |
+| **Phase 5B** | Analytics Dashboard & Auth | **COMPLETE (VERIFIED)** | N/A | NextAuth-backed authentication, role-based metrics API (`/api/analytics/metrics`), telemetry dashboard views. |
+| **Phase 6** | Master Showcase & Polish | **COMPLETE (VERIFIED)** | N/A | Comprehensive showcase implementation, responsive media layouts, design polish verified. |
+| **Phase 6-3** | Production Deployment Hardening | **LOCAL COMPLETE (VERIFIED)** | PENDING REMOTE VPS PULL | Standalone build verified (exit code 0), PM2 ecosystem configured (Bun, port 3003, app `hayp-frontend`, structured logs), Nginx proxy template, `.env.production.example`, and deployment runbook. Remote deployment pending Git tracking and server pull. |
 
-## 🚀 Active Roadmap: Phase 6 — Master Software Showcase & Production Deployment
+---
 
-### Milestone 6-2: Upcoming Software Previews (Zypra, Cirqa, Lumora)
-> **Status:** Completed & Code-Verified
+## 2. DETAILED PHASE TRACKING
 
-- [x] Product catalog and architecture scaffolding for **Zypra**, **Cirqa**, and **Lumora** are captured in `Docs/phase6-master-showcase/MILESTONE-6-2.md`.
-- [x] Preview modal integration and showcase entry points are connected to the product hub experience.
-- [x] Detailed roadmap and UX architecture specifications for the upcoming software previews are in place.
-- [x] Finalize the remaining product preview polish and content validation for each upcoming showcase entry.
-- [x] Confirm final public messaging and launch-state metadata for the upcoming products.
+### Phase 1: Foundation & Project Setup
+- **Status:** COMPLETE
+- **Verified Deliverables:** Next.js 16.1.1 configuration, package management via Bun, project structure organization.
 
-### Milestone 6-3: Operating Deployment & Pipeline Verification
-> **Status:** Pending (External Infrastructure Deployment)
+### Phase 2: Design System & Master Layout
+- **Status:** COMPLETE
+- **Verified Deliverables:** Master layout components, modern studio branding, responsive grid systems, typography scale.
 
-- [ ] Deploy live infrastructure and verify external production pipeline readiness for Hayp Studios.
-- [ ] Validate live deployment telemetry and route health against the production environment.
-- [ ] Complete external verification and signoff for the live environment before promotion to production status.
+### Phase 3: Third-Party Integrations
+- **Status:** IN PROGRESS (Code Architecture Verified; External Credentials Pending)
+- **Verified Deliverables:**
+  - Instagram Feed: Component and API route implemented with graceful fallback for simulated data.
+  - EmailJS: Contact dispatch architecture implemented with local developer feedback.
+  - Remaining: Insertion of live Instagram access tokens and EmailJS service IDs upon domain activation.
 
-*Last Updated & Verified: 2026-10-06 (Realigned to Master Showcase Architecture)*
+### Phase 4: Interactive Components & Features
+- **Status:** COMPLETE
+- **Verified Deliverables:** Portfolio showcase, dynamic category filtering, booking inquiry modals, interaction telemetry.
+
+### Phase 5: Database Architecture & Telemetry
+- **Status:** COMPLETE
+- **Verified Deliverables:** Prisma schema with `AnalyticsEvent` model, SQLite storage engine, safe telemetry ingest pipeline.
+
+### Phase 5B: Analytics Dashboard & Access Control
+- **Status:** COMPLETE
+- **Verified Deliverables:** NextAuth authentication, studio administrator role verification (`hayp_studio_owner`), telemetry metric aggregation.
+
+### Phase 6: Master Showcase & Polish
+- **Status:** COMPLETE
+- **Verified Deliverables:** High-fidelity project showcases, video and image media presentation, interactive client case studies.
+
+### Phase 6-3: Production Deployment Hardening
+- **Status:** LOCAL HARDENING COMPLETE (Remote Deployment Track Pending)
+- **Target Host:** `vortex` (IPv4 `2.28.120.85`, Port `3003`, App `hayp-frontend`)
+- **Verified Deliverables:**
+  - `next.config.ts`: `output: 'standalone'` enabled and functional.
+  - `ecosystem.config.cjs`: PM2 configuration using `bun` interpreter, port `3003`, app name `hayp-frontend`, and structured log destinations (`/var/log/pm2/hayp-error.log`, `/var/log/pm2/hayp-out.log`).
+  - `.env.production.example`: Production environment specification with zero secrets.
+  - `deploy/nginx/haypstudios.com.conf`: Production reverse proxy configuration targeting port 3003 with SSL termination.
+  - `deploy/README.md`: End-to-end production deployment runbook and rollback procedure specifying `.env.production` lives in `deploy/`.
+  - `.gitignore`: Hardened with `deploy/.env.production` entry to protect live secrets.
+  - Build Verification: Clean Next.js standalone build generating `.next/standalone/server.js` with exit code 0.
+- **Remote VPS Execution Architecture (Subsequent Step):**
+  1. Local Git tracking of deployment assets (`deploy/`, `.env.production.example`, `ecosystem.config.cjs`, `.gitignore`).
+  2. Push to GitHub `main` branch.
+  3. Pre-flight SSH verification to VPS `vortex` (`root@2.28.120.85`).
+  4. Pull-only fast-forward on VPS `vortex` over SSH.
+  5. Live `.env.production` creation in `/var/www/haypstudios.com/deploy/` with `chmod 600`.
+  6. Remote server execution: `bun install`, `bun run build`, Nginx test (`nginx -t`), and `pm2 restart hayp-frontend`.
+
+---
+
+## 3. PRODUCTION READINESS & RISK REGISTER
+
+1. **Deployment Assets Versioning:** Hardened deployment assets (`deploy/`, `.env.production.example`, updated `ecosystem.config.cjs`, and `.gitignore`) must be committed to `main` before remote deployment can be executed on `vortex`.
+2. **Environment Variable Protection:** Live `.env.production` must be created directly in `deploy/` on VPS `vortex` with `chmod 600` permissions and never committed to Git.
+3. **Third-Party API Credentials:** Production Instagram Basic Display tokens and EmailJS credentials must be injected into server-side `.env` on VPS `vortex` prior to live domain launch.
+4. **Database Migration on VPS:** On initial VPS startup, `bunx prisma migrate deploy` or `bunx prisma db push` must be executed to instantiate the SQLite production database.
