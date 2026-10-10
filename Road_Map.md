@@ -1,18 +1,30 @@
-﻿# HAYP.STUDIOS — ACTIVE ROADMAP
+﻿# HAYP.STUDIOS â€” ACTIVE ROADMAP
 **Last Updated:** 2026-10-10  
-**Repository Branch:** `main`  
-**Current Baseline Commit:** `4afc1a82d2224a5dd73d9f78b142c04ea5b8a8ff`  
+**Repository Branch:** main  
+**Current Baseline Commit:** dfa105d47fc250636e8261c63905e49837a52f82  
 **Runtime Architecture:** Next.js 16.1.3 (App Router) | Bun Runtime | SQLite (Prisma ORM) | Tailwind CSS | Port 3003  
-**Target Production Server:** Hetzner VPS `vortex` (IPv4 `2.28.120.85`) | Pull-Only Deployment Model  
+**Target Production Server:** Hetzner VPS ortex (IPv4 2.28.120.85) | Pull-Only Deployment Model  
 **Archived Completed Phases:** See [ARCHIVED_ROADMAP.md](./ARCHIVED_ROADMAP.md) (Phases 1, 2, 3, 4, 5, 5B, 6, 6-3 verified complete).
 
 ---
 
-## NEXT ACTIVE MILESTONE: PENDING DEFINITION
-**Status:** PLANNING / IN AUDIT  
-All preceding milestones (Phases 1, 2, 3, 4, 5, 5B, 6, 6-3) are fully code-verified and archived in [ARCHIVED_ROADMAP.md](./ARCHIVED_ROADMAP.md).
+## ACTIVE MILESTONE: PHASE 7 â€” PRODUCTION DEPLOYMENT & SERVER SYNCHRONIZATION
+**Status:** IN PROGRESS (DEPLOYMENT HARDENING)
 
-### Upcoming Focus Areas for Definition:
-1. **Production Deployment & Server Sync:** Synchronize repository state with Hetzner VPS `vortex` (`2.28.120.85`) under pull-only model.
-2. **Interactive Showcase Enhancements:** Additional showcase interactive experiences or kinetic experiments.
-3. **Automated End-to-End Pipeline:** CI/CD build assertions and automated testing gates.
+### 1. Objective & Scope
+Solidify production configuration assets, validate deployment runbooks, and synchronize the local repository state with the remote Hetzner VPS ortex (2.28.120.85) utilizing the pull-only deployment architecture on allocated port 3003.
+
+### 2. Deliverables & Tracking
+- [x] Deployment runbook declared: deploy/README.md
+- [x] Nginx reverse proxy configuration declared: deploy/nginx/haypstudios.com.conf (Port 3003 proxy pass)
+- [x] Process manager configuration validated: ecosystem.config.cjs (Next.js standalone + Bun on port 3003)
+- [ ] Push local main to GitHub remote (Prerequisite for server pull)
+- [ ] Remote Hetzner VPS ortex pull-only sync (git pull origin main)
+- [ ] Server-side standalone build & PM2 restart (pm2 restart hayp-studios)
+- [ ] Live domain verification via Nginx reverse proxy
+
+### 3. Acceptance Criteria
+- [x] Deployment assets tracked and committed in repository version control.
+- [x] Build passes with zero compilation errors under un run build.
+- [ ] Remote server serves live application on allocated port 3003 with zero 502 Bad Gateway errors.
+- [ ] Public HTTPS routing operational through Nginx reverse proxy.
