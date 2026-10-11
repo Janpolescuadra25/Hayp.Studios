@@ -1,7 +1,7 @@
-﻿# HAYP.STUDIOS — ACTIVE ROADMAP
+# HAYP.STUDIOS — ACTIVE ROADMAP
 **Last Updated:** 2026-10-11  
 **Repository Branch:** main  
-**Current Baseline Commit:** 8783fd84bc9488e7fc9a2047c3569448720b6080  
+**Current Baseline Commit:** fb9815818e9a41e734e575a6e0384c046aa8f64b  
 **Runtime Architecture:** Next.js 16.1.3 (App Router) | Bun Runtime | SQLite / PostgreSQL (Prisma ORM) | Tailwind CSS | Port 3003  
 **Target Production Server:** Hetzner VPS vortex (IPv4 2.28.120.85) | Pull-Only Deployment Model  
 **Archived Completed Phases:** See [ARCHIVED_ROADMAP.md](./ARCHIVED_ROADMAP.md) (Phases 1, 2, 3, 4, 5, 5B, 6, 6-3, 7 verified complete).
@@ -10,7 +10,7 @@
 
 ## ACTIVE MILESTONE: PHASE 8 — STUDIO OPERATIONS, SECURITY HARDENING & DATABASE ARCHITECTURE
 **Status:** IN PROGRESS (ACTIVE)  
-**Baseline Commit:** `8783fd84bc9488e7fc9a2047c3569448720b6080`  
+**Baseline Commit:** `fb9815818e9a41e734e575a6e0384c046aa8f64b`  
 **Prerequisites:** All foundation milestones (Phases 1–7) verified operational in local runtime; Phase 8 establishes database migration and operational readiness for scalable production.
 
 ### 1. Objective & Scope
@@ -18,7 +18,7 @@ Transition Hayp.Studios from a creative portfolio showcase into an active, secur
 
 ### 2. Deliverables & Implementation Sequence
 
-- [ ] **Deliverable 8.1 — Security & Authentication Hardening (Priority 1)**
+- [x] **Deliverable 8.1 — Security & Authentication Hardening (Priority 1)**
   - Update NextAuth credential verification in `src/lib/auth.ts` to validate using `bcrypt.compare` against a bcrypt-hashed `ADMIN_PASSWORD` (or `ADMIN_PASSWORD_HASH`) stored in `.env`.
   - Document the requirement and CLI command to generate a bcrypt hash for the admin password in `.env.example` and documentation.
   - Enforce strict server-side session and `ADMIN` role checks across all protected API routes.
@@ -51,5 +51,6 @@ Transition Hayp.Studios from a creative portfolio showcase into an active, secur
 - [ ] Studio inquiry management interface operational within the single-page view navigation for authenticated `ADMIN` users.
 - [ ] Dead `Post` schema stub pruned; all environment variables documented in `.env.example`.
 - [ ] Full application build (`bun run build`) compiles cleanly with exit code 0 across all routes.
+
 
 
