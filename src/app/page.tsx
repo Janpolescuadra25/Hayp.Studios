@@ -7,6 +7,7 @@ import { HaypNavbar, HaypFooter } from "@/components/hayp/hayp-chrome";
 import { HaypLanding } from "@/components/hayp/hayp-landing";
 import { HaypHub } from "@/components/hayp/hayp-hub";
 import { HaypAnalytics } from "@/components/hayp/hayp-analytics";
+import { HaypAdmin } from "@/components/hayp/hayp-admin";
 import { HaypWhatsNew } from "@/components/hayp/hayp-whatsnew";
 import {
   HaypTransition,
@@ -21,6 +22,7 @@ const VARIANT_FOR: Record<HaypView, TransitionVariant> = {
   hub: "tunnel",
   whatsnew: "wave",
   analytics: "portal",
+  admin: "portal",
 };
 
 export default function Home() {
@@ -83,6 +85,7 @@ export default function Home() {
         {view === "landing" && <HaypLanding onEnterHub={() => navigate("hub")} onWhatsNew={() => navigate("whatsnew")} />}
         {view === "hub" && <HaypHub onGoHome={() => navigate("landing")} />}
         {view === "analytics" && <HaypAnalytics />}
+        {view === "admin" && <HaypAdmin />}
         {view === "whatsnew" && <HaypWhatsNew />}
       </div>
 

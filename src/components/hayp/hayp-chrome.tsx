@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, ArrowUpRight, Github, Twitter, Mail } from "lucide-react";
 import { HaypWordmark } from "./hayp-logo";
@@ -10,10 +11,18 @@ import { useAnalytics } from "@/hooks/use-analytics";
 import { CATEGORIES } from "@/lib/hayp-data";
 import { cn } from "@/lib/utils";
 
+const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "paulescuadra25@gmail.com").toLowerCase();
+const hasAdminAccess = (session: { user?: { role?: string; email?: string | null } } | null | undefined) => {
+  const role = session?.user?.role;
+  const email = session?.user?.email?.toLowerCase() ?? "";
+  return role === "ADMIN" || email === ADMIN_EMAIL;
+};
+
 const NAV_LINKS: { view: HaypView; label: string }[] = [
   { view: "landing", label: "The Story" },
   { view: "hub", label: "Hub" },
   { view: "analytics", label: "Analytics" },
+  { view: "admin", label: "Admin" },
   { view: "whatsnew", label: "What's New" },
 ];
 
@@ -28,13 +37,15 @@ export function HaypNavbar({
   onNavigate: (v: HaypView) => void;
 }) {
   const { trackPageView } = useAnalytics();
+  const { data: session, status } = useSession();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const isAdmin = status === "authenticated" && hasAdminAccess(session);
 
   const handleNavClick = (nextView: HaypView) => {
     trackPageView(nextView);
-    if (nextView === "analytics") {
-      window.location.href = "/api/auth/signin";
+    if ((nextView === "analytics" || nextView === "admin") && !isAdmin) {
+      signIn("credentials", { callbackUrl: "/" });
       return;
     }
     onNavigate(nextView);
@@ -148,9 +159,9 @@ export function HaypNavbar({
                   exit={{ opacity: 0, y: 16 }}
                   transition={{ duration: 0.7, delay: 0.08 + i * 0.08, ease: EASE }}
                   onClick={() => {
-                    if (link.view === "analytics") {
+                    if ((link.view === "analytics" || link.view === "admin") && !isAdmin) {
                       setOpen(false);
-                      window.location.href = "/api/auth/signin";
+                      signIn("credentials", { callbackUrl: "/" });
                       return;
                     }
                     trackPageView(link.view);
@@ -200,6 +211,8 @@ export function HaypNavbar({
 /* ------------------------------------------------------------------ */
 export function HaypFooter({ onNavigate }: { onNavigate: (v: HaypView) => void }) {
   const { trackExternalNav, trackPageView } = useAnalytics();
+  const { data: session, status } = useSession();
+  const isAdmin = status === "authenticated" && hasAdminAccess(session);
 
   return (
     <footer className="relative mt-auto border-t hairline bg-white/60 backdrop-blur-sm">
@@ -242,6 +255,10 @@ export function HaypFooter({ onNavigate }: { onNavigate: (v: HaypView) => void }
                 <li key={l.view}>
                   <button
                     onClick={() => {
+                      if ((l.view === "analytics" || l.view === "admin") && !isAdmin) {
+                        signIn("credentials", { callbackUrl: "/" });
+                        return;
+                      }
                       trackPageView(l.view);
                       onNavigate(l.view);
                     }}

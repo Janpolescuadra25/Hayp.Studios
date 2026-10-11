@@ -34,7 +34,7 @@ Transition Hayp.Studios from a creative portfolio showcase into an active, secur
   - Reuse the existing IP-based rate-limiting utility pattern from `src/app/api/analytics/event/route.ts` to safeguard `/api/inquiry` against spam.
   - Update `src/components/hayp/hayp-contact-form.tsx` to submit to `/api/inquiry` with resilient fallback to EmailJS and Radix toast feedback.
 
-- [ ] **Deliverable 8.4 — Authenticated Admin Operations View (Priority 4)**
+- [x] **Deliverable 8.4 — Authenticated Admin Operations View (Priority 4)**
   - Integrate an authenticated `ADMIN` view into the existing single-page client-side view navigation in `src/app/page.tsx` (`HaypHub`), preserving Framer Motion visual transitions.
   - Build inquiry management UI allowing studio administrators to list, inspect, filter by engagement type, and update status of client inquiries.
   - Add client-side authentication gate to the analytics view (`HaypAnalytics`), displaying login prompt or redirecting unauthenticated visitors.
@@ -47,6 +47,6 @@ Transition Hayp.Studios from a creative portfolio showcase into an active, secur
 - [ ] NextAuth credential verification uses `bcrypt.compare` against a bcrypt-hashed admin secret with zero plaintext password comparisons in code.
 - [x] Formal Prisma migrations initialized and verified with zero schema sync drift.
 - [x] Client contact submissions persist to the database with server-side validation and IP-based rate limiting.
-- [ ] Studio inquiry management interface operational within the single-page view navigation for authenticated `ADMIN` users.
+- [x] Studio inquiry management interface operational within the single-page view navigation for authenticated `ADMIN` users.
 - [x] Dead `Post` schema stub pruned; all environment variables documented in `.env.example`.
 - [ ] Full application build (`bun run build`) compiles cleanly with exit code 0 across all routes.
