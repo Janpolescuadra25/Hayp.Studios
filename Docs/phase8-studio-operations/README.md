@@ -35,7 +35,7 @@ The studio owner fallback in `src/lib/auth.ts` now validates credentials using `
 | Deliverable | Status | Notes |
 |---|---|---|
 | 8.1 Security & Authentication Hardening | DONE (VERIFIED) | Owner fallback now uses `bcrypt.compare` against `ADMIN_PASSWORD_HASH` |
-| 8.2 Database Architecture & Migration Workflow | NOT STARTED | Prisma migration + PostgreSQL path remains pending |
+| 8.2 Database Architecture & Migration Workflow | DONE (VERIFIED) | Prisma migrations initialized, PostgreSQL path documented, and Post model pruned |
 | 8.3 Database-Backed Inquiry Pipeline | NOT STARTED | Inquiry model and API route remain pending |
 | 8.4 Authenticated Admin Operations View | NOT STARTED | UI/admin view and role gating remain pending |
 | 8.5 Environment Documentation & Verification | NOT STARTED | Environment docs and verification scripts remain pending |
@@ -47,7 +47,8 @@ The studio owner fallback in `src/lib/auth.ts` now validates credentials using `
 - `src/lib/auth.ts` retains the existing database-backed `bcrypt.compare` logic intact.
 - The fallback path is protected against missing environment values and runtime crashes.
 - The application build remains the verification gate for this implementation stage.
+- **Deliverable 8.2 verified complete:** Verified at commit `737b66d75329de8e5fbf02964ddf1a1f1b0637cb` by Hydra audit. Baseline migration `20261011103158_init_phase8_baseline` tracked, dead Post model removed, and dual-env DATABASE_URL verified.
 
 ### Audit Verification:
-- **Verified by:** Hydra Repository Audit (HEAD b9815818e9a41e734e575a6e0384c046aa8f64b).
-- **Result:** CONFIRMED — Zero plaintext comparisons remain; database-backed auth flow preserved; un run build exits 0.
+- **Verified by:** Hydra Repository Audit (HEAD `737b66d75329de8e5fbf02964ddf1a1f1b0637cb`).
+- **Result:** CONFIRMED — Zero plaintext comparisons remain; database-backed auth flow preserved; `bun run build` exits 0.
