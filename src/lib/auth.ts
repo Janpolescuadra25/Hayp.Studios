@@ -30,15 +30,18 @@ export const authOptions: NextAuthOptions = {
         }
 
         const envEmail = normalizeEmail(process.env.ADMIN_EMAIL);
-        const envPassword = process.env.ADMIN_PASSWORD?.trim();
+        const envPasswordHash = process.env.ADMIN_PASSWORD_HASH?.trim();
 
-        if (envEmail && envPassword && email === envEmail && password === envPassword) {
-          return {
-            id: "owner-admin",
-            email: envEmail,
-            name: "Studio Owner",
-            role: "ADMIN",
-          };
+        if (envEmail && envPasswordHash && email === envEmail) {
+          const isOwnerValid = await bcrypt.compare(password, envPasswordHash);
+          if (isOwnerValid) {
+            return {
+              id: "owner-admin",
+              email: envEmail,
+              name: "Studio Owner",
+              role: "ADMIN",
+            };
+          }
         }
 
         try {
