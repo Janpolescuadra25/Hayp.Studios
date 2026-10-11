@@ -44,10 +44,10 @@ The studio owner fallback in `src/lib/auth.ts` now validates credentials using `
 
 ## 4. Verification Notes
 
+### Audit Verification:
+- **Verified by:** Hydra Repository Audit (HEAD `fb9815818e9a41e734e575a6e0384c046aa8f64b`).
+- **Result:** CONFIRMED — Zero plaintext comparisons remain; database-backed auth flow preserved; `bun run build` exits 0.
+
 - `src/lib/auth.ts` retains the existing database-backed `bcrypt.compare` logic intact.
 - The fallback path is protected against missing environment values and runtime crashes.
 - The application build remains the verification gate for this implementation stage.
-
-### Audit Verification:
-- **Verified by:** Hydra Repository Audit (HEAD b9815818e9a41e734e575a6e0384c046aa8f64b).
-- **Result:** CONFIRMED — Zero plaintext comparisons remain; database-backed auth flow preserved; un run build exits 0.
