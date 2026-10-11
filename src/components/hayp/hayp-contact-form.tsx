@@ -18,7 +18,7 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: 'General Inquiry',
+    projectType: 'General Creative Partnership',
     message: '',
   });
 
@@ -67,17 +67,30 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
     const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
     try {
-      if (!serviceId || !templateId || !publicKey) {
-        // Fallback simulation mode
-        console.log('[EmailJS Dev Simulation] Message captured:', formData);
-        await new Promise((resolve) => setTimeout(resolve, 800));
+      const inquiryResponse = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          engagementType: formData.projectType,
+          brief: formData.message.trim(),
+        }),
+      });
 
+      const inquiryResult = await inquiryResponse.json().catch(() => ({}));
+
+      if (!inquiryResponse.ok) {
+        throw new Error(inquiryResult.error || 'Inquiry save failed');
+      }
+
+      if (!serviceId || !templateId || !publicKey) {
+        console.log('[EmailJS Dev Simulation] Message captured:', formData);
         toast({
-          title: 'Message Received (Dev Mode)',
-          description: 'Thank you! Your inquiry was recorded locally in simulation mode.',
+          title: 'Message Received',
+          description: 'Your brief was stored in the studio inquiry log. We will follow up soon.',
         });
       } else {
-        // Production EmailJS REST API dispatch
         const payload = {
           service_id: serviceId,
           template_id: templateId,
@@ -114,7 +127,7 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
       console.error('Contact submission error:', err);
       toast({
         title: 'Submission Notice',
-        description: 'Unable to deliver message over network. Please reach out to hello@haypstudios.com directly.',
+        description: 'Your brief could not be stored or dispatched. Please reach out to hello@haypstudios.com directly.',
         variant: 'destructive',
       });
     } finally {
@@ -176,7 +189,7 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
           <option value="Kinetic Identity">Kinetic Identity & Branding</option>
           <option value="Interactive Web Experience">Interactive Web Experience</option>
           <option value="Motion & 3D Spatial">Motion & 3D Spatial Systems</option>
-          <option value="General Inquiry">General Creative Partnership</option>
+          <option value="General Creative Partnership">General Creative Partnership</option>
         </select>
       </div>
 
