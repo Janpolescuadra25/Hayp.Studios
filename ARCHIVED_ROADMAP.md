@@ -78,3 +78,28 @@ Implement resilient third-party integrations with mock/fallback architectures so
 - [x] Repository status aligned with the verified production baseline.
 
 ---
+
+## PHASE 7: PRODUCTION DEPLOYMENT & SERVER SETUP
+**Archive Date:** 2026-10-11  
+**Baseline Commit:** 38fc80bf37c3ae273156d592d8e861a49b07153f  
+**Runtime Architecture:** Next.js 16.1.3 App Router | Bun Runtime | PM2 Process Management | Nginx Reverse Proxy  
+**Target Server:** Hetzner Cloud VPS `vortex` (`2.28.120.85`)  
+**Production URL:** `https://haypstudios.com`
+
+### 1. Objective & Scope
+Deploy and verify the live production runtime, reverse proxy, TLS termination, and maintenance procedures for Hayp.Studios in a hardened remote environment.
+
+### 2. Verified Deliverables
+- [x] Remote repository synchronized to the verified production baseline commit.
+- [x] PM2 process `hayp-frontend` launched and stable on port 3003.
+- [x] Nginx reverse proxy configured to serve the production app upstream on `127.0.0.1:3003`.
+- [x] Let's Encrypt certificate issued and validated for `haypstudios.com` and `www.haypstudios.com`.
+- [x] Deployment verification and operations notes recorded in `deploy/PHASE7_DEPLOYMENT_VERIFICATION.md`.
+
+### 3. Acceptance Criteria Verified
+- [x] Internal app endpoint returns HTTP 200 on the loopback service.
+- [x] Public HTTPS endpoint returns HTTP 200 without TLS errors.
+- [x] HTTP-to-HTTPS redirect is active and valid.
+- [x] Production deployment documentation is aligned with the live server state.
+
+---
