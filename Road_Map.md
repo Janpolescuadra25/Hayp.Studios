@@ -2,24 +2,24 @@
 **Version:** 9.0  
 **Status:** ACTIVE  
 **Last Updated:** 2026-10-13  
-**Active Baseline Commit:** `ae5d37b4b6c7ed41b6a89e752f485831b5b6f2aa` (`ae5d37b`)  
+**Active Baseline Commit:** `336466154ccea4fa57ddd19a0b85bd393eb4f134` (`3364661`)  
 **Archived Predecessors:** Phases 1 through 8 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
 **Status:** PLANNING (NOT STARTED)  
-**Baseline Commit:** `ae5d37b4b6c7ed41b6a89e752f485831b5b6f2aa`  
+**Baseline Commit:** `336466154ccea4fa57ddd19a0b85bd393eb4f134`  
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
 ### 1. Objective & Scope
 Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement production-grade monitoring, error tracking, and automated backup workflows. Add production security hardening (HTTPS, reverse proxy, edge rate-limiting) and establish deployment automation.
 
 ### 2. Deliverables & Implementation Sequence
-- [ ] **Deliverable 9.1 — Production Infrastructure Configuration (Priority 1)**
-  - Configure Hetzner VPS host with Docker Compose / PM2 for Next.js and PostgreSQL
-  - Set up reverse proxy (Nginx / Caddy) with automated Let's Encrypt SSL certificates
-  - Implement firewall rules (UFW) restricting non-essential ports
+- [x] **Deliverable 9.1 — Production Infrastructure Configuration (Priority 1)**
+  - Local PM2 management asset created at `deploy/ecosystem.config.js` for `hayp-frontend` on port 3003.
+  - Local reverse-proxy template created at `deploy/Caddyfile` routing `haypstudios.com` and `www.haypstudios.com` to `127.0.0.1:3003`.
+  - Local firewall documentation created at `deploy/PROD_FIREWALL_SETUP.md` covering UFW access on ports `22`, `80`, `443`, and internal-only `3003`.
 - [ ] **Deliverable 9.2 — CI/CD Pipeline & Deployment Automation (Priority 2)**
   - Configure automated deployment model matching production requirements
   - Add automated database migration execution for production deployments

@@ -1,0 +1,4 @@
+﻿haypstudios.com, www.haypstudios.com {
+    reverse_proxy 127.0.0.1:3003
+    encode gzip zstd
+}
