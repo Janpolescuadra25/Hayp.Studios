@@ -40,8 +40,8 @@ Transition Hayp.Studios from a creative portfolio showcase into an active, secur
   - Add client-side authentication gate to the analytics view (`HaypAnalytics`), displaying login prompt or redirecting unauthenticated visitors.
 
 - [ ] **Deliverable 8.5 — Environment Documentation & Verification Runbook (Priority 5)**
-  - Document all missing environment variables in `.env.example` (`NEXT_PUBLIC_EMAILJS_SERVICE_ID`, `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`, `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`, `ADMIN_PASSWORD_HASH`).
-  - Add automated test assertions or verification scripts covering `/api/inquiry` submission, rate-limiting, and admin auth gates.
+  - [x] Document all missing environment variables in `.env.example` (`NEXT_PUBLIC_EMAILJS_SERVICE_ID`, `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`, `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`, `ADMIN_PASSWORD_HASH`).
+  - [ ] Add automated test assertions or verification scripts covering `/api/inquiry` submission, rate-limiting, and admin auth gates.
 
 ### 3. Acceptance Criteria
 - [x] NextAuth credential verification uses `bcrypt.compare` against a bcrypt-hashed admin secret with zero plaintext password comparisons in code.
