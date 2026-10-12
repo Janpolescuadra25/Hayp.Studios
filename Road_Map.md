@@ -1,7 +1,7 @@
 # HAYP.STUDIOS — ACTIVE ROADMAP
 **Last Updated:** 2026-10-11  
 **Repository Branch:** main  
-**Current Baseline Commit:** `99bac759419c31a29d09fc8eb658a3e97f864325`  
+**Current Baseline Commit:** `3b170459c67085fdc05e72e006fa002a0bf99f2c`  
 **Runtime Architecture:** Next.js 16.1.3 (App Router) | Bun Runtime | SQLite / PostgreSQL (Prisma ORM) | Tailwind CSS | Port 3003  
 **Target Production Server:** Hetzner VPS vortex (IPv4 2.28.120.85) | Pull-Only Deployment Model  
 **Archived Completed Phases:** See [ARCHIVED_ROADMAP.md](./ARCHIVED_ROADMAP.md) (Phases 1, 2, 3, 4, 5, 5B, 6, 6-3, 7 verified complete).
@@ -10,7 +10,7 @@
 
 ## ACTIVE MILESTONE: PHASE 8 — STUDIO OPERATIONS, SECURITY HARDENING & DATABASE ARCHITECTURE
 **Status:** IN PROGRESS (ACTIVE)  
-**Baseline Commit:** `99bac759419c31a29d09fc8eb658a3e97f864325`  
+**Baseline Commit:** `3b170459c67085fdc05e72e006fa002a0bf99f2c`  
 **Prerequisites:** All foundation milestones (Phases 1–7) verified operational in local runtime; Phase 8 establishes database migration and operational readiness for scalable production.
 
 ### 1. Objective & Scope
@@ -39,9 +39,9 @@ Transition Hayp.Studios from a creative portfolio showcase into an active, secur
   - Build inquiry management UI allowing studio administrators to list, inspect, filter by engagement type, and update status of client inquiries.
   - Add client-side authentication gate to the analytics view (`HaypAnalytics`), displaying login prompt or redirecting unauthenticated visitors.
 
-- [ ] **Deliverable 8.5 — Environment Documentation & Verification Runbook (Priority 5)**
+- [x] **Deliverable 8.5 — Environment Documentation & Verification Runbook (Priority 5)**
   - [x] Document all missing environment variables in `.env.example` (`NEXT_PUBLIC_EMAILJS_SERVICE_ID`, `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`, `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`, `ADMIN_PASSWORD_HASH`).
-  - [ ] Add automated test assertions or verification scripts covering `/api/inquiry` submission, rate-limiting, and admin auth gates.
+  - [x] Add automated test assertions or verification scripts covering `/api/inquiry` submission, rate-limiting, and admin auth gates.
 
 ### 3. Acceptance Criteria
 - [x] NextAuth credential verification uses `bcrypt.compare` against a bcrypt-hashed admin secret with zero plaintext password comparisons in code.
