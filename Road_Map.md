@@ -1,52 +1,42 @@
-# HAYP.STUDIOS — ACTIVE ROADMAP
-**Last Updated:** 2026-10-11  
-**Repository Branch:** main  
-**Current Baseline Commit:** `3b170459c67085fdc05e72e006fa002a0bf99f2c`  
-**Runtime Architecture:** Next.js 16.1.3 (App Router) | Bun Runtime | SQLite / PostgreSQL (Prisma ORM) | Tailwind CSS | Port 3003  
-**Target Production Server:** Hetzner VPS vortex (IPv4 2.28.120.85) | Pull-Only Deployment Model  
-**Archived Completed Phases:** See [ARCHIVED_ROADMAP.md](./ARCHIVED_ROADMAP.md) (Phases 1, 2, 3, 4, 5, 5B, 6, 6-3, 7 verified complete).
+# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
+**Version:** 9.0  
+**Status:** ACTIVE  
+**Last Updated:** 2026-10-13  
+**Active Baseline Commit:** `ae5d37b4b6c7ed41b6a89e752f485831b5b6f2aa` (`ae5d37b`)  
+**Archived Predecessors:** Phases 1 through 8 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
-## ACTIVE MILESTONE: PHASE 8 — STUDIO OPERATIONS, SECURITY HARDENING & DATABASE ARCHITECTURE
-**Status:** IN PROGRESS (ACTIVE)  
-**Baseline Commit:** `3b170459c67085fdc05e72e006fa002a0bf99f2c`  
-**Prerequisites:** All foundation milestones (Phases 1–7) verified operational in local runtime; Phase 8 establishes database migration and operational readiness for scalable production.
+## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
+**Status:** PLANNING (NOT STARTED)  
+**Baseline Commit:** `ae5d37b4b6c7ed41b6a89e752f485831b5b6f2aa`  
+**Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
 ### 1. Objective & Scope
-Transition Hayp.Studios from a creative portfolio showcase into an active, secure studio operations hub. This phase eliminates critical authentication vulnerabilities, initializes formal Prisma migrations with a production database transition path, establishes a database-backed client inquiry pipeline, adds an authenticated studio operations view within the existing single-page navigation architecture, and prunes unused schema stubs.
+Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement production-grade monitoring, error tracking, and automated backup workflows. Add production security hardening (HTTPS, reverse proxy, edge rate-limiting) and establish deployment automation.
 
 ### 2. Deliverables & Implementation Sequence
-
-- [x] **Deliverable 8.1 — Security & Authentication Hardening (Priority 1)**
-  - Update NextAuth credential verification in `src/lib/auth.ts` to validate using `bcrypt.compare` against a bcrypt-hashed `ADMIN_PASSWORD` (or `ADMIN_PASSWORD_HASH`) stored in `.env`.
-  - Document the requirement and CLI command to generate a bcrypt hash for the admin password in `.env.example` and documentation.
-  - Enforce strict server-side session and `ADMIN` role checks across all protected API routes.
-
-- [x] **Deliverable 8.2 — Database Architecture & Migration Workflow (Priority 2)**
-  - Initialize formal Prisma migrations (`prisma/migrations/`) to replace reliance on `db:push`.
-  - Configure production database migration path (supporting PostgreSQL for production deployment on Hetzner VPS `vortex` while maintaining SQLite local compatibility).
-  - Update `.env.example` with documented `DATABASE_URL` format for both local SQLite and production PostgreSQL.
-
-- [x] **Deliverable 8.3 — Database-Backed Client Inquiry Pipeline (Priority 3)**
-  - Add `Inquiry` model to `prisma/schema.prisma` (fields: `id`, `name`, `email`, `engagementType`, `brief`, `status` [default: "NEW"], `createdAt`, `updatedAt`).
-  - Create `/api/inquiry` route to validate and persist client project briefs across the 4 engagement tiers (Kinetic Identity, Interactive Web Experience, Motion & 3D Spatial, General Creative Partnership).
-  - Reuse the existing IP-based rate-limiting utility pattern from `src/app/api/analytics/event/route.ts` to safeguard `/api/inquiry` against spam.
-  - Update `src/components/hayp/hayp-contact-form.tsx` to submit to `/api/inquiry` with resilient fallback to EmailJS and Radix toast feedback.
-
-- [x] **Deliverable 8.4 — Authenticated Admin Operations View (Priority 4)**
-  - Integrate an authenticated `ADMIN` view into the existing single-page client-side view navigation in `src/app/page.tsx` (`HaypHub`), preserving Framer Motion visual transitions.
-  - Build inquiry management UI allowing studio administrators to list, inspect, filter by engagement type, and update status of client inquiries.
-  - Add client-side authentication gate to the analytics view (`HaypAnalytics`), displaying login prompt or redirecting unauthenticated visitors.
-
-- [x] **Deliverable 8.5 — Environment Documentation & Verification Runbook (Priority 5)**
-  - [x] Document all missing environment variables in `.env.example` (`NEXT_PUBLIC_EMAILJS_SERVICE_ID`, `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`, `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`, `ADMIN_PASSWORD_HASH`).
-  - [x] Add automated test assertions or verification scripts covering `/api/inquiry` submission, rate-limiting, and admin auth gates.
+- [ ] **Deliverable 9.1 — Production Infrastructure Configuration (Priority 1)**
+  - Configure Hetzner VPS host with Docker Compose / PM2 for Next.js and PostgreSQL
+  - Set up reverse proxy (Nginx / Caddy) with automated Let's Encrypt SSL certificates
+  - Implement firewall rules (UFW) restricting non-essential ports
+- [ ] **Deliverable 9.2 — CI/CD Pipeline & Deployment Automation (Priority 2)**
+  - Configure automated deployment model matching production requirements
+  - Add automated database migration execution for production deployments
+- [ ] **Deliverable 9.3 — Monitoring & Error Tracking (Priority 3)**
+  - Integrate error tracking for frontend and backend API endpoints
+  - Implement server health checks and automated database backup routines
+- [ ] **Deliverable 9.4 — Production Security Hardening (Priority 4)**
+  - Implement edge protection, rotating admin credentials, and session timeout hardening
+  - Conduct vulnerability scans and audit access logs
+- [ ] **Deliverable 9.5 — Post-Deployment Verification Runbook (Priority 5)**
+  - Document deployment steps, health check endpoints, and rollback procedures
+  - Create runbook for common production operational scenarios
 
 ### 3. Acceptance Criteria
-- [x] NextAuth credential verification uses `bcrypt.compare` against a bcrypt-hashed admin secret with zero plaintext password comparisons in code.
-- [x] Formal Prisma migrations initialized and verified with zero schema sync drift.
-- [x] Client contact submissions persist to the database with server-side validation and IP-based rate limiting.
-- [x] Studio inquiry management interface operational within the single-page view navigation for authenticated `ADMIN` users.
-- [x] Dead `Post` schema stub pruned; all environment variables documented in `.env.example`.
-- [x] Full application build (`bun run build`) compiles cleanly with exit code 0 across all routes.
+- [ ] Production instance accessible at production domain with valid HTTPS
+- [ ] All Phase 8 features (inquiry pipeline, admin view, analytics) operational in production environment
+- [ ] Automated database migrations execute safely without data loss
+- [ ] Monitoring and error logging operational
+- [ ] Security audit passes with zero critical or high-severity vulnerabilities
+- [ ] Full application build (`bun run build`) and test suite (`bun test`) compile and pass cleanly

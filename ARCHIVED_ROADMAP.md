@@ -103,3 +103,36 @@ Deploy and verify the live production runtime, reverse proxy, TLS termination, a
 - [x] Production deployment documentation is aligned with the live server state.
 
 ---
+
+---
+
+## ARCHIVED MILESTONE: PHASE 8 — STUDIO OPERATIONS, INQUIRY PIPELINE & SECURITY HARDENING
+**Status:** COMPLETED & VERIFIED (Archived 2026-10-13)  
+**Final Commit:** `ae5d37b4b6c7ed41b6a89e752f485831b5b6f2aa`  
+**Auditor Verdict:** 100% COMPLETE & PRODUCTION-READY (HYDRA certified)
+
+### Deliverables Completed
+- [x] **Deliverable 8.1 — Security & Authentication Hardening (Priority 1)**
+  - bcrypt credential verification in NextAuth (`src/lib/auth.ts`)
+  - Server-side admin role check enforcement across all protected endpoints
+- [x] **Deliverable 8.2 — Database Architecture & Migration Workflow (Priority 2)**
+  - Prisma migrations initialized (`20261011103158_init_phase8_baseline`, `20261011134802_add_inquiry_model`)
+  - PostgreSQL / SQLite dual compatibility configured; obsolete Post schema pruned
+- [x] **Deliverable 8.3 — Database-Backed Client Inquiry Pipeline (Priority 3)**
+  - Full input validation and IP rate-limiting in `/api/inquiry/route.ts`
+  - Contact form integration with fallback in `src/components/hayp/hayp-contact-form.tsx`
+- [x] **Deliverable 8.4 — Authenticated Admin Operations View (Priority 4)**
+  - Full inquiry dashboard UI in `src/components/hayp/hayp-admin.tsx`
+  - Navigation access guard in `src/components/hayp/hayp-chrome.tsx`
+  - Component documentation in `src/components/hayp/README.hayp-admin.md`
+- [x] **Deliverable 8.5 — Environment Documentation & Automated Test Runbook (Priority 5)**
+  - All variables documented in `.env.example`
+  - Automated test suite in `__tests__/api/inquiry.test.ts` (6 tests passing cleanly via `bun test`)
+
+### Acceptance Criteria Verified
+- [x] NextAuth credential verification uses bcrypt.compare with zero plaintext comparisons
+- [x] Prisma migrations initialized with zero schema drift
+- [x] Contact submissions persist to database with validation and rate-limiting
+- [x] Admin operations view operational for authenticated ADMIN users
+- [x] Dead Post schema stub pruned; all environment variables documented
+- [x] Full test suite (`bun test`) and application build (`bun run build`) pass cleanly
