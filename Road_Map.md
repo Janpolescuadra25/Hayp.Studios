@@ -1,7 +1,7 @@
 # HAYP.STUDIOS — ACTIVE ROADMAP
 **Last Updated:** 2026-10-11  
 **Repository Branch:** main  
-**Current Baseline Commit:** `0cdc3137e842820727f1f173244348594a1d5842`  
+**Current Baseline Commit:** `20756ab5c3d2e915a16d5e381b54e9f47e2cee1d`  
 **Runtime Architecture:** Next.js 16.1.3 (App Router) | Bun Runtime | SQLite / PostgreSQL (Prisma ORM) | Tailwind CSS | Port 3003  
 **Target Production Server:** Hetzner VPS vortex (IPv4 2.28.120.85) | Pull-Only Deployment Model  
 **Archived Completed Phases:** See [ARCHIVED_ROADMAP.md](./ARCHIVED_ROADMAP.md) (Phases 1, 2, 3, 4, 5, 5B, 6, 6-3, 7 verified complete).
@@ -10,7 +10,7 @@
 
 ## ACTIVE MILESTONE: PHASE 8 — STUDIO OPERATIONS, SECURITY HARDENING & DATABASE ARCHITECTURE
 **Status:** IN PROGRESS (ACTIVE)  
-**Baseline Commit:** `0cdc3137e842820727f1f173244348594a1d5842`  
+**Baseline Commit:** `20756ab5c3d2e915a16d5e381b54e9f47e2cee1d`  
 **Prerequisites:** All foundation milestones (Phases 1–7) verified operational in local runtime; Phase 8 establishes database migration and operational readiness for scalable production.
 
 ### 1. Objective & Scope
