@@ -44,9 +44,9 @@ Transition Hayp.Studios from a creative portfolio showcase into an active, secur
   - Add automated test assertions or verification scripts covering `/api/inquiry` submission, rate-limiting, and admin auth gates.
 
 ### 3. Acceptance Criteria
-- [ ] NextAuth credential verification uses `bcrypt.compare` against a bcrypt-hashed admin secret with zero plaintext password comparisons in code.
+- [x] NextAuth credential verification uses `bcrypt.compare` against a bcrypt-hashed admin secret with zero plaintext password comparisons in code.
 - [x] Formal Prisma migrations initialized and verified with zero schema sync drift.
 - [x] Client contact submissions persist to the database with server-side validation and IP-based rate limiting.
 - [x] Studio inquiry management interface operational within the single-page view navigation for authenticated `ADMIN` users.
 - [x] Dead `Post` schema stub pruned; all environment variables documented in `.env.example`.
-- [ ] Full application build (`bun run build`) compiles cleanly with exit code 0 across all routes.
+- [x] Full application build (`bun run build`) compiles cleanly with exit code 0 across all routes.
