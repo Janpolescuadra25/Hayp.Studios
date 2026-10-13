@@ -1,4 +1,4 @@
-# HAYP.STUDIOS — ARCHIVED VERIFIED MILESTONES
+﻿# HAYP.STUDIOS — ARCHIVED VERIFIED MILESTONES
 **Archive Date:** 2026-10-10  
 **Baseline Commit:** 4afc1a82d2224a5dd73d9f78b142c04ea5b8a8ff  
 **Status:** All listed phases below are 100% verified complete via codebase audit.
@@ -152,3 +152,13 @@ Deploy and verify the live production runtime, reverse proxy, TLS termination, a
 3. **`deploy/PROD_FIREWALL_SETUP.md`** — UFW firewall rules specification for Hetzner Cloud VPS `vortex` (2.28.120.85), allowing ports 22, 80, 443 while isolating port 3003 to localhost.
 4. **`deploy/README.md`** — Production deployment architecture documentation and file inventory.
 5. **Legacy Cleanup** — Removed legacy Nginx configuration and Phase 7 verification documentation.
+
+### Deliverable 9.2 — CI/CD Pipeline & Deployment Automation
+**Archived Date:** 2026-10-13  
+**Verified Baseline Commit:** 131fc8fded5ef9485f52485a46c99acefd7d77b7 (131fc8f)  
+**Status:** ✅ 100% COMPLETE & VERIFIED IN CODE
+
+#### Implemented & Verified Assets:
+1. **package.json** — Added "db:migrate:deploy": "prisma migrate deploy" script for non-interactive production database migrations.
+2. **.github/workflows/deploy.yml** — Automated GitHub Actions CI/CD deployment workflow with dual-job architecture (	est-and-build and deploy via SSH to Hetzner VPS ortex at 2.28.120.85, port 3003 reload).
+3. **deploy/README_9.2_CICD.md** — Comprehensive operational documentation for CI/CD pipeline architecture, triggers, required GitHub Secrets, and zero-downtime PM2 reload.
