@@ -136,3 +136,19 @@ Deploy and verify the live production runtime, reverse proxy, TLS termination, a
 - [x] Admin operations view operational for authenticated ADMIN users
 - [x] Dead Post schema stub pruned; all environment variables documented
 - [x] Full test suite (`bun test`) and application build (`bun run build`) pass cleanly
+
+---
+
+## PHASE 9 DELIVERABLE ARCHIVE
+
+### Deliverable 9.1 — Production Infrastructure Configuration
+**Archived Date:** 2026-10-13  
+**Verified Baseline Commit:** `48814e46cba5310d67425928af2dc8dce570eaee` (`48814e4`)  
+**Status:** ✅ 100% COMPLETE & VERIFIED IN CODE
+
+#### Implemented & Verified Assets:
+1. **`deploy/ecosystem.config.js`** — PM2 process manager configuration for Next.js standalone process (`hayp-frontend` on port 3003, autorestart enabled, 1GB memory cap).
+2. **`deploy/Caddyfile`** — Automated TLS reverse proxy template routing `haypstudios.com` and `www.haypstudios.com` to `127.0.0.1:3003` with gzip/zstd compression.
+3. **`deploy/PROD_FIREWALL_SETUP.md`** — UFW firewall rules specification for Hetzner Cloud VPS `vortex` (2.28.120.85), allowing ports 22, 80, 443 while isolating port 3003 to localhost.
+4. **`deploy/README.md`** — Production deployment architecture documentation and file inventory.
+5. **Legacy Cleanup** — Removed legacy Nginx configuration and Phase 7 verification documentation.

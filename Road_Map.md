@@ -2,24 +2,20 @@
 **Version:** 9.0  
 **Status:** ACTIVE  
 **Last Updated:** 2026-10-13  
-**Active Baseline Commit:** `6f81899ef9c6a2aab6e8bb2b5efde8ea97d83e4d` (`6f81899`)  
-**Archived Predecessors:** Phases 1 through 8 archived in `ARCHIVED_ROADMAP.md`
+**Active Baseline Commit:** `48814e46cba5310d67425928af2dc8dce570eaee` (`48814e4`)  
+**Archived Predecessors:** Phases 1 through 8 and Deliverable 9.1 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
-**Status:** ACTIVE (9.1 COMPLETED)  
-**Baseline Commit:** `6f81899ef9c6a2aab6e8bb2b5efde8ea97d83e4d`  
+**Status:** ACTIVE (DELIVERABLE 9.2 IN PROGRESS)  
+**Baseline Commit:** `48814e46cba5310d67425928af2dc8dce570eaee`  
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
 ### 1. Objective & Scope
 Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement production-grade monitoring, error tracking, and automated backup workflows. Add production security hardening (HTTPS, reverse proxy, edge rate-limiting) and establish deployment automation.
 
 ### 2. Deliverables & Implementation Sequence
-- [x] **Deliverable 9.1 — Production Infrastructure Configuration (Priority 1)**
-  - Local PM2 management asset created at `deploy/ecosystem.config.js` for `hayp-frontend` on port 3003.
-  - Local reverse-proxy template created at `deploy/Caddyfile` routing `haypstudios.com` and `www.haypstudios.com` to `127.0.0.1:3003`.
-  - Local firewall documentation created at `deploy/PROD_FIREWALL_SETUP.md` covering UFW access on ports `22`, `80`, `443`, and internal-only `3003`.
 - [ ] **Deliverable 9.2 — CI/CD Pipeline & Deployment Automation (Priority 2)**
   - Configure automated deployment model matching production requirements
   - Add automated database migration execution for production deployments
