@@ -1,14 +1,14 @@
-﻿# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
+# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
 **Version:** 9.0  
 **Status:** ACTIVE  
 **Last Updated:** 2026-10-13  
-**Active Baseline Commit:** `131fc8fded5ef9485f52485a46c99acefd7d77b7` (`131fc8f`)  
+**Active Baseline Commit:** `7365ed24339eafd3c1d9e6e6069ea5c1175d5fe4` (`131fc8f`)  
 **Archived Predecessors:** Phases 1 through 8 and Deliverables 9.1–9.2 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
-**Status:** ACTIVE (DELIVERABLE 9.3 IN PROGRESS)  
+**Status:** ACTIVE (DELIVERABLE 9.4 IN PROGRESS)  
 **Baseline Commit:** `131fc8fded5ef9485f52485a46c99acefd7d77b7`  
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
