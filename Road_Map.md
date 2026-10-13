@@ -2,14 +2,14 @@
 **Version:** 9.0  
 **Status:** ACTIVE  
 **Last Updated:** 2026-10-13  
-**Active Baseline Commit:** `336466154ccea4fa57ddd19a0b85bd393eb4f134` (`3364661`)  
+**Active Baseline Commit:** `6f81899ef9c6a2aab6e8bb2b5efde8ea97d83e4d` (`6f81899`)  
 **Archived Predecessors:** Phases 1 through 8 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
-**Status:** PLANNING (NOT STARTED)  
-**Baseline Commit:** `336466154ccea4fa57ddd19a0b85bd393eb4f134`  
+**Status:** ACTIVE (9.1 COMPLETED)  
+**Baseline Commit:** `6f81899ef9c6a2aab6e8bb2b5efde8ea97d83e4d`  
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
 ### 1. Objective & Scope
