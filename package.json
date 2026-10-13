@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "hayp-studios",
   "version": "0.2.1",
   "private": true,
@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "db:push": "prisma db push --accept-data-loss",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",`n    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:reset": "prisma migrate reset"
   },
   "dependencies": {
