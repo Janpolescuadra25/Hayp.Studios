@@ -1,22 +1,22 @@
-# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
+﻿# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
 **Version:** 9.0  
 **Status:** ACTIVE  
 **Last Updated:** 2026-10-13  
-**Active Baseline Commit:** `48814e46cba5310d67425928af2dc8dce570eaee` (`48814e4`)  
+**Active Baseline Commit:** `1d58e9e3f8eeeb1b674c88b9aa1d4bd926ad2bc7` (`1d58e9e`)  
 **Archived Predecessors:** Phases 1 through 8 and Deliverable 9.1 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
 **Status:** ACTIVE (DELIVERABLE 9.2 IN PROGRESS)  
-**Baseline Commit:** `48814e46cba5310d67425928af2dc8dce570eaee`  
+**Baseline Commit:** `1d58e9e3f8eeeb1b674c88b9aa1d4bd926ad2bc7`  
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
 ### 1. Objective & Scope
 Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement production-grade monitoring, error tracking, and automated backup workflows. Add production security hardening (HTTPS, reverse proxy, edge rate-limiting) and establish deployment automation.
 
 ### 2. Deliverables & Implementation Sequence
-- [ ] **Deliverable 9.2 — CI/CD Pipeline & Deployment Automation (Priority 2)**
+- [x] **Deliverable 9.2 — CI/CD Pipeline & Deployment Automation (Priority 2)**
   - Configure automated deployment model matching production requirements
   - Add automated database migration execution for production deployments
 - [ ] **Deliverable 9.3 — Monitoring & Error Tracking (Priority 3)**
