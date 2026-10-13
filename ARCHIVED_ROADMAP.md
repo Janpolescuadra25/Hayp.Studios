@@ -167,13 +167,12 @@ Deploy and verify the live production runtime, reverse proxy, TLS termination, a
 
 ### DELIVERABLE 9.3: MONITORING, LOGGING & ERROR TRACKING
 **Archived Date:** 2026-10-14  
-**Baseline Commit:** 990574cd6a8fb77fd67decfa6c1c1e4d23d987c7 (990574c)  
+**Baseline Commit:** `990574cd6a8fb77fd67decfa6c1c1e4d23d987c7` (`990574c`)  
 **Auditor Verification:** VERIFIED by Hydra (Post-execution audit)  
 **Status:** COMPLETED & PRODUCTION-READY  
 
 #### Delivered Scope:
-1. **Health Check Route (src/app/api/health/route.ts):** Dynamic endpoint with database ping via Prisma $queryRaw, process uptime, memory metrics, and strict 
-o-store cache headers.
-2. **Centralized Logger Utility (src/lib/logger.ts):** Structured JSON logger with all 4 log levels (debug, info, warn, rror), ISO timestamps, and production stack trace masking.
-3. **Database Backup Routine (deploy/backup-postgres.sh):** Automated PostgreSQL backup script with 7-day retention rotation and environment variable configuration.
-4. **Monitoring Documentation (deploy/README_9.3_MONITORING.md):** Complete operational specifications for uptime monitoring integration, logger usage, and backup restoration runbook.
+1. **Health Check Route (`src/app/api/health/route.ts`):** Dynamic endpoint with database ping via Prisma `$queryRaw`, process uptime, memory metrics, and strict `no-store` cache headers.
+2. **Centralized Logger Utility (`src/lib/logger.ts`):** Structured JSON logger with all 4 log levels (`debug`, `info`, `warn`, `error`), ISO timestamps, and production stack trace masking.
+3. **Database Backup Routine (`deploy/backup-postgres.sh`):** Automated PostgreSQL backup script with 7-day retention rotation and environment variable configuration.
+4. **Monitoring Documentation (`deploy/README_9.3_MONITORING.md`):** Complete operational specifications for uptime monitoring integration, logger usage, and backup restoration runbook.
