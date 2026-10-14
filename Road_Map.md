@@ -2,23 +2,20 @@
 **Version:** 9.0  
 **Status:** ACTIVE  
 **Last Updated:** 2026-10-15  
-**Active Baseline Commit:** `32b08a8dab18362e20d0244c2837c66676e1593e` (`32b08a8`)  
-**Archived Predecessors:** Phases 1 through 8 and Deliverables 9.1–9.3 archived in `ARCHIVED_ROADMAP.md`
+**Active Baseline Commit:** `8bc2cd80d8c655aa9cae1849daeb9d5c3187b4dd` (`8bc2cd8`)  
+**Archived Predecessors:** Phases 1 through 8 and Deliverables 9.1–9.4 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
 **Status:** ACTIVE (DELIVERABLE 9.5 IN PROGRESS)  
-**Baseline Commit:** `32b08a8dab18362e20d0244c2837c66676e1593e`  
+**Baseline Commit:** `8bc2cd80d8c655aa9cae1849daeb9d5c3187b4dd`  
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
 ### 1. Objective & Scope
 Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement production-grade monitoring, error tracking, and automated backup workflows. Add production security hardening (HTTPS, reverse proxy, edge rate-limiting) and establish deployment automation.
 
 ### 2. Deliverables & Implementation Sequence
-- [x] **Deliverable 9.4 — Production Security Hardening (Priority 4)**
-  - Implement edge protection, rotating admin credentials, and session timeout hardening
-  - Conduct vulnerability scans and audit access logs
 - [ ] **Deliverable 9.5 — Post-Deployment Verification Runbook (Priority 5)**
   - Document deployment steps, health check endpoints, and rollback procedures
   - Create runbook for common production operational scenarios

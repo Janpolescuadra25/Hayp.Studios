@@ -176,3 +176,18 @@ Deploy and verify the live production runtime, reverse proxy, TLS termination, a
 2. **Centralized Logger Utility (`src/lib/logger.ts`):** Structured JSON logger with all 4 log levels (`debug`, `info`, `warn`, `error`), ISO timestamps, and production stack trace masking.
 3. **Database Backup Routine (`deploy/backup-postgres.sh`):** Automated PostgreSQL backup script with 7-day retention rotation and environment variable configuration.
 4. **Monitoring Documentation (`deploy/README_9.3_MONITORING.md`):** Complete operational specifications for uptime monitoring integration, logger usage, and backup restoration runbook.
+
+---
+
+### DELIVERABLE 9.4: PRODUCTION SECURITY HARDENING
+**Archived Date:** 2026-10-15  
+**Baseline Commit:** 8bc2cd80d8c655aa9cae1849daeb9d5c3187b4dd (8bc2cd8)  
+**Auditor Verification:** VERIFIED by Hydra (Post-execution audit)  
+**Status:** COMPLETED & PRODUCTION-READY  
+
+#### Delivered Scope:
+1. **NextAuth Session & Cookie Hardening (src/lib/auth.ts):** Enforced 24-hour JWT expiration (maxAge: 86400), production __Secure-next-auth.session-token cookie name prefix, sameSite: "strict", httpOnly: true, and production secure cookie flag.
+2. **Reverse Proxy Edge Hardening (deploy/Caddyfile):** Configured automated Let's Encrypt TLS (paulescuadra25@gmail.com), 10MB payload size restriction, and comprehensive HTTP security headers (HSTS preload, 
+osniff, DENY, Referrer-Policy, Permissions-Policy, and server banner masking).
+3. **Centralized Logger Adoption:** Migrated all error logging across all core API routes (/api/inquiry, /api/analytics/event, /api/analytics/metrics, /api/instagram) from console.error to @/lib/logger, ensuring secret masking and production stack trace masking.
+4. **Security Documentation (deploy/README_9.4_SECURITY.md):** Complete operational specifications covering session security policies, TLS headers, Chromium HSTS preload submission runbook, and admin credential rotation procedures.
