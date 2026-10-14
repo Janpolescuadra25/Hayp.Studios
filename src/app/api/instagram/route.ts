@@ -1,5 +1,5 @@
-import { logger } from "@/lib/logger";
 import { NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 
 export interface InstagramMediaItem {
   id: string;
@@ -63,7 +63,7 @@ export async function GET() {
     );
 
     if (!response.ok) {
-      console.warn('Instagram API responded with error, utilizing fallback feed.');
+      logger.warn('Instagram API responded with error, utilizing fallback feed.', 'InstagramAPI');
       return NextResponse.json({
         source: 'fallback',
         message: 'Instagram upstream error; serving cached fallback',
@@ -77,7 +77,7 @@ export async function GET() {
       data: Array.isArray(json?.data) ? json.data : FALLBACK_INSTAGRAM_POSTS,
     });
   } catch (error) {
-    logger.error("Instagram general error", 'Failed to query Instagram API:', error, "InstagramAPI");
+    logger.error('Failed to query Instagram API', error, 'InstagramAPI');
     return NextResponse.json({
       source: 'fallback',
       message: 'Network exception; serving fallback data',

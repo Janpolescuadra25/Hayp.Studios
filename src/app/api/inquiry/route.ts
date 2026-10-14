@@ -1,8 +1,8 @@
-import { logger } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { logger } from "@/lib/logger";
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 5;
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
       }
     );
   } catch (error) {
-    logger.error("Inquiry general error", "Failed to load inquiries:", error, "InquiryAPI");
+    logger.error("Failed to load inquiries", error, "InquiryAPI");
     return NextResponse.json(
       { ok: false, error: "Internal server error loading inquiries" },
       { status: 500 }
@@ -201,7 +201,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    logger.error("Inquiry general error", "Failed to update inquiry:", error, "InquiryAPI");
+    logger.error("Failed to update inquiry", error, "InquiryAPI");
     return NextResponse.json(
       { ok: false, error: "Internal server error updating inquiry" },
       { status: 500 }

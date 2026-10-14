@@ -1,6 +1,6 @@
-import { logger } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { logger } from "@/lib/logger";
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 100;
@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
       }
     );
   } catch (error) {
-    logger.error("Analytics event error", "Failed to record analytics event:", error, "AnalyticsEventAPI");
+    logger.error("Failed to record analytics event", error, "AnalyticsEventAPI");
     return NextResponse.json(
       { error: "Internal server error recording analytics event" },
       { status: 500 }
