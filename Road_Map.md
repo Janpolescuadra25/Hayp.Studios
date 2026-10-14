@@ -8,7 +8,7 @@
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
-**Status:** ACTIVE (DELIVERABLE 9.4 IN PROGRESS)  
+**Status:** ACTIVE (DELIVERABLE 9.5 IN PROGRESS)  
 **Baseline Commit:** `990574cd6a8fb77fd67decfa6c1c1e4d23d987c7`  
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
@@ -16,7 +16,7 @@
 Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement production-grade monitoring, error tracking, and automated backup workflows. Add production security hardening (HTTPS, reverse proxy, edge rate-limiting) and establish deployment automation.
 
 ### 2. Deliverables & Implementation Sequence
-- [ ] **Deliverable 9.4 — Production Security Hardening (Priority 4)**
+- [x] **Deliverable 9.4 — Production Security Hardening (Priority 4)**
   - Implement edge protection, rotating admin credentials, and session timeout hardening
   - Conduct vulnerability scans and audit access logs
 - [ ] **Deliverable 9.5 — Post-Deployment Verification Runbook (Priority 5)**

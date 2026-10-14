@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
@@ -137,7 +138,7 @@ export async function POST(req: NextRequest) {
       }
     );
   } catch (error) {
-    console.error("Failed to record analytics event:", error);
+    logger.error("Analytics event error", "Failed to record analytics event:", error, "AnalyticsEventAPI");
     return NextResponse.json(
       { error: "Internal server error recording analytics event" },
       { status: 500 }

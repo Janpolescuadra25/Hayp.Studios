@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
@@ -112,7 +113,7 @@ export async function GET(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.error("Failed to load inquiries:", error);
+    logger.error("Inquiry general error", "Failed to load inquiries:", error, "InquiryAPI");
     return NextResponse.json(
       { ok: false, error: "Internal server error loading inquiries" },
       { status: 500 }
@@ -200,7 +201,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    console.error("Failed to update inquiry:", error);
+    logger.error("Inquiry general error", "Failed to update inquiry:", error, "InquiryAPI");
     return NextResponse.json(
       { ok: false, error: "Internal server error updating inquiry" },
       { status: 500 }
@@ -299,7 +300,7 @@ export async function POST(req: NextRequest) {
       }
     );
   } catch (error) {
-    console.error("Failed to save inquiry:", error);
+    logger.error("Inquiry general error", "Failed to save inquiry:", error, "InquiryAPI");
     return NextResponse.json(
       { error: "Internal server error saving inquiry" },
       { status: 500 }

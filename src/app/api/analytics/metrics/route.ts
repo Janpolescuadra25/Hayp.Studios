@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -118,7 +119,7 @@ export async function GET() {
       }
     );
   } catch (error) {
-    console.error("Failed to aggregate analytics metrics:", error);
+    logger.error("Analytics metrics error", "Failed to aggregate analytics metrics:", error, "AnalyticsMetricsAPI");
     return NextResponse.json(
       { ok: false, error: "Internal server error fetching analytics metrics" },
       { status: 500 }
