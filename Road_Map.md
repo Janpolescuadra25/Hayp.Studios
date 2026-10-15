@@ -1,15 +1,15 @@
-# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
+﻿# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
 **Version:** 9.0  
 **Status:** ACTIVE  
 **Last Updated:** 2026-10-15  
-**Active Baseline Commit:** `8bc2cd80d8c655aa9cae1849daeb9d5c3187b4dd` (`8bc2cd8`)  
+**Active Baseline Commit:** `db5d17919ace0d38aceffcc5ea1bb0db9f419933` (`db5d179`)
 **Archived Predecessors:** Phases 1 through 8 and Deliverables 9.1–9.4 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
 **Status:** ACTIVE (DELIVERABLE 9.5 IN PROGRESS)  
-**Baseline Commit:** `8bc2cd80d8c655aa9cae1849daeb9d5c3187b4dd`  
+**Baseline Commit:** `db5d17919ace0d38aceffcc5ea1bb0db9f419933`
 **Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
 
 ### 1. Objective & Scope
@@ -17,8 +17,8 @@ Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement p
 
 ### 2. Deliverables & Implementation Sequence
 - [ ] **Deliverable 9.5 — Post-Deployment Verification Runbook (Priority 5)**
-  - Document deployment steps, health check endpoints, and rollback procedures
-  - Create runbook for common production operational scenarios
+  - Phase 1: Tooling & Runbook Creation (`verify-deployment.sh`, `README_9.5_RUNBOOK.md`) — **COMPLETED** (commit `db5d179`)
+  - Phase 2: Live VPS Deployment, Automated Smoke Verification & Acceptance Criteria Validation — **IN PROGRESS**
 
 ### 3. Acceptance Criteria
 - [ ] Production instance accessible at production domain with valid HTTPS
