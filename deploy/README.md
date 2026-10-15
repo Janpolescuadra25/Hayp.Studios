@@ -1,39 +1,38 @@
-﻿# HAYP STUDIOS — PRODUCTION DEPLOYMENT ASSET INVENTORY
-**Directory:** `/deploy`  
-**Target Environment:** Hetzner Cloud cx33 (`vortex` — `2.28.120.85`)  
-**Status:** DELIVERABLE 9.5 PHASE 1 COMPLETE — READY FOR PHASE 2 VPS EXECUTION  
-**Last Updated:** 2026-10-15  
+﻿# Hayp Studios — Production Deployment & Operations Directory
+
+This directory contains production configuration, automation scripts, and operational runbooks for deploying and running **Hayp Studios** on the Hetzner VPS (`vortex`).
 
 ---
 
-## 1. DEPLOYMENT ASSET DIRECTORY
+## Deployment Asset Inventory
 
-This directory contains production deployment configurations, automated scripts, security specifications, and operational runbooks for Hayp Studios:
-
-| File Name | Description | Deliverable | Status |
-|---|---|---|---|
-| **`ecosystem.config.js`** | PM2 process manager configuration for Next.js standalone application | Deliverable 9.2 | ✅ READY |
-| **`Caddyfile`** | Caddy v2 reverse proxy configuration with automated Let's Encrypt TLS & security headers | Deliverable 9.4 | ✅ READY |
-| **`backup-postgres.sh`** | Automated PostgreSQL backup script with gzip compression & 7-day retention | Deliverable 9.3 | ✅ READY (`0700`) |
-| **`PROD_FIREWALL_SETUP.md`** | UFW firewall rules specification (Ports 22, 80, 443) | Deliverable 9.2 | ✅ READY |
-| **`verify-deployment.sh`** | Automated post-deployment smoke verification script for `/api/health`, headers, & auth | Deliverable 9.5 | ✅ **DONE (Phase 1)** |
-| **`README_9.2_CICD.md`** | CI/CD pipeline and GitHub Actions workflow documentation | Deliverable 9.2 | ✅ COMPLETE |
-| **`README_9.3_MONITORING.md`** | Production monitoring, logging, and database backup documentation | Deliverable 9.3 | ✅ COMPLETE |
-| **`README_9.4_SECURITY.md`** | Session security hardening, Caddy headers, and logger migration specs | Deliverable 9.4 | ✅ COMPLETE |
-| **`README_9.5_RUNBOOK.md`** | Comprehensive production operations, verification, & emergency rollback runbook | Deliverable 9.5 | ✅ **DONE (Phase 1)** |
-| **`README.md`** | This deployment directory asset index and operational overview | Phase 9 | ✅ CURRENT |
+| File | Type | Primary Role & Description |
+|---|---|---|
+| `Caddyfile` | Configuration | Production reverse proxy configuration routing `haypstudios.com` & `www.haypstudios.com` to port `3003` with automated Let's Encrypt TLS and security headers. |
+| `ecosystem.config.js` | Configuration | PM2 process manager configuration for `hayp-frontend` (port `3003`, 1GB memory cap, cluster/fork mode). |
+| `backup-postgres.sh` | Shell Script | Automated PostgreSQL backup script using `pg_dump` with gzip compression (`*.sql.gz`) and 7-day retention in `/var/backups/haypstudios/postgres/`. |
+| `restore-postgres.sh` | Shell Script | Fail-closed PostgreSQL restoration script supporting compressed archives with pre-restore safety confirmations. |
+| `verify-deployment.sh` | Shell Script | Automated post-deployment smoke test script verifying HTTP status, API endpoints, TLS certificate, and PM2 process health. |
+| `PROD_FIREWALL_SETUP.md` | Runbook | Server hardening specifications and UFW firewall rules for Hetzner VPS `vortex` (ports 22, 80, 443). |
+| `README_9.2_CICD.md` | Runbook | CI/CD pipeline documentation detailing the GitHub Actions automated deployment workflow (`.github/workflows/deploy.yml`). |
+| `README_9.3_MONITORING.md` | Runbook | Production logging, PM2 monitoring, and health check endpoint operations manual. |
+| `README_9.4_SECURITY.md` | Runbook | Database security policies, access controls, and credential rotation procedures. |
+| `README_9.5_RUNBOOK.md` | Runbook | Comprehensive post-deployment verification runbook, pre-flight checklist, live testing procedures, and zero-downtime rollback runbook. |
 
 ---
 
-## 2. PRODUCTION SECURITY GUIDELINES
+## Operational Architecture Summary
 
-1. **Pull-Only Server Deployment Rule:**
-   - Server deployments follow `Local push -> GitHub main -> Server pull`.
-   - Never commit or edit files directly on the production VPS.
-2. **Zero Secrets in Version Control:**
-   - Secrets (`DATABASE_URL`, `NEXTAUTH_SECRET`, `ADMIN_PASSWORD`) reside exclusively on VPS `vortex` in `/var/www/hayp.studios/.env`.
-   - Ensure `.env` permissions are set to `600` (`chmod 600 .env`).
-3. **Backup Directory Security:**
-   - Production backup directory `/var/backups/postgres` must be restricted to owner-only access (`chmod 700 /var/backups/postgres`).
-4. **Automated Verification:**
-   - After pulling updates on the VPS, always execute `./deploy/verify-deployment.sh` to validate live application health before declaring deployment complete.
+1. **Reverse Proxy:** **Caddy** serves as the sole reverse proxy. Legacy Nginx configurations were decommissioned in Deliverable 9.1.
+2. **Process Management:** **PM2** manages the Next.js standalone server on internal port `3003` under application name `hayp-frontend`.
+3. **Continuous Deployment:** Orchestrated automatically via **GitHub Actions** (`.github/workflows/deploy.yml`). Deployment triggers automatically on push to `main` following successful CI tests and builds.
+4. **Database Operations:** PostgreSQL backups are scheduled via cron executing `deploy/backup-postgres.sh`. Restoration is executed via `deploy/restore-postgres.sh`.
+5. **Post-Deployment Verification:** Automated verification is performed via `deploy/verify-deployment.sh` following the procedures detailed in `README_9.5_RUNBOOK.md`.
+
+---
+
+## Security & Secrets Policy
+
+- **No Plaintext Secrets:** Never commit `.env`, credentials, API keys, or private SSH keys to this repository.
+- **Server Environment:** Secrets live exclusively on `vortex` in `/var/www/haypstudios/.env.production`.
+- **Backup File Permissions:** Automated backups in `/var/backups/haypstudios/postgres/` must be restricted with `chmod 700`.
