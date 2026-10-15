@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 # ============================================================================== 
 # HAYP STUDIOS — AUTOMATED POST-DEPLOYMENT SMOKE VERIFICATION SCRIPT
 # Deliverable 9.5: Automated Verification & Health Checks
@@ -25,8 +25,8 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
-log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((PASSED++)); }
-log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((FAILED++)); }
+log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; PASSED=$((PASSED + 1)); }
+log_fail() { echo -e "${RED}[FAIL]${NC} $1"; FAILED=$((FAILED + 1)); }
 
 echo "======================================================================"
 echo " Starting Post-Deployment Verification for: $TARGET_HOST"
@@ -41,8 +41,10 @@ HEALTH_CODE=$(echo "$HEALTH_RESP" | tail -n1)
 HEALTH_BODY=$(echo "$HEALTH_RESP" | head -n -1)
 
 if [ "$HEALTH_CODE" -eq 200 ]; then
-  if echo "$HEALTH_BODY" | grep -q '"status":"healthy"' && echo "$HEALTH_BODY" | grep -q '"database":"connected"'; then
-    log_pass "/api/health returned 200 OK with status: healthy, database: connected"
+  if echo "$HEALTH_BODY" | grep -Eq '"status":"(ok|healthy)"' && \
+     ( echo "$HEALTH_BODY" | grep -Eq '"database"\s*:\s*\{.*"status":"(healthy|connected)"' || \
+       echo "$HEALTH_BODY" | grep -Eq '"database":"(connected|healthy)"' ); then
+    log_pass "/api/health returned 200 OK with status: ok/healthy and database healthy/connected"
   else
     log_fail "/api/health returned 200 but payload status is unexpected: $HEALTH_BODY"
   fi

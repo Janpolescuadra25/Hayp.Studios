@@ -120,7 +120,7 @@ chmod +x deploy/verify-deployment.sh
 ```
 
 ### Automated Checks Performed:
-1. `GET /api/health` returns `200 OK` with JSON `{ "status": "healthy", "database": "connected" }`.
+1. `GET /api/health` returns `200 OK` with a payload containing `"status": "ok"` (or `"status": "healthy"`) and a nested database status such as `"database": { "status": "healthy" }`.
 2. HTTP Security Headers are present (`Strict-Transport-Security`, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`).
 3. Protected route guardrail: `GET /api/analytics/metrics` rejects unauthenticated access with `401 Unauthorized`.
 4. API input validation: `POST /api/inquiry` rejects malformed payloads with `400 Bad Request`.
@@ -155,7 +155,7 @@ curl -s -i https://haypstudios.com/api/health
 
 ## 7. DATABASE CONNECTION & HEALTH CHECK TROUBLESHOOTING
 
-If `/api/health` returns status `degraded` or `database: disconnected`:
+If `/api/health` returns HTTP `503` or a JSON payload with `"database": { "status": "unhealthy" }`:
 1. Check PostgreSQL service status: `systemctl status postgresql`
 2. Test direct local connection: `psql -U postgres -d HaypStudios_db -c "SELECT 1;"`
 3. Verify connection pool: inspect Prisma connections in `src/lib/prisma.ts`
