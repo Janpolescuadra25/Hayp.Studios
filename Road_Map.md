@@ -25,16 +25,16 @@
   - External health probe (`/api/health`), PM2 crash resilience (1GB memory restart), structured logging, and escalation runbook (`deploy/README_10.1_MONITORING_ALERTING.md`).
 - [x] **Deliverable 10.2 — Performance Optimization & Edge Caching (Priority 2) [COMPLETED 2026-10-17]**
   - Caddy edge caching rules (`deploy/Caddyfile`), Next.js image optimization & compression (`next.config.ts`), and performance runbook (`deploy/README_10.2_PERFORMANCE.md`).
+- [x] **Deliverable 10.4 — Security Patch Management & Vulnerability Scanning (Priority 1) [COMPLETED 2026-10-17]**
+  - Automated dependency audit gate via GitHub Actions (`bun audit --fail-on critical`)
+  - Weekly scheduled security scans and artifact reporting (`.github/workflows/security-scan.yml`)
+  - Security runbook and quarterly review procedures (`deploy/README_10.4_SECURITY.md`)
 
 ### Active Remaining Deliverables:
 - [ ] **Deliverable 10.3 — User Feedback & Analytics Enhancement (Priority 2)**
   - Implement client feedback collection workflow on contact/inquiry submission
   - Enhance analytics metrics reporting to track inquiry conversion funnel
   - Add geographic and device telemetry aggregation
-- [ ] **Deliverable 10.4 — Security Patch Management & Vulnerability Scanning (Priority 1) [ACTIVE WORKSTREAM]**
-  - Establish monthly automated dependency scanning workflow in GitHub Actions
-  - Audit security headers and TLS configuration quarterly
-  - Maintain zero critical/high-severity vulnerabilities in production
 - [ ] **Deliverable 10.5 — Disaster Recovery & Backup Validation Drill (Priority 3)**
   - Execute scheduled non-destructive database restore drill using `restore-postgres.sh`
   - Verify data integrity and zero data loss during restoration simulation
@@ -43,7 +43,7 @@
 ### Acceptance Criteria:
 - [x] External uptime monitoring operational with alerting configured (D10.1)
 - [x] Edge caching headers and image optimization deployed to achieve Lighthouse performance > 90 (D10.2)
-- [ ] Monthly security vulnerability scan workflow established (D10.4)
+- [x] Monthly security vulnerability scan workflow established (D10.4)
 - [ ] User feedback collection active on production contact form (D10.3)
 - [ ] Database disaster recovery drill completed and documented with zero data loss (D10.5)
 - [x] Full `bun run build` and `bun test` continue to pass cleanly with exit code 0

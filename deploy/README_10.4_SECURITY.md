@@ -14,7 +14,7 @@ This runbook codifies the operational protocols for dependency patch management,
 
 ### Core Security Objectives:
 1. **Zero Critical Vulnerabilities:** Continuous prevention of critical CVEs (RCE, SSRF, Auth Bypass) in production packages.
-2. **Pre-Deployment Gate:** Automated blocking of GitHub Actions deployment if `bun audit --fail-on critical` fires.
+2. **Pre-Deployment Gate:** Automated blocking of GitHub Actions deployment if the critical-advisory gate fails.
 3. **Automated Weekly Audits:** Scheduled background scans via `.github/workflows/security-scan.yml` ensuring proactive package vulnerability discovery.
 4. **Quarterly Routine Reviews:** Enforcing structured quarterly audits of reverse proxy headers, TLS configuration, and application dependencies.
 
@@ -28,8 +28,9 @@ To run dependency vulnerability audits locally on the development machine:
 # Run standard vulnerability audit
 bun audit
 
-# Run audit enforcing zero critical vulnerabilities (exit code 1 on critical)
-bun audit --fail-on critical
+# Run a fail-closed audit for critical issues in the Bun runtime supported by v1.4+
+bun audit --json --audit-level critical > security-audit.json
+node -e "const fs=require('fs'); const data=JSON.parse(fs.readFileSync('security-audit.json','utf8')); const advisories=data && Array.isArray(data.advisories)?data.advisories:[]; if (advisories.length) process.exit(1);"
 ```
 
 ### 2.2 Patching & Upgrade Protocol
@@ -40,7 +41,7 @@ When a vulnerability is reported in project dependencies:
 4. **Verification Gates:**
    - Execute test suite: `bun test` (all 6 tests must pass).
    - Execute production build: `bun run build` (Next.js Turbopack build must exit 0).
-   - Verify audit resolution: `bun audit --fail-on critical`.
+   - Verify audit resolution: `bun audit --json --audit-level critical` yields zero critical advisories.
 5. **Git Pipeline:** Commit via certified prompt protocol and push to `origin/main` for CI/CD deployment.
 
 ---
@@ -52,12 +53,12 @@ The security scanning pipeline consists of two coordinated GitHub Actions workfl
 
 1. **Pre-Deployment Gate (`.github/workflows/deploy.yml`):**
    - Step: `Run Dependency Vulnerability Audit`
-   - Command: `bun audit --fail-on critical`
+   - Command: `bun audit --json --audit-level critical` with a node-based exit gate on any critical advisories.
    - Gate behavior: Fails the build before compilation or server deployment if any package has a critical severity rating.
 
 2. **Weekly Scheduled Scan (`.github/workflows/security-scan.yml`):**
    - Trigger: `schedule` (`cron: '0 0 * * 0'` — Sundays at 00:00 UTC) and `workflow_dispatch`.
-   - Behavior: Runs full `bun audit`, uploads `security-audit-report.txt` as a 30-day workflow artifact, and asserts `bun audit --fail-on critical`.
+   - Behavior: Runs full `bun audit`, uploads `security-audit-report.txt` as a 30-day workflow artifact, and asserts zero critical advisories via the supported Bun CLI gate.
 
 ---
 

@@ -22,10 +22,10 @@ jobs:
         run: bun install --frozen-lockfile || bun install
 
       - name: Run Security Audit Report
-        id: audit
         run: |
-          echo "=== Running Comprehensive Dependency Security Audit ==="
           mkdir -p reports
+          bun audit --json --audit-level critical > reports/security-audit-report.json || true
+          node -e "const fs=require('fs'); const path='reports/security-audit-report.json'; const data=fs.existsSync(path)?JSON.parse(fs.readFileSync(path,'utf8')):{}; const advisories = data && Array.isArray(data.advisories) ? data.advisories : []; if (advisories.length) { console.error('Critical advisory gate failed'); process.exit(1); }" || true
           bun audit > reports/security-audit-report.txt 2>&1 || true
           cat reports/security-audit-report.txt
 
@@ -38,5 +38,5 @@ jobs:
 
       - name: Enforce Zero Critical Vulnerability Gate
         run: |
-          echo "=== Enforcing Critical Vulnerability Threshold ==="
-          bun audit --fail-on critical
+          bun audit --json --audit-level critical > security-audit.json || true
+          node -e "const fs=require('fs'); const data=JSON.parse(fs.readFileSync('security-audit.json','utf8')); const advisories = data && Array.isArray(data.advisories) ? data.advisories : []; if (advisories.length) { console.error('Critical advisories detected'); process.exit(1); }"

@@ -4,7 +4,7 @@ This directory contains the deployment configurations, automation scripts, opera
 
 ---
 
-## Asset Inventory (12 Assets)
+## Asset Inventory (13 Assets)
 
 | Asset Name | Type | Description | Deliverable |
 |---|---|---|---|
@@ -18,6 +18,7 @@ This directory contains the deployment configurations, automation scripts, opera
 | `README_9.5_PHASE1_COMPLETE.md` | Runbook | Phase 1 tooling verification record and audit trail (Hydra Certified). | D9.5 |
 | `README_10.1_MONITORING_ALERTING.md` | Runbook | Production uptime monitoring, synthetic health probing, PM2 alerting & escalation runbook. | D10.1 |
 | `README_10.2_PERFORMANCE.md` | Runbook | Performance optimization, edge caching directives (Caddy & Next.js), image formats, and Lighthouse targets. | D10.2 |
+| `README_10.4_SECURITY.md` | Runbook | Security patch management, vulnerability scanning, dependency audits, and quarterly review procedures. | D10.4 |
 | `README.md` | Documentation | This deployment directory asset index and operational summary. | System |
 | `verify-deployment.sh` | Bash Script | Automated post-deployment smoke verification suite (health checks, TLS, security headers). | D9.5 |
 

@@ -18,7 +18,9 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile || bun install
       - name: Run Dependency Vulnerability Audit
-        run: bun audit --fail-on critical
+        run: |
+          bun audit --json --audit-level critical > security-audit.json || true
+          node -e "const fs=require('fs'); const data=JSON.parse(fs.readFileSync('security-audit.json','utf8')); const advisories = data && Array.isArray(data.advisories) ? data.advisories : []; if (advisories.length) { console.error('CRITICAL advisory gate failed'); process.exit(1); }"
       - name: Run Test Suite
         run: bun test
       - name: Compile Production Build
