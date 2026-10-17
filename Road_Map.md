@@ -1,8 +1,8 @@
 # Project Roadmap: Hayp Studios (Vortex Studios)
 
 **Current Version:** 10.0  
-**Last Updated:** 2026-10-17 (ARCHIVED 10.1/10.2/10.4)  
-**Active Baseline Commit:** `c970d93c013f6dabef60c85207a4e356f34878bf`  
+**Last Updated:** 2026-10-18 (D10.3 archived)  
+**Active Baseline Commit:** `5afa9693bcd56f8ee9e87a9655c53758575e6c9d`  
 **Archived Predecessors:** Phases 1 through 9 and completed Phase 10 deliverables archived in `ARCHIVED_ROADMAP.md`
 
 ---
@@ -21,7 +21,11 @@
 5. Validate disaster recovery procedures through scheduled non-destructive restoration drills.
 
 ### Active Remaining Deliverables:
-- [x] **
+- [ ] **Deliverable 10.5 — Disaster Recovery & Backup Validation Drill (Priority 3)**
+  - Execute scheduled non-destructive database restore drill using `restore-postgres.sh`
+  - Verify data integrity and zero data loss during restoration simulation
+  - Document drill outcomes and update operational runbooks
+
 ### Acceptance Criteria:
 - [x] External uptime monitoring operational with alerting configured (D10.1)
 - [x] Edge caching headers and image optimization deployed to achieve Lighthouse performance > 90 (D10.2)

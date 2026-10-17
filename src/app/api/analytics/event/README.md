@@ -32,3 +32,6 @@ Content-Type: application/json
   "consent": true
 }
 ```
+
+## 5. Operational Notes
+This route is rate-limited to 100 requests per minute and deliberately hashes client IPs without a salt so the stored value remains pseudonymous while preserving privacy-safe analytics aggregation.

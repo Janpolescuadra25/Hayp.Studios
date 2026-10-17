@@ -47,3 +47,6 @@ Response:
   }
 }
 ```
+
+## 5. Operational Notes
+This endpoint is intentionally read-only and serves derived analytics from the inquiry and event tables for funnel, satisfaction, and device/country reporting.

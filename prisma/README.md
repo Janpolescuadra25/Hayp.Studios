@@ -32,3 +32,6 @@ bunx prisma generate
 # Create SQLite backup manually before schema modification (optional safeguard)
 # cp prisma/dev.db prisma/dev.db.bak
 ```
+
+## 6. Source of Truth
+This directory is the authoritative schema and migration source for local SQLite work and production PostgreSQL deployment compatibility. Schema changes should be additive and reviewed before shipping to production.
