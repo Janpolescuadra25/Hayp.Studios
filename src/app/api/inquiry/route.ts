@@ -100,6 +100,9 @@ export async function GET(request: NextRequest) {
         engagementType: true,
         brief: true,
         status: true,
+        feedbackRating: true,
+        feedbackMessage: true,
+        telemetryConsent: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -176,6 +179,9 @@ export async function PATCH(req: NextRequest) {
         engagementType: true,
         brief: true,
         status: true,
+        feedbackRating: true,
+        feedbackMessage: true,
+        telemetryConsent: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -272,6 +278,48 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    let feedbackRating: number | null = null;
+    if (payload.feedbackRating !== undefined && payload.feedbackRating !== null && payload.feedbackRating !== "") {
+      const parsedRating = Number(payload.feedbackRating);
+      if (!Number.isInteger(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+        return NextResponse.json(
+          { error: "Feedback rating must be an integer between 1 and 5." },
+          { status: 400 }
+        );
+      }
+      feedbackRating = parsedRating;
+    }
+
+    let feedbackMessage: string | null = null;
+    if (payload.feedbackMessage !== undefined && payload.feedbackMessage !== null && payload.feedbackMessage !== "") {
+      if (typeof payload.feedbackMessage !== "string") {
+        return NextResponse.json(
+          { error: "Feedback message must be a string when provided." },
+          { status: 400 }
+        );
+      }
+      feedbackMessage = payload.feedbackMessage.trim();
+      if (feedbackMessage.length > 1000) {
+        return NextResponse.json(
+          { error: "Feedback message exceeds the maximum length of 1000 characters." },
+          { status: 400 }
+        );
+      }
+    }
+
+    if (
+      payload.telemetryConsent !== undefined &&
+      payload.telemetryConsent !== null &&
+      typeof payload.telemetryConsent !== "boolean"
+    ) {
+      return NextResponse.json(
+        { error: "Telemetry consent must be a boolean value." },
+        { status: 400 }
+      );
+    }
+
+    const telemetryConsent = Boolean(payload.telemetryConsent);
+
     const inquiry = await db.inquiry.create({
       data: {
         name,
@@ -279,6 +327,9 @@ export async function POST(req: NextRequest) {
         engagementType,
         brief,
         status: "NEW",
+        feedbackRating,
+        feedbackMessage,
+        telemetryConsent,
       },
       select: {
         id: true,
@@ -300,7 +351,7 @@ export async function POST(req: NextRequest) {
       }
     );
   } catch (error) {
-    logger.error("Inquiry general error", "Failed to save inquiry:", error, "InquiryAPI");
+    logger.error("Failed to save inquiry", error, "InquiryAPI");
     return NextResponse.json(
       { error: "Internal server error saving inquiry" },
       { status: 500 }

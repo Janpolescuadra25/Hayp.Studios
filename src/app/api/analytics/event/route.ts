@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHash } from "crypto";
 import { db } from "@/lib/db";
 import { logger } from "@/lib/logger";
 
@@ -23,6 +24,18 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+function detectDeviceType(userAgent: string | null): string {
+  const ua = (userAgent ?? "").toLowerCase();
+  if (!ua) return "desktop";
+  if (/ipad|tablet/.test(ua)) return "tablet";
+  if (/mobile|android|iphone|ipod/.test(ua)) return "mobile";
+  return "desktop";
+}
+
+function hashIp(ip: string): string {
+  return createHash("sha256").update(`${ip}:hayp-studios`).digest("hex");
+}
+
 setInterval(() => {
   const now = Date.now();
   for (const [ip, entry] of ipRequestCounts.entries()) {
@@ -45,7 +58,7 @@ export async function OPTIONS() {
 export async function POST(req: NextRequest) {
   try {
     const forwardedFor = req.headers.get("x-forwarded-for");
-    const clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : "127.0.0.1";
+    const clientIp = forwardedFor ? forwardedFor.split(",")[0].trim() : req.headers.get("x-real-ip") || "127.0.0.1";
 
     if (isRateLimited(clientIp)) {
       return NextResponse.json(
@@ -90,7 +103,7 @@ export async function POST(req: NextRequest) {
 
     const entityType = typeof payload.entityType === "string" ? payload.entityType.trim().slice(0, 64) : null;
     const entityId = typeof payload.entityId === "string" ? payload.entityId.trim().slice(0, 128) : null;
-    const pathname = typeof payload.pathname === "string" ? payload.pathname.trim().slice(0, 256) : null;
+    const pathname = typeof payload.pathname === "string" ? payload.pathname.trim().slice(0, 256) : "/";
     const sessionId = typeof payload.sessionId === "string" ? payload.sessionId.trim().slice(0, 128) : null;
 
     let metadata: string | null = null;
@@ -106,7 +119,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const userAgent = (req.headers.get("user-agent") || "").slice(0, 512) || null;
+    const userAgent = req.headers.get("user-agent") || null;
+    const country = (req.headers.get("cf-ipcountry") ?? req.headers.get("x-vercel-ip-country") ?? "UNKNOWN").slice(0, 64);
+    const region = (req.headers.get("cf-region-code") ?? req.headers.get("x-vercel-ip-country-region") ?? "UNKNOWN").slice(0, 64);
+    const deviceType = detectDeviceType(userAgent).slice(0, 32);
+    const ipHash = hashIp(clientIp).slice(0, 64);
 
     const createdEvent = await db.analyticsEvent.create({
       data: {
@@ -116,7 +133,11 @@ export async function POST(req: NextRequest) {
         metadata,
         pathname,
         sessionId,
-        userAgent,
+        userAgent: userAgent ? userAgent.slice(0, 512) : null,
+        country,
+        region,
+        deviceType,
+        ipHash,
       },
       select: {
         id: true,

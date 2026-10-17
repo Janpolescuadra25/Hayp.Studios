@@ -40,7 +40,7 @@ export async function GET() {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const [totalEvents, pageViews, cardClicks, externalNavs, sessions, eventsByType, recentEvents, weekEvents] = await Promise.all([
+    const [totalEventsCount, pageViews, cardClicks, externalNavs, sessions, eventsByType, recentEvents, weekEvents, inquiries] = await Promise.all([
       db.analyticsEvent.count(),
       db.analyticsEvent.count({ where: { eventType: "page_view" } }),
       db.analyticsEvent.count({ where: { eventType: "card_click" } }),
@@ -71,7 +71,33 @@ export async function GET() {
         select: { eventType: true, createdAt: true },
         orderBy: { createdAt: "asc" },
       }),
+      db.inquiry.findMany({
+        select: {
+          id: true,
+          status: true,
+          feedbackRating: true,
+          createdAt: true,
+        },
+      }),
     ]);
+
+    const feedbackRatings = inquiries.filter((inquiry) => inquiry.feedbackRating !== null && inquiry.feedbackRating !== undefined);
+    const averageSatisfaction = feedbackRatings.length
+      ? Number((feedbackRatings.reduce((sum, inquiry) => sum + (inquiry.feedbackRating ?? 0), 0) / feedbackRatings.length).toFixed(2))
+      : 0;
+
+    const deviceBreakdown = await db.analyticsEvent.groupBy({
+      by: ["deviceType"],
+      _count: { deviceType: true },
+    });
+
+    const countryBreakdown = await db.analyticsEvent.groupBy({
+      by: ["country"],
+      _count: { country: true },
+    });
+
+    const pageViewCount = eventsByType.find((entry) => entry.eventType === "page_view")?._count._all ?? 0;
+    const conversionRate = pageViewCount > 0 ? Number(((inquiries.length / pageViewCount) * 100).toFixed(2)) : 0;
 
     const dailyMap: Record<string, { date: string; views: number; clicks: number; navs: number }> = {};
     for (let offset = 6; offset >= 0; offset -= 1) {
@@ -99,16 +125,32 @@ export async function GET() {
         ok: true,
         data: {
           totals: {
-            totalEvents,
+            totalEvents: totalEventsCount,
             pageViews,
             cardClicks,
             externalNavs,
             uniqueSessions: sessions.length,
+            totalInquiries: inquiries.length,
+            averageSatisfaction,
+            ratedInquiries: feedbackRatings.length,
           },
           eventsByType: eventsByType.map((entry) => ({
             type: entry.eventType,
             count: entry._count._all,
           })),
+          deviceBreakdown: deviceBreakdown.reduce<Record<string, number>>((acc, entry) => {
+            acc[entry.deviceType || "unknown"] = entry._count.deviceType;
+            return acc;
+          }, {}),
+          countryBreakdown: countryBreakdown.reduce<Record<string, number>>((acc, entry) => {
+            acc[entry.country || "unknown"] = entry._count.country;
+            return acc;
+          }, {}),
+          funnel: {
+            pageViews: pageViewCount,
+            inquiriesSubmitted: inquiries.length,
+            conversionRatePercent: conversionRate,
+          },
           dailyActivity: Object.values(dailyMap),
           recentEvents,
         },

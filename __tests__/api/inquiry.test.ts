@@ -73,6 +73,23 @@ describe("/api/inquiry API Route Suite", () => {
       const data = await res.json();
       expect(data.error).toBeDefined();
     });
+
+    it("rejects feedback ratings outside the 1-5 range with 400", async () => {
+      const req = new NextRequest("http://localhost:3000/api/inquiry", {
+        method: "POST",
+        body: JSON.stringify({
+          name: "Studio Partner",
+          email: "partner@example.com",
+          brief: "Creative inquiry brief with clear scope and goal.",
+          engagementType: "Interactive Web Experience",
+          feedbackRating: 7,
+        }),
+      });
+      const res = await POST(req);
+      expect(res.status).toBe(400);
+      const data = await res.json();
+      expect(data.error).toMatch(/feedback rating/i);
+    });
   });
 
   describe("Rate-Limiting Logic", () => {

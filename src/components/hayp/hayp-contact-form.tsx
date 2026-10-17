@@ -20,6 +20,9 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
     email: '',
     projectType: 'General Creative Partnership',
     message: '',
+    feedbackRating: 5,
+    feedbackMessage: '',
+    telemetryConsent: true,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,6 +62,8 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
       entityType: 'contact',
       metadata: {
         projectType: formData.projectType,
+        feedbackRating: formData.feedbackRating,
+        telemetryConsent: formData.telemetryConsent,
       },
     });
 
@@ -75,6 +80,9 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
           email: formData.email.trim(),
           engagementType: formData.projectType,
           brief: formData.message.trim(),
+          feedbackRating: formData.feedbackRating,
+          feedbackMessage: formData.feedbackMessage.trim(),
+          telemetryConsent: formData.telemetryConsent,
         }),
       });
 
@@ -100,6 +108,8 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
             reply_to: formData.email,
             project_type: formData.projectType,
             message: formData.message,
+            feedback_rating: formData.feedbackRating,
+            feedback_message: formData.feedbackMessage,
           },
         };
 
@@ -205,6 +215,54 @@ export function HaypContactForm({ onSuccess, className = '' }: HaypContactFormPr
           placeholder="Outline the scope, timeline, and vision..."
           className="w-full px-3 py-2 rounded-lg border border-border bg-background/80 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary resize-none"
         />
+      </div>
+
+      <div className="rounded-xl border border-border bg-background/40 p-4 space-y-3">
+        <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+          Experience Rating (1-5)
+        </label>
+        <div className="flex flex-wrap gap-2">
+          {[1, 2, 3, 4, 5].map((score) => (
+            <button
+              key={score}
+              type="button"
+              onClick={() => setFormData({ ...formData, feedbackRating: score })}
+              className={`h-9 w-9 rounded-md border text-sm font-semibold transition ${
+                formData.feedbackRating === score
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'border-border bg-background text-foreground hover:border-primary/70'
+              }`}
+            >
+              {score}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+          Optional Feedback
+        </label>
+        <textarea
+          rows={2}
+          value={formData.feedbackMessage}
+          onChange={(e) => setFormData({ ...formData, feedbackMessage: e.target.value })}
+          placeholder="How was your experience with Hayp Studios?"
+          className="w-full px-3 py-2 rounded-lg border border-border bg-background/80 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+        />
+      </div>
+
+      <div className="flex items-start gap-3 rounded-lg border border-border bg-background/40 p-3">
+        <input
+          id="telemetryConsent"
+          type="checkbox"
+          checked={formData.telemetryConsent}
+          onChange={(e) => setFormData({ ...formData, telemetryConsent: e.target.checked })}
+          className="mt-1 h-4 w-4 rounded border-border text-primary focus:ring-primary"
+        />
+        <label htmlFor="telemetryConsent" className="text-xs text-muted-foreground leading-relaxed">
+          I consent to privacy-conscious telemetry collection for performance and conversion analysis.
+        </label>
       </div>
 
       <button
