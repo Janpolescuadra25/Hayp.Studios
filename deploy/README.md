@@ -1,38 +1,32 @@
-﻿# Hayp Studios — Production Deployment & Operations Directory
+﻿# Hayp Studios Deployment & Infrastructure Assets
 
-This directory contains production configuration, automation scripts, and operational runbooks for deploying and running **Hayp Studios** on the Hetzner VPS (`vortex`).
-
----
-
-## Deployment Asset Inventory
-
-| File | Type | Primary Role & Description |
-|---|---|---|
-| `Caddyfile` | Configuration | Production reverse proxy configuration routing `haypstudios.com` & `www.haypstudios.com` to port `3003` with automated Let's Encrypt TLS and security headers. |
-| `ecosystem.config.js` | Configuration | PM2 process manager configuration for `hayp-frontend` (port `3003`, 1GB memory cap, cluster/fork mode). |
-| `backup-postgres.sh` | Shell Script | Automated PostgreSQL backup script using `pg_dump` with gzip compression (`*.sql.gz`) and 7-day retention in `/var/backups/haypstudios/postgres/`. |
-| `restore-postgres.sh` | Shell Script | Fail-closed PostgreSQL restoration script supporting compressed archives with pre-restore safety confirmations. |
-| `verify-deployment.sh` | Shell Script | Automated post-deployment smoke test script verifying HTTP status, API endpoints, TLS certificate, and PM2 process health. |
-| `PROD_FIREWALL_SETUP.md` | Runbook | Server hardening specifications and UFW firewall rules for Hetzner VPS `vortex` (ports 22, 80, 443). |
-| `README_9.2_CICD.md` | Runbook | CI/CD pipeline documentation detailing the GitHub Actions automated deployment workflow (`.github/workflows/deploy.yml`). |
-| `README_9.3_MONITORING.md` | Runbook | Production logging, PM2 monitoring, and health check endpoint operations manual. |
-| `README_9.4_SECURITY.md` | Runbook | Database security policies, access controls, and credential rotation procedures. |
-| `README_9.5_RUNBOOK.md` | Runbook | Comprehensive post-deployment verification runbook, pre-flight checklist, live testing procedures, and zero-downtime rollback runbook. |
+This directory contains the deployment configurations, automation scripts, operational runbooks, and disaster recovery procedures for **Hayp Studios** (`haypstudios.com`), hosted on Hetzner VPS `vortex` (`2.28.120.85`).
 
 ---
 
-## Operational Architecture Summary
+## Asset Inventory (11 Assets)
 
-1. **Reverse Proxy:** **Caddy** serves as the sole reverse proxy. Legacy Nginx configurations were decommissioned in Deliverable 9.1.
-2. **Process Management:** **PM2** manages the Next.js standalone server on internal port `3003` under application name `hayp-frontend`.
-3. **Continuous Deployment:** Orchestrated automatically via **GitHub Actions** (`.github/workflows/deploy.yml`). Deployment triggers automatically on push to `main` following successful CI tests and builds.
-4. **Database Operations:** PostgreSQL backups are scheduled via cron executing `deploy/backup-postgres.sh`. Restoration is executed via `deploy/restore-postgres.sh`.
-5. **Post-Deployment Verification:** Automated verification is performed via `deploy/verify-deployment.sh` following the procedures detailed in `README_9.5_RUNBOOK.md`.
+| Asset Name | Type | Description | Deliverable |
+|---|---|---|---|
+| `Caddyfile` | Configuration | Reverse proxy configuration for Caddy (port 3003, automated Let's Encrypt TLS, security headers). | D9.1 |
+| `ecosystem.config.js` | Configuration | PM2 process specification for `hayp-frontend` (port 3003, 1GB memory limit, structured logging). | D9.1 / D10.1 |
+| `PROD_FIREWALL_SETUP.md` | Runbook | Instructions for UFW firewall configuration on Hetzner VPS (ports 22, 80, 443). | D9.4 |
+| `README_9.2_CICD.md` | Runbook | GitHub Actions automated deployment workflow specification (`deploy.yml`). | D9.2 |
+| `README_9.3_MONITORING.md` | Runbook | Phase 9 monitoring foundation (`/api/health`, structured logging, automated daily DB backups). | D9.3 |
+| `README_9.4_SECURITY.md` | Runbook | Production security hardening guidelines (Caddy headers, rate limiting, sanitization). | D9.4 |
+| `README_9.5_RUNBOOK.md` | Runbook | Master deployment and operational runbook for Deliverable 9.5. | D9.5 |
+| `README_9.5_PHASE1_COMPLETE.md` | Runbook | Phase 1 tooling verification record and audit trail (Hydra Certified). | D9.5 |
+| `README_10.1_MONITORING_ALERTING.md` | Runbook | Production uptime monitoring, synthetic health probing, PM2 alerting & escalation runbook. | D10.1 |
+| `README.md` | Documentation | This deployment directory asset index and operational summary. | System |
+| `verify-deployment.sh` | Bash Script | Automated post-deployment smoke verification suite (health checks, TLS, security headers). | D9.5 |
+
+*(Note: Database maintenance scripts `backup-postgres.sh` and `restore-postgres.sh` reside alongside these assets.)*
 
 ---
 
-## Security & Secrets Policy
+## Operational Summary
 
-- **No Plaintext Secrets:** Never commit `.env`, credentials, API keys, or private SSH keys to this repository.
-- **Server Environment:** Secrets live exclusively on `vortex` in `/var/www/haypstudios/.env.production`.
-- **Backup File Permissions:** Automated backups in `/var/backups/haypstudios/postgres/` must be restricted with `chmod 700`.
+1. **Deployment Architecture:** Push-to-deploy via GitHub Actions (`main` branch) -> SSH to `vortex` -> `git pull` -> `bun install` -> `bun run build` -> `pm2 reload deploy/ecosystem.config.js --update-env`.
+2. **Reverse Proxy:** Caddy serves apex `haypstudios.com` and `www.haypstudios.com`, proxying traffic to PM2 service `hayp-frontend` at `127.0.0.1:3003`.
+3. **Database Maintenance:** Automated backup and restore tooling with fail-closed safety confirmation gates.
+4. **Uptime Monitoring & Alerting:** `README_10.1_MONITORING_ALERTING.md` defines 60s synthetic probing against `/api/health`, PM2 crash resilience, and P1–P3 alert escalation protocols.

@@ -21,10 +21,10 @@
 5. Validate disaster recovery procedures through scheduled non-destructive restoration drills.
 
 ### Deliverables:
-- [ ] **Deliverable 10.1 — Production Uptime Monitoring & Alerting (Priority 1)**
-  - Implement external uptime monitoring for `https://haypstudios.com/api/health`
-  - Configure PM2 process crash and memory threshold alerting
-  - Document alert escalation and on-call response procedures
+- [x] **Deliverable 10.1 — Production Uptime Monitoring & Alerting (Priority 1) [COMPLETED]**
+  - External uptime monitoring specification documented for `https://haypstudios.com/api/health` (60s probe, 200 OK / healthy assertions, Uptime Kuma / UptimeRobot / Hetzner setup)
+  - PM2 process crash resilience, 1GB memory threshold, structured logging paths, and log rotation configured in `deploy/ecosystem.config.js`
+  - Alert escalation matrix (P1–P3 severity levels), on-call incident workflow, and emergency VPS access procedures documented in `deploy/README_10.1_MONITORING_ALERTING.md`
 - [ ] **Deliverable 10.2 — Performance Optimization & Edge Caching (Priority 2)**
   - Analyze production performance metrics from server and browser telemetry
   - Optimize Caddy cache-control and static asset caching rules
