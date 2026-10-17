@@ -4,7 +4,7 @@ This directory contains the deployment configurations, automation scripts, opera
 
 ---
 
-## Asset Inventory (15 Assets)
+## Asset Inventory (16 Assets)
 
 | Asset Name | Type | Description | Deliverable |
 |---|---|---|---|
@@ -23,6 +23,7 @@ This directory contains the deployment configurations, automation scripts, opera
 | `README_ENV_MANAGEMENT.md` | Runbook | Local vs. production `.env` handling, password and credential hygiene for the Hetzner VPS. | D10.3 |
 | `README.md` | Documentation | This deployment directory asset index and operational summary. | System |
 | `verify-deployment.sh` | Bash Script | Automated post-deployment smoke verification suite (health checks, TLS, security headers). | D9.5 |
+| `README_10.5_DISASTER_RECOVERY.md` | Markdown Document | Operational runbook & emergency restoration protocol for database disaster recovery. | D10.5 |
 
 *(Note: Database maintenance scripts `backup-postgres.sh` and `restore-postgres.sh` reside alongside these assets.)*
 
