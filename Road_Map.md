@@ -1,29 +1,51 @@
-﻿# HAYP.STUDIOS ROADMAP & MILESTONE SPECIFICATION
-**Version:** 9.0  
-**Status:** ACTIVE  
-**Last Updated:** 2026-10-16  
-**Active Baseline Commit:** `887dc6e22510ac4111ffac93c00771eed1af7fe8` (`887dc6e`)
-**Archived Predecessors:** Phases 1 through 8 and Deliverables 9.1–9.4 archived in `ARCHIVED_ROADMAP.md`
+﻿# Project Roadmap: Hayp Studios (Vortex Studios)
+
+**Current Version:** 10.0  
+**Last Updated:** 2026-10-17  
+**Active Baseline Commit:** `1d9b6dd4a37fae1efb66ae6bd633a00779cb4bd3`  
+**Archived Predecessors:** Phases 1 through 9 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
-## ACTIVE MILESTONE: PHASE 9 — PRODUCTION DEPLOYMENT & MONITORING
-**Status:** ACTIVE (DELIVERABLE 9.5 IN PROGRESS)  
-**Baseline Commit:** `887dc6e22510ac4111ffac93c00771eed1af7fe8`
-**Prerequisites:** Phase 8 fully verified, production Hetzner VPS provisioned, PostgreSQL configured on vortex host.
+## Active Milestone: Phase 10 — Post-Launch Monitoring & Operational Iteration
 
-### 1. Objective & Scope
-Deploy the Hayp.Studios production instance to the Hetzner VPS host, implement production-grade monitoring, error tracking, and automated backup workflows. Add production security hardening (HTTPS, reverse proxy, edge rate-limiting) and establish deployment automation.
+**Status:** ACTIVE (DELIVERABLE 10.1 IN PROGRESS)  
+**Target Domain:** `https://haypstudios.com`  
+**Target Host:** Hetzner VPS `vortex` (`2.28.120.85`)
 
-### 2. Deliverables & Implementation Sequence
-- [ ] **Deliverable 9.5 — Post-Deployment Verification Runbook (Priority 5)**
-  - Phase 1: Tooling & Runbook Creation (`verify-deployment.sh`, `README_9.5_RUNBOOK.md`, `restore-postgres.sh`) — **COMPLETED** (commits `db5d179`, `887dc6e`)
-  - Phase 2: Live VPS Deployment, Automated Smoke Verification & Acceptance Criteria Validation — **IN PROGRESS**
+### Core Objectives:
+1. Establish proactive 24/7 external uptime monitoring and automated failure alerting.
+2. Optimize application performance, edge caching, and asset delivery (Lighthouse score > 90).
+3. Enhance user analytics and feedback collection mechanisms post-inquiry.
+4. Implement ongoing security patch management and dependency vulnerability scanning.
+5. Validate disaster recovery procedures through scheduled non-destructive restoration drills.
 
-### 3. Acceptance Criteria
-- [ ] Production instance accessible at production domain with valid HTTPS
-- [ ] All Phase 8 features (inquiry pipeline, admin view, analytics) operational in production environment
-- [ ] Automated database migrations execute safely without data loss
-- [ ] Monitoring and error logging operational
-- [ ] Security audit passes with zero critical or high-severity vulnerabilities
-- [ ] Full application build (`bun run build`) and test suite (`bun test`) compile and pass cleanly
+### Deliverables:
+- [ ] **Deliverable 10.1 — Production Uptime Monitoring & Alerting (Priority 1)**
+  - Implement external uptime monitoring for `https://haypstudios.com/api/health`
+  - Configure PM2 process crash and memory threshold alerting
+  - Document alert escalation and on-call response procedures
+- [ ] **Deliverable 10.2 — Performance Optimization & Edge Caching (Priority 2)**
+  - Analyze production performance metrics from server and browser telemetry
+  - Optimize Caddy cache-control and static asset caching rules
+  - Audit Next.js bundle and image optimization to achieve Lighthouse > 90
+- [ ] **Deliverable 10.3 — User Feedback & Analytics Enhancement (Priority 2)**
+  - Implement client feedback collection workflow on contact/inquiry submission
+  - Enhance analytics metrics reporting to track inquiry conversion funnel
+  - Add geographic and device telemetry aggregation
+- [ ] **Deliverable 10.4 — Security Patch Management & Vulnerability Scanning (Priority 1)**
+  - Establish monthly automated dependency scanning workflow
+  - Audit security headers and TLS configuration quarterly
+  - Maintain zero critical/high-severity vulnerabilities in production
+- [ ] **Deliverable 10.5 — Disaster Recovery & Backup Validation Drill (Priority 3)**
+  - Execute scheduled non-destructive database restore drill using `restore-postgres.sh`
+  - Verify data integrity and zero data loss during restoration simulation
+  - Document drill outcomes and update operational runbooks
+
+### Acceptance Criteria:
+- [ ] External uptime monitoring operational with alerting configured
+- [ ] All core pages achieve Lighthouse performance score > 90
+- [ ] User feedback collection active on production contact form
+- [ ] Monthly security vulnerability scan workflow established
+- [ ] Database disaster recovery drill completed and documented with zero data loss
+- [ ] Full `bun run build` and `bun test` continue to pass cleanly with exit code 0

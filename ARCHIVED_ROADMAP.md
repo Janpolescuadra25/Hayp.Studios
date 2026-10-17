@@ -191,3 +191,24 @@ Deploy and verify the live production runtime, reverse proxy, TLS termination, a
 osniff, DENY, Referrer-Policy, Permissions-Policy, and server banner masking).
 3. **Centralized Logger Adoption:** Migrated all error logging across all core API routes (/api/inquiry, /api/analytics/event, /api/analytics/metrics, /api/instagram) from console.error to @/lib/logger, ensuring secret masking and production stack trace masking.
 4. **Security Documentation (deploy/README_9.4_SECURITY.md):** Complete operational specifications covering session security policies, TLS headers, Chromium HSTS preload submission runbook, and admin credential rotation procedures.
+---
+
+### Phase 9 — Production Deployment & Monitoring
+
+- **Archived Date:** 2026-10-17
+- **Status:** COMPLETED & PRODUCTION-READY (Hydra Certified)
+- **Baseline Commit:** `1d9b6dd4a37fae1efb66ae6bd633a00779cb4bd3`
+- **Live Production URL:** `https://haypstudios.com` (Hetzner VPS `vortex` at `2.28.120.85`, port 3003, Caddy reverse proxy)
+- **Deliverables Completed:**
+  - **Deliverable 9.1:** Server Setup, User Isolation, Firewall & Hardening (`PROD_FIREWALL_SETUP.md`, Caddy reverse proxy)
+  - **Deliverable 9.2:** CI/CD Pipeline & Zero-Downtime Deployment (`README_9.2_CICD.md`, `.github/workflows/deploy.yml`)
+  - **Deliverable 9.3:** Logging, Health Monitoring & Process Management (`README_9.3_MONITORING.md`, `ecosystem.config.js`, `/api/health`)
+  - **Deliverable 9.4:** Automated Database Backups & Rotation (`README_9.4_SECURITY.md`, `backup-postgres.sh`, `restore-postgres.sh`)
+  - **Deliverable 9.5:** Post-Deployment Verification Runbook & Live Smoke Verification (`README_9.5_RUNBOOK.md`, `README_9.5_PHASE1_COMPLETE.md`, `verify-deployment.sh` — 8/8 smoke checks passed cleanly)
+- **Acceptance Criteria Verified:**
+  - [x] Production instance accessible at `https://haypstudios.com` with valid HTTPS
+  - [x] All Phase 8 features (inquiry pipeline, admin view, analytics) operational in production
+  - [x] Automated database migrations execute safely without data loss
+  - [x] Monitoring and error logging operational (PM2, `/api/health`)
+  - [x] Security audit passes with zero critical/high-severity vulnerabilities
+  - [x] Full `bun run build` and `bun test` pass cleanly with exit code 0
