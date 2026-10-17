@@ -1,4 +1,4 @@
-﻿# Hayp Studios Deployment & Infrastructure Assets
+# Hayp Studios Deployment & Infrastructure Assets
 
 This directory contains the deployment configurations, automation scripts, operational runbooks, and disaster recovery procedures for **Hayp Studios** (`haypstudios.com`), hosted on Hetzner VPS `vortex` (`2.28.120.85`).
 

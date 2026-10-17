@@ -1,15 +1,15 @@
-﻿# Project Roadmap: Hayp Studios (Vortex Studios)
+# Project Roadmap: Hayp Studios (Vortex Studios)
 
 **Current Version:** 10.0  
 **Last Updated:** 2026-10-17  
-**Active Baseline Commit:** `2ab7a9c57f02b80d010ee542f8114d436cb03482`  
+**Active Baseline Commit:** `502f8776ebe008971861dc63ae6616388cf44046`  
 **Archived Predecessors:** Phases 1 through 9 archived in `ARCHIVED_ROADMAP.md`
 
 ---
 
 ## Active Milestone: Phase 10 — Post-Launch Monitoring & Operational Iteration
 
-**Status:** ACTIVE (DELIVERABLE 10.4 IN PROGRESS)  
+**Status:** ACTIVE (DELIVERABLE 10.3 IN PROGRESS)  
 **Target Domain:** `https://haypstudios.com`  
 **Target Host:** Hetzner VPS `vortex` (`2.28.120.85`)
 

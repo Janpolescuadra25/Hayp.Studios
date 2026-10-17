@@ -1,0 +1,42 @@
+name: Automated Security & Dependency Vulnerability Scan
+on:
+  schedule:
+    # Run weekly on Sunday at midnight UTC (00:00)
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    name: Dependency Audit & Vulnerability Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun Runtime
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile || bun install
+
+      - name: Run Security Audit Report
+        id: audit
+        run: |
+          echo "=== Running Comprehensive Dependency Security Audit ==="
+          mkdir -p reports
+          bun audit > reports/security-audit-report.txt 2>&1 || true
+          cat reports/security-audit-report.txt
+
+      - name: Upload Security Audit Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-report
+          path: reports/security-audit-report.txt
+          retention-days: 30
+
+      - name: Enforce Zero Critical Vulnerability Gate
+        run: |
+          echo "=== Enforcing Critical Vulnerability Threshold ==="
+          bun audit --fail-on critical

@@ -1,11 +1,9 @@
-﻿name: Production Deployment CI/CD
-
+name: Production Deployment CI/CD
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-
 jobs:
   test-and-build:
     name: Test & Build Verification Gate
@@ -13,56 +11,40 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
       - name: Setup Bun Runtime
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-
       - name: Install Dependencies
         run: bun install --frozen-lockfile || bun install
-
+      - name: Run Dependency Vulnerability Audit
+        run: bun audit --fail-on critical
       - name: Run Test Suite
         run: bun test
-
       - name: Compile Production Build
         run: bun run build
-
   deploy:
     name: Production Deploy to Hetzner VPS (vortex)
     needs: test-and-build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Execute Remote Deployment via SSH
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          host: 2.28.120.85
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script_stop: true
           script: |
             set -e
-            APP_DIR="${{ secrets.VPS_APP_DIR || '/var/www/haypstudios' }}"
-            echo "=== Initiating deployment in $APP_DIR ==="
-            cd "$APP_DIR"
-            
-            echo "Fetching latest changes from main branch..."
+            echo "=== Starting Production Deployment for Hayp Studios ==="
+            cd /var/www/haypstudios
             git fetch origin main
             git reset --hard origin/main
-            
-            echo "Installing dependencies..."
             bun install --frozen-lockfile || bun install
-            
-            echo "Compiling Next.js production build..."
             bun run build
-            
-            echo "Running database migrations..."
-            bun run db:migrate:deploy
-            
-            echo "Reloading PM2 process hayp-frontend..."
-            pm2 reload deploy/ecosystem.config.js || pm2 start deploy/ecosystem.config.js
-            pm2 save
-            
-            echo "=== Deployment completed successfully ==="
+            pm2 restart hayp-frontend --update-env
+            echo "=== Production Deployment Completed Successfully ==="
