@@ -7,77 +7,119 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Lane {
-  ACCOUNTING
-  AUTOMATION
-  SOCIAL
-  ECOMMERCE
-  GAMES
-}
-
 enum ProductStatus {
-  LIVE
-  IN_DEVELOPMENT
-  PLANNED
   CONCEPT
+  IN_DEVELOPMENT
+  BETA
+  LIVE
+  ARCHIVED
 }
 
-enum ChangelogType {
-  LAUNCH
-  UPDATE
-  ANNOUNCEMENT
-  MILESTONE
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  ARCHIVED
 }
 
 model Product {
-  id          String        @id @default(cuid())
-  name        String        @unique
-  lane        Lane
-  status      ProductStatus
-  date        DateTime?
-  description String
-  link        String?
-  sortOrder   Int
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id            String          @id @default(cuid())
+  title         String
+  slug          String          @unique
+  tagline       String?
+  description   String
+  category      String
+  status        ProductStatus   @default(IN_DEVELOPMENT)
+  metrics       Json?
+  date          DateTime?
+  externalUrl   String?
+  internalRoute String?
+  coverImage    String?
+  isFeatured    Boolean         @default(false)
+  sortOrder     Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  updates       ProductUpdate[]
 }
 
-model ChangelogEntry {
+model ProductUpdate {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  title       String
+  content     String
+  version     String?
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([productId])
+}
+
+model StudioEvent {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  eventType       String
+  description     String
+  startDate       DateTime
+  endDate         DateTime?
+  location        String?
+  registrationUrl String?
+  isPublished     Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Inquiry {
   id        String        @id @default(cuid())
-  type      ChangelogType
-  date      DateTime
-  title     String
-  body      String
-  published Boolean       @default(true)
+  name      String
+  email     String
+  company   String?
+  subject   String
+  message   String
+  status    InquiryStatus @default(NEW)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 }
 
-model SiteConfig {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  data      Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model OwnerAccount {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  role         String    @default("OWNER")
+  lastLogin    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
-model OwnerAccount {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+model ChangelogEntry {
+  id          String   @id @default(cuid())
+  version     String
+  date        DateTime @default(now())
+  title       String
+  description String
+  changes     Json
+  category    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Media {
   id        String   @id @default(cuid())
   filename  String
+  url       String
   mimeType  String
   size      Int
-  url       String
-  alt       String?
-  placement String?
-  meta      Json?
+  altText   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

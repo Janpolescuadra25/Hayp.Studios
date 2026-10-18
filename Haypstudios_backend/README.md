@@ -56,3 +56,32 @@ Product (lane, status, date, description, sortOrder) · ChangelogEntry
   secret — never reused from any other context.
 - Month-precision brief dates seeded as first-of-month; UI formats
   month-year in Phase 6.
+
+---
+
+## Package W3: Canonical Database Schema & Migrations
+
+- **Delivered In**: Phase 12.1 — Master Product Studio Architecture
+- **Status**: Complete & Verified
+- **Database Provider**: PostgreSQL (`Haypstudios_backend/prisma/schema.prisma`)
+- **Schema Snapshot**:
+  - `Product`: canonical studio product catalog with `slug`, status lifecycle, release metadata, and linked `ProductUpdate` records.
+  - `ProductUpdate`: versioned product release notes and changelog entries keyed to a parent product.
+  - `StudioEvent`: launch/demo/livestream event records with publication controls and external registration links.
+  - `SiteSetting`: typed key/value configuration store replacing legacy unstructured config.
+  - `Inquiry`: inbound client and partner inquiry intake, tracked by `InquiryStatus`.
+  - `OwnerAccount`: internal owner/admin identity model for authenticated dashboard access.
+  - `ChangelogEntry`: structured software update ledger for release history and roadmap visibility.
+  - `Media`: media asset registry for uploaded files and public assets.
+- **Core Enumerations**:
+  - `ProductStatus`: `CONCEPT`, `IN_DEVELOPMENT`, `BETA`, `LIVE`, `ARCHIVED`
+  - `InquiryStatus`: `NEW`, `CONTACTED`, `ARCHIVED`
+- **Migration & Verification Commands**:
+  - `npm install`
+  - `npm run db:generate`
+  - `npm run db:migrate -- --name w3_master_product_studio`
+  - `npm run db:seed`
+- **Deployment Notes**:
+  - Local PostgreSQL database is configured via `DATABASE_URL` in `.env`.
+  - The schema intentionally removes the legacy `SiteConfig` model and replaces it with canonical `SiteSetting` records.
+  - Seed data is deterministic and idempotent for the canonical product catalog, product updates, event set, settings, and inquiry intake.
