@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 const path = require('path');
-const envPath = path.resolve('/home/deploy/vortex-repo/Backend_Vortex/.env');
+const envPath = path.resolve('/home/deploy/vortex-repo/Haypstudios_backend/.env');
 console.log('envPath=' + envPath);
 const result = dotenv.config({ path: envPath });
 console.log('dotenvError=' + (result.error ? result.error.message : 'none'));

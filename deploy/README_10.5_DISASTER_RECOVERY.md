@@ -56,8 +56,8 @@ Use the following procedure in the event of a database outage, data corruption, 
 
 4. Regenerate the Prisma client and apply schema synchronization if required by the deployment state:
    ```bash
-   bunx prisma generate --schema=Backend_Vortex/prisma/schema.prisma
-   bunx prisma db push --schema=Backend_Vortex/prisma/schema.prisma
+   bunx prisma generate --schema=Haypstudios_backend/prisma/schema.prisma
+   bunx prisma db push --schema=Haypstudios_backend/prisma/schema.prisma
    ```
 
 5. Restart the application and verify the health endpoint:
