@@ -1,6 +1,6 @@
 ﻿# HAYP.STUDIOS — PROJECT ROADMAP
-**Active Baseline Commit:** 42a106e507bc63803cbf8fe4121261f50fe97f85  
-**Last Updated:** 2026-10-18 — D11.1 migration and validation complete  
+**Active Baseline Commit:** b32aa3883bd7281d73a2cd07fafa91419915798e  
+**Last Updated:** 2026-10-18 — D11.2 secure media upload pipeline complete  
 **Project Status:** Phases 1 through 10 are 100% COMPLETE and fully archived in ARCHIVED_ROADMAP.md. Active execution focused on Phase 11.
 
 ---
@@ -15,7 +15,7 @@ All completed phases and deliverables are preserved with verification dates and 
 
 ### PHASE 11: PORTFOLIO & ARTIST SHOWCASE EXPANSION
 - **Objective:** Expand the Hayp.Studios platform with dynamic portfolio management, artist showcases, and rich media handling capabilities.
-- **Architecture Grounding:** Leverages existing Prisma Product and Media models (Backend_Vortex/prisma/schema.prisma), NextAuth admin session guards, and Caddy edge caching on Hetzner VPS ortex (2.28.120.85).
+- **Architecture Grounding:** Leverages new Prisma ArtistProfile, Product, and Media models implemented in root prisma/schema.prisma, NextAuth admin session guards, and Caddy edge caching on Hetzner VPS ortex (2.28.120.85).
 
 #### Deliverables Breakdown:
 
@@ -26,7 +26,7 @@ All completed phases and deliverables are preserved with verification dates and 
   - **Migration:** `prisma/migrations/20261018031807_add_artist_product_media_models`
   - *Documentation:* Dedicated README in Docs/phase11/schema/README_PHASE11_SCHEMA.md.
 
-- [ ] **Deliverable 11.2: Secure Media Upload Pipeline**
+- [x] **Deliverable 11.2: Secure Media Upload Pipeline**
   - Implement /api/upload API route with NextAuth admin authentication guard.
   - Implement multipart/form-data parser with file type allowlist (JPEG, PNG, WebP, AVIF, MP4) and 10MB size limit.
   - Implement local storage handler for development and production storage adapter pointing to VPS /uploads.
