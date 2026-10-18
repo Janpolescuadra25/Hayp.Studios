@@ -1,56 +1,69 @@
-﻿# HAYP.STUDIOS — PROJECT ROADMAP
-**Active Baseline Commit:** ab858357df1464bcc5e2d11b9d5c0436ffb323f2  
-**Last Updated:** 2026-10-18 — Phase 12: Resident Artist Profiles, Dynamic SEO & Commercial Commission Pipeline initialized  
-**Project Status:** Phases 1 through 11 are 100% COMPLETE and fully archived in ARCHIVED_ROADMAP.md. Phase 12 is currently ACTIVE.
+﻿# Hayp Studios — Engineering Roadmap & Architecture Registry
+
+**Active Baseline Commit:** `4b2c65e899dfd20942f4ce1815cb4449efde2298`  
+**Pipeline State:** Groundwork Complete (Packages W1 & W2 Landed) · Phase 12 Master Product Studio Initialization  
+**Governing Plan:** `Haypstudios_plan.md` (Master Owner Dashboard & Product Studio Architecture)
 
 ---
 
-## ARCHIVE REFERENCE
-All completed phases and deliverables are preserved with verification dates and baseline commit hashes in:
-- **ARCHIVED_ROADMAP.md** (Phases 1 through 11 inclusive)
+## 1. COMPLETED GROUNDWORK LEDGER
+
+### Package W1: Workspace Directory Normalization
+- **Commit:** `ab858357df1464bcc5e2d11b9d5c0436ffb323f2`
+- **Scope:** Renamed legacy decoupled service directory `Backend_Vortex` → `Haypstudios_backend`.
+- **References:** Updated deployment disaster recovery runbooks (`deploy/README_10.5_DISASTER_RECOVERY.md`) and environment verification scripts.
+- **Verification:** All 26 tests passing (`bun test`); production build compiles 13 routes with exit code 0 (`bun run build`).
+
+### Package W2: Public Brand, Privacy & Navigation Cleanup
+- **Commit:** `4b2c65e899dfd20942f4ce1815cb4449efde2298`
+- **Scope:**
+  - Pluralized public brand wordmark to `.STUDIOS` in `src/components/hayp/hayp-logo.tsx`.
+  - Removed "Preview" button and technical preview modal from product cards in `src/components/hayp/hayp-hub.tsx`.
+  - Purged `techStack` and `architecture` metadata strings from public catalog data in `src/lib/hayp-data.ts`.
+  - Privatized public navigation in `src/components/hayp/hayp-chrome.tsx` (removed public Admin and Analytics links from header, mobile drawer, and footer).
+- **Verification:** 26/26 tests passing; Turbopack production build verified clean.
 
 ---
 
-## ACTIVE ROADMAP: PHASE 12 — RESIDENT ARTIST PROFILES, DYNAMIC SEO & COMMERCIAL COMMISSION PIPELINE
+## 2. PHASE 12: MASTER PRODUCT STUDIO ARCHITECTURE & OWNER DASHBOARD
 
-### Overview & Strategic Goal
-Phase 12 transforms Hayp.Studios from a portfolio showcase into a complete creator agency platform. It delivers dedicated individual artist public profiles, search-optimized dynamic metadata and rich previews, an end-to-end commercial project commission pipeline, and high-performance media delivery.
+### Deliverable 12.1 (Package W3): Canonical Database Schema & Migrations
+- **Status:** Pending Implementation
+- **Scope:**
+  - Define canonical Prisma schema models supporting the complete product studio lifecycle:
+    * `Product`: Studio software products and upcoming web applications (title, slug, tagline, description, category, status [CONCEPT, IN_DEVELOPMENT, BETA, LIVE, ARCHIVED], externalUrl, internalRoute, coverImage, isFeatured, sortOrder).
+    * `ProductUpdate`: Version release notes, devlogs, and feature announcements tied to products.
+    * `StudioEvent`: Hackathons, product launches, community demos, and livestream events.
+    * `SiteSetting`: Dynamic branding, announcement banners, studio metadata, and social links.
+    * `Inquiry`: Inbound client leads, project requests, and contact submissions.
+  - Generate and apply deterministic migration locks.
+  - Implement type-safe seed script populating catalog data.
 
----
+### Deliverable 12.2 (Package W4): Private Master Owner Dashboard Shell & Authentication
+- **Status:** Pending Implementation
+- **Scope:**
+  - Establish dedicated unadvertised owner login entrance (`/owner/login`) and dashboard root (`/owner`).
+  - Implement robust server-side session protection and middleware guards.
+  - Provide master navigation shell: Overview, Products, Updates, Events, Content, Inquiries, Media, Analytics.
 
-### Deliverables Breakdown
+### Deliverable 12.3 (Package W5): Products & Product Updates Management Console
+- **Status:** Pending Implementation
+- **Scope:**
+  - Comprehensive CRUD management console for Studio products and upcoming web applications.
+  - Draft vs. live publication controls, status state-machine transitions, and feature toggles.
+  - Product release notes and devlog management tied directly to products.
 
-- [ ] **Deliverable 12.1: Individual Artist Public Profiles (`/artists/[slug]`) & Portfolio Deep-Linking**
-  - Implement dynamic page `src/app/artists/[slug]/page.tsx` rendering individual resident creator profile, full biography, social links, and categorized project gallery.
-  - Add deep-linking between `/portfolio` project showcase cards and artist profile views.
-  - Implement direct artist commission contact modal with artist pre-selection.
-  - Unit and component tests in `src/app/artists/[slug]/page.test.tsx` and `src/components/hayp/hayp-artist-profile.test.tsx`.
-  - *Documentation:* `src/components/hayp/README.hayp-artist-profiles.md`.
+### Deliverable 12.4 (Package W6): Events, Page Content & Studio Settings Management
+- **Status:** Pending Implementation
+- **Scope:**
+  - Studio event management (create, update, publish, archive launches and demos).
+  - Page content management: landing hero copy, The Story narrative, and FAQ sections.
+  - Studio configuration: banner announcements, social links, and SEO defaults.
 
-- [ ] **Deliverable 12.2: Dynamic SEO, OpenGraph Preview Cards & Schema.org Structured Data**
-  - Implement Next.js `generateMetadata` on `/artists/[slug]` and portfolio project modals with dynamic titles, descriptions, and keywords.
-  - Configure dynamic OpenGraph preview cards (`og:image`, `og:title`, `og:description`) and Twitter card summaries for seamless social sharing.
-  - Embed Schema.org JSON-LD structured data (`ProfilePage`, `Person`, `VisualArtwork`, `Organization`) for rich search indexing.
-  - Unit tests for metadata generation and structured data formatting.
-  - *Documentation:* `src/components/seo/README.md`.
-
-- [ ] **Deliverable 12.3: Project Commission Inquiry Flow & Commercial Work Request Pipeline**
-  - Extend `/api/inquiry` route and schema to support project-specific commission inquiries linked to `productId` and `artistId` with budget tiers.
-  - Add commercial inquiry trigger from project modal and artist profile pages.
-  - Enhance admin inquiry management dashboard (`hayp-admin.tsx`) with status lifecycle (`NEW`, `REVIEWING`, `ACCEPTED`, `DECLINED`), project badges, and admin response notes.
-  - API and component regression tests in `__tests__/api/inquiry-commercial.test.ts`.
-  - *Documentation:* `src/components/hayp/README.hayp-inquiry-commercial.md`.
-
-- [ ] **Deliverable 12.4: Frontend Media Performance & Next.js Image Component Hardening**
-  - Upgrade raw `<img>` tags across `hayp-portfolio-grid.tsx`, `hayp-project-modal.tsx`, and artist profile views to Next.js `<Image />`.
-  - Implement responsive `sizes` attribute, progressive blur placeholders, and graceful fallback handling for missing/slow assets.
-  - Validate client-side caching parity with Caddy 1-day immutable edge caching (`/uploads/*`).
-  - Component performance tests verifying responsive image attributes and loading fallbacks.
-  - *Documentation:* `src/components/hayp/README.hayp-media-optimization.md`.
-
-- [ ] **Deliverable 12.5: Phase 12 Deployment Runbook, Production Validation & Final Regression Drill**
-  - Create operational runbook `deploy/README_12.5_COMMISSION_SEO_DEPLOYMENT.md` for Hetzner VPS `vortex` (`2.28.120.85`).
-  - Execute full regression test suite (`bun test`) and Turbopack production compilation (`bun run build`).
-  - Verify live HTTP status, dynamic OpenGraph headers via curl, and edge caching headers.
-  - Update `deploy/README.md` and complete Phase 12 closeout.
-  - *Documentation:* `deploy/README_12.5_COMMISSION_SEO_DEPLOYMENT.md`.
+### Deliverable 12.5 (Package W7): Media Library, Inquiries & Master Telemetry Verification
+- **Status:** Pending Implementation
+- **Scope:**
+  - Media asset upload and management console.
+  - Inbound inquiries inbox: review, filter, mark status (NEW, CONTACTED, ARCHIVED), and export.
+  - Retain and embed internal analytics dashboard exclusively inside the authenticated owner area.
+  - Full end-to-end regression testing, accessibility audit, and production build certification.
