@@ -1,43 +1,39 @@
 ﻿# Hayp Studios — Engineering Roadmap & Architecture Registry
 
-**Active Baseline Commit:** `4b2c65e899dfd20942f4ce1815cb4449efde2298`  
-**Pipeline State:** Groundwork Complete (Packages W1 & W2 Landed) · Phase 12 Master Product Studio Initialization  
+**Active Baseline Anchor:** `ca717923215ec3d5fed0bb247d45577d4e47d525` (Verified Groundwork & Package W2 Documentation Baseline)  
+**Pipeline State:** Phase 12 Master Product Studio Implementation  
 **Governing Plan:** `Haypstudios_plan.md` (Master Owner Dashboard & Product Studio Architecture)
 
 ---
 
-## 1. COMPLETED GROUNDWORK LEDGER
+## 1. ARCHIVED GROUNDWORK LEDGER (COMPLETED)
 
-### Package W1: Workspace Directory Normalization
-- **Commit:** `ab858357df1464bcc5e2d11b9d5c0436ffb323f2`
-- **Scope:** Renamed legacy decoupled service directory `Backend_Vortex` → `Haypstudios_backend`.
-- **References:** Updated deployment disaster recovery runbooks (`deploy/README_10.5_DISASTER_RECOVERY.md`) and environment verification scripts.
-- **Verification:** All 26 tests passing (`bun test`); production build compiles 13 routes with exit code 0 (`bun run build`).
+Full architectural and implementation context for completed packages is preserved in dedicated section documentation:
 
-### Package W2: Public Brand, Privacy & Navigation Cleanup
-- **Commit:** `4b2c65e899dfd20942f4ce1815cb4449efde2298`
-- **Scope:**
-  - Pluralized public brand wordmark to `.STUDIOS` in `src/components/hayp/hayp-logo.tsx`.
-  - Removed "Preview" button and technical preview modal from product cards in `src/components/hayp/hayp-hub.tsx`.
-  - Purged `techStack` and `architecture` metadata strings from public catalog data in `src/lib/hayp-data.ts`.
-  - Privatized public navigation in `src/components/hayp/hayp-chrome.tsx` (removed public Admin and Analytics links from header, mobile drawer, and footer).
-- **Verification:** 26/26 tests passing; Turbopack production build verified clean.
+- **Package W1 (Workspace Directory Normalization):**  
+  *Delivery Commit:* `ab858357df1464bcc5e2d11b9d5c0436ffb323f2`  
+  *Documentation:* `Haypstudios_backend/README.md`  
+  *Scope:* Normalized legacy decoupled service directory (`Backend_Vortex` → `Haypstudios_backend`); updated disaster recovery runbooks. All tests pass (26/26).
+
+- **Package W2 (Public Brand, Privacy & Navigation Cleanup):**  
+  *Delivery Commit:* `4b2c65e899dfd20942f4ce1815cb4449efde2298` (Doc Commit: `ca717923215ec3d5fed0bb247d45577d4e47d525`)  
+  *Documentation:* `src/components/hayp/README.md`  
+  *Scope:* Pluralized public brand wordmark to `.STUDIOS`; removed Hub product card "Preview" button and modal; purged `techStack`/`architecture` metadata strings from public catalog data; privatized public navigation (removed public Admin/Analytics links). All tests pass (26/26), 13 production routes built.
 
 ---
 
-## 2. PHASE 12: MASTER PRODUCT STUDIO ARCHITECTURE & OWNER DASHBOARD
+## 2. ACTIVE PHASE 12: MASTER PRODUCT STUDIO ARCHITECTURE & OWNER DASHBOARD
 
 ### Deliverable 12.1 (Package W3): Canonical Database Schema & Migrations
 - **Status:** Pending Implementation
+- **Database Provider:** PostgreSQL (`Haypstudios_backend/prisma/schema.prisma`)
 - **Scope:**
-  - Define canonical Prisma schema models supporting the complete product studio lifecycle:
-    * `Product`: Studio software products and upcoming web applications (title, slug, tagline, description, category, status [CONCEPT, IN_DEVELOPMENT, BETA, LIVE, ARCHIVED], externalUrl, internalRoute, coverImage, isFeatured, sortOrder).
-    * `ProductUpdate`: Version release notes, devlogs, and feature announcements tied to products.
-    * `StudioEvent`: Hackathons, product launches, community demos, and livestream events.
-    * `SiteSetting`: Dynamic branding, announcement banners, studio metadata, and social links.
-    * `Inquiry`: Inbound client leads, project requests, and contact submissions.
-  - Generate and apply deterministic migration locks.
-  - Implement type-safe seed script populating catalog data.
+  - Expand `Product` model: add `slug`, `tagline`, `category`, `status` machine (`CONCEPT`, `IN_DEVELOPMENT`, `BETA`, `LIVE`, `ARCHIVED`), `externalUrl`, `internalRoute`, `coverImage`, `isFeatured`, `sortOrder`.
+  - Create `ProductUpdate` model with foreign key relation to `Product` (title, slug, version, summary, body, publishedAt, isPinned).
+  - Create `StudioEvent` model for hackathons, launches, community demos, and livestream events.
+  - Create `SiteSetting` model replacing unstructured config with typed studio configuration (branding, banners, announcement copy, social links, SEO defaults).
+  - Create `Inquiry` model for inbound client leads, project requests, and contact submissions.
+  - Generate deterministic migration locks and create type-safe seed script.
 
 ### Deliverable 12.2 (Package W4): Private Master Owner Dashboard Shell & Authentication
 - **Status:** Pending Implementation
