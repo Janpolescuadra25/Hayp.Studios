@@ -1,6 +1,6 @@
 ﻿# HAYP.STUDIOS — PROJECT ROADMAP
 **Active Baseline Commit:** 42a106e507bc63803cbf8fe4121261f50fe97f85  
-**Last Updated:** 2026-10-18  
+**Last Updated:** 2026-10-18 — D11.1 migration and validation complete  
 **Project Status:** Phases 1 through 10 are 100% COMPLETE and fully archived in ARCHIVED_ROADMAP.md. Active execution focused on Phase 11.
 
 ---
@@ -23,6 +23,7 @@ All completed phases and deliverables are preserved with verification dates and 
   - Define ArtistProfile model with 1:1 relation to OwnerAccount (bio, avatarUrl, socialLinks, specialties).
   - Extend Product model with rtistId relation, tags, client metadata, and media gallery relations.
   - Generate Prisma client and validate schema migration.
+  - **Migration:** `prisma/migrations/20261018031807_add_artist_product_media_models`
   - *Documentation:* Dedicated README in Docs/phase11/schema/README_PHASE11_SCHEMA.md.
 
 - [ ] **Deliverable 11.2: Secure Media Upload Pipeline**
