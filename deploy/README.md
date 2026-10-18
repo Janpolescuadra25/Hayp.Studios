@@ -36,3 +36,9 @@ This directory contains the deployment configurations, automation scripts, opera
 3. **Image & Media Optimization:** Next.js delivers AVIF and WebP modern image formats with responsive device sizing.
 4. **Database Maintenance:** Automated backup and restore tooling with fail-closed safety confirmation gates.
 5. **Uptime Monitoring & Alerting:** `README_10.1_MONITORING_ALERTING.md` defines 60s synthetic probing against `/api/health`, PM2 crash resilience, and P1–P3 alert escalation protocols.
+
+### Phase 11: Portfolio Expansion Deployment Assets
+- **Deployment Runbook**: [`README_11.5_PORTFOLIO_DEPLOYMENT.md`](README_11.5_PORTFOLIO_DEPLOYMENT.md)
+- **Caddy Reverse Proxy & Edge Caching**: [`Caddyfile`](Caddyfile) (Configured for port 3003 and 1-day `/uploads/*` caching)
+- **Environment Template**: [`.env.production.example`](../.env.production.example)
+- **Process Manager**: [`ecosystem.config.cjs`](../ecosystem.config.cjs)
