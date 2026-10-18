@@ -239,3 +239,28 @@ osniff, DENY, Referrer-Policy, Permissions-Policy, and server banner masking).
   - Non-destructive disaster recovery verification and automated backup/restore scripts (`deploy/backup-postgres.sh`, `deploy/restore-postgres.sh`).
   - Emergency restoration protocol runbook: `deploy/README_10.5_DISASTER_RECOVERY.md` (Asset #16).
   - Updated deployment asset table in `deploy/README.md`.
+
+---
+
+## PHASE 11: PORTFOLIO & ARTIST SHOWCASE EXPANSION
+**Archive Date:** 2026-10-18  
+**Baseline Commit:** 34b028dec65ef0f778fd3221bd8e920fa9a1b0f6  
+**Runtime Architecture:** Next.js 16.4.2 App Router | Bun Runtime | Prisma ORM | Caddy Reverse Proxy  
+**Target Server:** Hetzner Cloud VPS `vortex` (`2.28.120.85`)  
+**Production URL:** `https://haypstudios.com`
+
+### 1. Objective & Scope
+Expand the Hayp.Studios platform with dynamic portfolio management, artist showcases, and rich media handling capabilities, leveraging new Prisma database models and authenticated admin workflows.
+
+### 2. Verified Deliverables
+- [x] Prisma schema models: `ArtistProfile`, `Product`, `Media` with proper relational constraints
+- [x] Secure `/api/upload` media pipeline with admin authentication, file type validation, and 10MB size limit
+- [x] Public portfolio page (`/portfolio`) with filtering, artist directory (`/artists`), and interactive project modals
+- [x] Admin portfolio management interface (`/admin`) with full CRUD operations for artists and products
+- [x] Production deployment with Caddy edge caching for `/uploads/*` assets, PM2 process management, and full runbook documentation
+
+### 3. Acceptance Criteria Verified
+- [x] All 26 tests pass (0 failures) across portfolio, admin, and upload functionality
+- [x] Next.js production build completes successfully with all 13 routes generated
+- [x] Caddy configuration implements 1-day immutable caching for uploaded media assets
+- [x] All API routes enforce proper authentication guards for admin-only operations

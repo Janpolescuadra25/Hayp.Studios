@@ -67,6 +67,7 @@ model ArtistProfile {
   avatarUrl    String?
   bannerUrl    String?
   socialLinks  Json?
+  tags         Json?
   isActive     Boolean   @default(true)
   displayOrder Int       @default(0)
   createdAt    DateTime  @default(now())
@@ -83,8 +84,11 @@ model Product {
   title        String
   description  String?
   price        Float?
+  category     String?
+  currency     String?        @default("USD")
   tags         Json?
   isFeatured   Boolean        @default(false)
+  isArchived   Boolean        @default(false)
   displayOrder Int            @default(0)
   artistId     String?
   createdAt    DateTime       @default(now())
@@ -95,6 +99,7 @@ model Product {
 
   @@index([artistId])
   @@index([isFeatured, displayOrder])
+  @@index([isArchived, displayOrder])
 }
 
 model Media {
