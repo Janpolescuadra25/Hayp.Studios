@@ -58,3 +58,58 @@ model Inquiry {
   @@index([status, createdAt])
   @@index([engagementType, createdAt])
 }
+
+model ArtistProfile {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  name         String
+  bio          String?
+  avatarUrl    String?
+  bannerUrl    String?
+  socialLinks  Json?
+  isActive     Boolean   @default(true)
+  displayOrder Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  products Product[]
+
+  @@index([isActive, displayOrder])
+}
+
+model Product {
+  id           String         @id @default(cuid())
+  slug         String         @unique
+  title        String
+  description  String?
+  price        Float?
+  tags         Json?
+  isFeatured   Boolean        @default(false)
+  displayOrder Int            @default(0)
+  artistId     String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  artist ArtistProfile? @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  media  Media[]
+
+  @@index([artistId])
+  @@index([isFeatured, displayOrder])
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  url          String
+  thumbnailUrl String?
+  mediaType    String   @default("image")
+  caption      String?
+  displayOrder Int      @default(0)
+  productId    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([mediaType])
+}
