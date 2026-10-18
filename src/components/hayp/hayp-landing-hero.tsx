@@ -43,7 +43,7 @@ function IntroCurtain({ onDone }: { onDone: () => void }) {
           transition={{ duration: 1.5, delay: 0.15, times: [0, 0.32, 0.78, 1], ease: "easeInOut" }}
         >
           <span className="h-px w-10 bg-hayp-ink/20" />
-          <span className="label-editorial text-hayp-ink/70">Hayp . studio</span>
+          <span className="label-editorial text-hayp-ink/70">Hayp . studios</span>
           <span className="h-px w-10 bg-hayp-ink/20" />
         </motion.div>
       </div>
@@ -69,7 +69,7 @@ function OrbitBadge({ className }: { className?: string }) {
           </defs>
           <text className="fill-hayp-ink/55 font-mono text-[10.5px] uppercase" style={{ letterSpacing: "0.34em" }}>
             <textPath href="#badge-circle">
-              precision-built · ready-made · hayp.studio ·
+              precision-built · ready-made · hayp.studios ·
             </textPath>
           </text>
         </svg>
@@ -174,7 +174,7 @@ export function HaypHero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: introDelay + 0.5, ease: EASE }}
           >
-            Hayp.studio is an independent digital studio built on momentum
+            Hayp.Studios is an independent digital studio built on momentum
             — strategy, design, engineering and motion moving as one
             force. We obsess over the details others skip, and{" "}
             <span className="font-medium text-hayp-ink">

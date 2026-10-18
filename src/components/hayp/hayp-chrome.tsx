@@ -21,8 +21,6 @@ const hasAdminAccess = (session: { user?: { role?: string; email?: string | null
 const NAV_LINKS: { view: HaypView; label: string }[] = [
   { view: "landing", label: "The Story" },
   { view: "hub", label: "Hub" },
-  { view: "analytics", label: "Analytics" },
-  { view: "admin", label: "Admin" },
   { view: "whatsnew", label: "What's New" },
 ];
 
@@ -81,7 +79,7 @@ export function HaypNavbar({
           <button
             onClick={() => onNavigate("landing")}
             className="transition-transform duration-500 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hayp-teal"
-            aria-label="Hayp.studio — home"
+            aria-label="Hayp.Studios — home"
           >
             <HaypWordmark size="sm" animated={!scrolled} />
           </button>
@@ -196,7 +194,7 @@ export function HaypNavbar({
                 Less friction. More momentum.
               </p>
               <p className="label-editorial mt-3 text-[10px] text-hayp-ink/40">
-                hayp.studio — independent studio
+                hayp.studios — independent studio
               </p>
             </motion.div>
           </motion.div>
@@ -312,7 +310,7 @@ export function HaypFooter({ onNavigate }: { onNavigate: (v: HaypView) => void }
         {/* bottom bar */}
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t hairline pt-6 sm:flex-row">
           <p className="text-xs text-hayp-navy/50">
-            © {new Date().getFullYear()} Hayp.studio — designed, built and shipped with momentum.
+            © {new Date().getFullYear()} Hayp.Studios — designed, built and shipped with momentum.
           </p>
           <p className="label-editorial text-[10px] text-hayp-navy/40">
             spin up · ship · repeat

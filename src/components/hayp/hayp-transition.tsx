@@ -195,7 +195,7 @@ function IrisVariant() {
           transition={{ duration: 1.6, delay: i * 0.12, times: [0, 0.22, 0.66, 1], ease: "easeOut" }}
         />
       ))}
-      <BrandMoment label="Hayp . studio" markId="tr-iris" dark={false} />
+      <BrandMoment label="Hayp . studios" markId="tr-iris" dark={false} />
     </>
   );
 }

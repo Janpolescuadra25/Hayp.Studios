@@ -240,7 +240,7 @@ interface HaypWordmarkProps {
 }
 
 /**
- * Full wordmark: [H badge] + gradient "ayp" with ".studio" set below.
+ * Full wordmark: [H badge] + gradient "ayp" with ".STUDIOS" set below.
  */
 export function HaypWordmark({ size = "md", animated = true, className }: HaypWordmarkProps) {
   const markSize = { sm: 34, md: 46, lg: 60, hero: 132 }[size];
@@ -275,7 +275,7 @@ export function HaypWordmark({ size = "md", animated = true, className }: HaypWo
           ayp
         </span>
         <span className={cn("font-display font-medium text-hayp-navy/70 uppercase", subClass)}>
-          .studio
+          .STUDIOS
         </span>
       </div>
     </div>

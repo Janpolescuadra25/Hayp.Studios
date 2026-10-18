@@ -12,9 +12,6 @@ import {
   ArrowDownAZ,
   LayoutGrid,
   Rocket,
-  CheckCircle2,
-  Cpu,
-  Info,
 } from "lucide-react";
 import {
   CATEGORIES,
@@ -52,21 +49,11 @@ type Filter = Category | "All";
 /* Product card                                                        */
 /* ------------------------------------------------------------------ */
 
-function HubCard({ product, index, onPreview }: { product: Product; index: number; onPreview: (product: Product) => void }) {
+function HubCard({ product, index }: { product: Product; index: number }) {
   const { toast } = useToast();
-  const { trackCardClick, trackExternalNav, sendEvent } = useAnalytics();
+  const { trackCardClick, trackExternalNav } = useAnalytics();
   const [h1, h2] = product.hue;
   const isLive = product.status === "live";
-
-  const handlePreview = () => {
-    onPreview(product);
-    sendEvent({
-      eventType: "SHOWCASE_EXPLORE",
-      entityType: "engagement",
-      entityId: product.id,
-      metadata: { productId: product.id, status: product.status },
-    });
-  };
 
   return (
     <motion.article
@@ -146,14 +133,6 @@ function HubCard({ product, index, onPreview }: { product: Product; index: numbe
           </span>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={handlePreview}
-              className="inline-flex items-center gap-1.5 rounded-full border border-hayp-teal/20 bg-white px-3 py-1.5 font-display text-[11px] font-semibold text-hayp-teal transition-colors hover:bg-hayp-teal/5 focus-visible:outline-2 focus-visible:outline-hayp-teal"
-            >
-              <Info className="h-3.5 w-3.5" />
-              Preview
-            </button>
-
             {/* live product with a public site links out; live without one
                 (Haypbooks) stays hub-only — no website affordance; pipeline
                 products keep the progress toast */}
@@ -204,7 +183,6 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
   const [filter, setFilter] = useState<Filter>("All");
   const [sort, setSort] = useState<SortKey>("status");
   const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
-  const [activeProduct, setActiveProduct] = useState<Product | null>(null);
 
   const results = useMemo(() => {
     let list = [...PRODUCTS];
@@ -237,10 +215,6 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
     return list;
   }, [query, filter, sort]);
 
-  const handleOpenModal = (product: Product) => {
-    setActiveProduct(product);
-  };
-
   // w-full — definite width so the category pill scroller's min-content
   // (six shrink-0 pills) can't inflate the shrink-to-fit main on mobile
   return (
@@ -255,137 +229,6 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
             </DialogDescription>
           </DialogHeader>
           <HaypContactForm onSuccess={() => setIsContactOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={!!activeProduct} onOpenChange={(open) => !open && setActiveProduct(null)}>
-        <DialogContent className="max-w-2xl border border-zinc-800 bg-zinc-950 text-zinc-100 shadow-2xl">
-          {activeProduct && (
-            <>
-              <DialogHeader className="space-y-3">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <DialogTitle className="text-2xl font-semibold tracking-tight text-white">
-                      {activeProduct.name}
-                    </DialogTitle>
-                    <DialogDescription className="mt-2 text-sm text-zinc-400">
-                      {activeProduct.tagline}
-                    </DialogDescription>
-                  </div>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-300">
-                    {activeProduct.category}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.15em] ${STATUS_META[activeProduct.status].chip}`}>
-                    <span className={`h-2 w-2 rounded-full ${activeProduct.status === "live" ? "bg-emerald-400" : activeProduct.status === "development" ? "bg-amber-400" : "bg-zinc-500"}`} />
-                    {STATUS_META[activeProduct.status].label}
-                  </span>
-                </div>
-              </DialogHeader>
-
-              <div className="mt-6 space-y-6 text-sm text-zinc-300">
-                <div className="space-y-2">
-                  <p className="text-zinc-200">{activeProduct.description}</p>
-                </div>
-
-                {activeProduct.highlights && activeProduct.highlights.length > 0 && (
-                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4">
-                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white">
-                      <Sparkles className="h-4 w-4 text-amber-400" />
-                      Highlights
-                    </div>
-                    <ul className="space-y-2 text-zinc-300">
-                      {activeProduct.highlights.map((highlight) => (
-                        <li key={highlight} className="flex items-start gap-2">
-                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {activeProduct.features && activeProduct.features.length > 0 && (
-                  <div>
-                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white">
-                      <Cpu className="h-4 w-4 text-cyan-400" />
-                      Key Features
-                    </div>
-                    <ul className="grid gap-2 sm:grid-cols-2">
-                      {activeProduct.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2 rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-zinc-300">
-                          <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {activeProduct.architecture && (
-                  <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white">
-                      <LayoutGrid className="h-4 w-4 text-violet-400" />
-                      Architecture Overview
-                    </div>
-                    <p className="text-zinc-300 leading-relaxed">{activeProduct.architecture}</p>
-                  </div>
-                )}
-
-                {activeProduct.techStack && activeProduct.techStack.length > 0 && (
-                  <div>
-                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white">
-                      <Rocket className="h-4 w-4 text-fuchsia-400" />
-                      Tech Stack
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {activeProduct.techStack.map((stack) => (
-                        <span key={stack} className="rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-[10px] font-medium text-zinc-300">
-                          {stack}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-6 flex items-center justify-between gap-3 border-t border-zinc-800 pt-4">
-                {activeProduct.url ? (
-                  <a
-                    href={activeProduct.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md bg-amber-500 px-3.5 py-2 text-sm font-medium text-zinc-950 transition-opacity hover:opacity-90"
-                  >
-                    Visit Live Site
-                    <ArrowUpRight className="h-4 w-4" />
-                  </a>
-                ) : (
-                  <div />
-                )}
-
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => {
-                      setActiveProduct(null);
-                      setIsContactOpen(true);
-                    }}
-                    className="rounded-md bg-amber-500 px-3.5 py-2 text-sm font-medium text-zinc-950 transition-opacity hover:opacity-90"
-                  >
-                    Send project brief
-                  </button>
-                  <button
-                    onClick={() => setActiveProduct(null)}
-                    className="rounded-md border border-zinc-700 bg-zinc-900 px-3.5 py-2 text-sm text-zinc-200 transition-colors hover:border-zinc-600 hover:text-white"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
         </DialogContent>
       </Dialog>
 
@@ -524,7 +367,7 @@ export function HaypHub({ onGoHome }: { onGoHome: () => void }) {
       <motion.div layout className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {results.map((p, i) => (
-            <HubCard key={p.id} product={p} index={i} onPreview={handleOpenModal} />
+            <HubCard key={p.id} product={p} index={i} />
           ))}
         </AnimatePresence>
       </motion.div>

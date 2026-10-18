@@ -40,8 +40,6 @@ export interface Product {
   // Milestone 6-1 additive showcase metadata
   highlights?: string[];
   features?: string[];
-  architecture?: string;
-  techStack?: string[];
 }
 
 export const CATEGORIES: { name: Category; icon: LucideIcon; blurb: string }[] = [
@@ -106,18 +104,6 @@ export const PRODUCTS: Product[] = [
       "Real-time State Synchronization",
       "Enterprise Analytics Dashboard",
     ],
-    architecture:
-      "Modern full-stack application deployed on Hetzner VPS (vortex) behind Nginx reverse proxy with Express API backend and PostgreSQL persistence.",
-    techStack: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "Prisma",
-      "PostgreSQL",
-      "NextAuth",
-      "Radix UI",
-    ],
   },
   {
     id: "zypra",
@@ -141,15 +127,6 @@ export const PRODUCTS: Product[] = [
       "Real-Time State Tracking",
       "Automated Action Dispatcher",
       "Modular Integration Hooks",
-    ],
-    architecture:
-      "Event-driven service architecture with decoupled micro-workers and asynchronous execution pipelines.",
-    techStack: [
-      "TypeScript",
-      "Node.js",
-      "React",
-      "Tailwind CSS",
-      "PostgreSQL",
     ],
   },
   {
@@ -175,14 +152,6 @@ export const PRODUCTS: Product[] = [
       "Asset Optimization Engine",
       "Multi-format Export Pipeline",
     ],
-    architecture:
-      "Browser-based visual canvas interface coupled with high-throughput cloud rendering workers.",
-    techStack: [
-      "Next.js",
-      "WebGL",
-      "TypeScript",
-      "Tailwind CSS",
-    ],
   },
   {
     id: "lumora",
@@ -207,14 +176,6 @@ export const PRODUCTS: Product[] = [
       "Autonomous Synthesis Pipelines",
       "Interactive Graph Exploration",
     ],
-    architecture:
-      "Hybrid vector and relational data store with streaming client-side response rendering.",
-    techStack: [
-      "TypeScript",
-      "Next.js",
-      "Tailwind CSS",
-      "Vector Search",
-    ],
   },
 ];
 
@@ -236,7 +197,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     id: "cl-01",
     kind: "milestone",
-    title: "Hayp.studio is Founded",
+    title: "Hayp.Studios is Founded",
     date: "2025-11-01",
     body: "Day one: Hayp opens its doors with a single mission — ship complete, ready-to-use software with no templates and no shortcuts.",
   },

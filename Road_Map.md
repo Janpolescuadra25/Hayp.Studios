@@ -1,5 +1,5 @@
 ﻿# HAYP.STUDIOS — PROJECT ROADMAP
-**Active Baseline Commit:** c9096dc89430913720b3eddbe786d4eba63d82ab  
+**Active Baseline Commit:** ab858357df1464bcc5e2d11b9d5c0436ffb323f2  
 **Last Updated:** 2026-10-18 — Phase 12: Resident Artist Profiles, Dynamic SEO & Commercial Commission Pipeline initialized  
 **Project Status:** Phases 1 through 11 are 100% COMPLETE and fully archived in ARCHIVED_ROADMAP.md. Phase 12 is currently ACTIVE.
 
