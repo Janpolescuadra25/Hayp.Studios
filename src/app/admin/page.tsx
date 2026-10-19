@@ -47,6 +47,25 @@ export default function AdminPage() {
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
+      {/* Phase 12 Transition Banner */}
+      <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Master Owner Dashboard Active</p>
+            <p className="mt-1 text-sm text-zinc-300">
+              Studio operations are consolidating into the unified <code className="text-emerald-400">/owner</code> console. Existing portfolio and inquiry tools remain available below.
+            </p>
+          </div>
+        </div>
+        <a
+          href="/owner"
+          className="inline-flex items-center justify-center rounded-xl border border-emerald-500/30 bg-zinc-950/50 px-3 py-2 text-xs font-medium text-emerald-300 transition-colors hover:bg-emerald-500/10"
+        >
+          Go to /owner →
+        </a>
+      </div>
+
       <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-300">
