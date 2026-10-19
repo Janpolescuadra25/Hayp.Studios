@@ -1,79 +1,58 @@
-﻿# Hayp Studios — Master Engineering Roadmap
-
-**Repository:** `Hayp.Studios`  
-**Active Baseline Anchor:** `189436708949c6aaefdce311c7aa66ce15904ed4` (Package W3 Canonical Database Baseline)  
-**Governing Architectural Specification:** `Haypstudios_plan.md`  
+# Hayp Studios — Master Engineering Roadmap
+**Active Baseline Anchor:** `3f037c1d4535fa03403d77345b689f1f42e1ddb2` (Package W4 Master Owner Dashboard & Authentication Baseline)
 **Current Pipeline State:** Phase 12: Master Product Studio Implementation
+**Current Focus:** Deliverable 12.3 — Package W5: Products & Product Updates Management Console
 
 ---
 
-## ARCHIVED GROUNDWORK LEDGER (COMPLETE & PRESERVED)
+## 🏛️ ARCHIVED GROUNDWORK LEDGER (COMPLETE & PRESERVED)
 
-All prerequisite groundwork packages have been completed, verified via automated quality gates, landed on `main`, and documented in on-disk section READMEs.
+All phases below are fully implemented, verified via Hydra forensic code audits, covered by regression test suites, and anchored in git commit history.
 
-| Package | Scope | Delivered Commit | Primary Documentation | Status |
+| Phase / Package | Deliverable Name | Verified Commit | Documentation Pointer | Status |
 |---|---|---|---|---|
-| **Package W1** | Directory Structure Normalization (`Haypstudios_backend/`) | `d75a060` | `Haypstudios_backend/README.md` | COMPLETE |
-| **Package W2** | Public Brand & Privacy Cleanup (`.STUDIOS`, Navigation Boundary) | `4b2c65e` | `src/components/hayp/README.md` | COMPLETE |
-| **Package W3** | Canonical Database Schema & Migrations (PostgreSQL Models & Seed) | `189436708949c6aaefdce311c7aa66ce15904ed4` | `Haypstudios_backend/README.md` | COMPLETE |
+| **Phase 10** | Core Brand Identity, Minimalist Layout & Responsive Navigation | `3aa4966` | `README.md` | COMPLETE |
+| **Phase 11** | Interactive Portfolio Grid & Inquiries Pipeline Foundation | `3aa4966` | `README.md` | COMPLETE |
+| **Deliverable 11.1** | Static Asset Hardening & Mock Fallback Removal | `3aa4966` | `README.md` | COMPLETE |
+| **Deliverable 11.2** | Media Upload Infrastructure & Cloudflare Image Integration | `5dcf49b` | `README.md` | COMPLETE |
+| **Deliverable 11.3** | Automated Inquiries Pipeline & Rate-Limited Submissions | `5dcf49b` | `README.md` | COMPLETE |
+| **Package W1** | Comprehensive Repository Audit & Deployment Gap Analysis | `81014e7` | `Docs/Audit_W1.md` | COMPLETE |
+| **Package W2** | Multi-Repository Deployment Architecture & VPS Provisioning | `76bb2d3` | `Docs/Deploy_W2.md` | COMPLETE |
+| **Package W3 (12.1)** | Canonical Database Schema & Migrations | `1894367` | `Haypstudios_backend/README.md` | COMPLETE |
+| **Package W4 (12.2)** | Private Master Owner Dashboard Shell & Authentication | `3f037c1` | `src/app/owner/README.md` | COMPLETE |
 
 ---
 
-## ACTIVE PHASE: PHASE 12 — MASTER PRODUCT STUDIO ARCHITECTURE
-
-Phase 12 transforms Hayp Studios into a unified studio operating platform with an unadvertised, authenticated Master Owner Dashboard, relational content management consoles, dynamic event administration, and verified telemetry analytics.
-
-### Deliverable 12.2 (Package W4): Private Master Owner Dashboard Shell & Authentication
-- **Status:** Pending Implementation (Next Active Milestone)
-- **Target Scope:**
-  - Establish unadvertised `/owner` frontend route and dedicated layout shell.
-  - Bridge existing backend authentication (`Haypstudios_backend/src/auth.ts`) to database `OwnerAccount` model.
-  - Implement secure session validation, HTTP-only cookie guards (`vsession`), and automatic unauthorized redirects to login.
-  - Provide master navigation rail (Overview, Products, Updates, Events, Settings, Inquiries).
-  - Deprecate/isolate legacy `/admin` route.
-- **Completion Criteria:**
-  - Authenticated session required to access `/owner`.
-  - Type-safe layout shell rendering navigation and profile metadata.
-  - Full automated tests and production build passing.
-  - Section documentation created in `src/app/owner/README.md`.
+## 🚀 ACTIVE PHASE 12 DELIVERABLES: MASTER PRODUCT STUDIO IMPLEMENTATION
 
 ### Deliverable 12.3 (Package W5): Products & Product Updates Management Console
-- **Status:** Pending Implementation
+- **Status:** Pending Implementation (Next Active Milestone)
 - **Target Scope:**
-  - Interactive CRUD interface for canonical `Product` entities (`/owner/products`).
-  - Slug generation, status state machine controls (`CONCEPT`, `IN_DEVELOPMENT`, `BETA`, `LIVE`, `ARCHIVED`), and feature toggles.
-  - Sub-resource console for `ProductUpdate` release notes linked to parent products.
-  - Form validation, optimistic UI feedback, and error handling.
-- **Completion Criteria:**
-  - Products and versioned updates mutated cleanly via backend API routes.
-  - Public `/products` and hub previews reflect updated relational data.
-  - Section documentation created in `src/app/owner/products/README.md`.
+  - Database prerequisite: Add canonical `ProductUpdate` model to root `prisma/schema.prisma` and push SQLite schema.
+  - Backend API: Enhance/extend `/api/admin/products` and implement `/api/admin/product-updates` for versioned release notes linked to parent products.
+  - Frontend Console: Dedicated `/owner/products` table interface for browsing, creating, editing, and archiving products.
+  - Sub-resource Console: Dedicated interface for managing product update release notes with markdown/rich text support.
+  - Validation: Strict Zod validation schemas for product pricing, tags, categories, slugs, and update changelogs.
+  - Section Documentation: Create `src/app/owner/products/README.md` documenting implementation details and architecture.
 
 ### Deliverable 12.4 (Package W6): Events, Page Content & Studio Settings Management
 - **Status:** Pending Implementation
 - **Target Scope:**
-  - Interactive management console for `StudioEvent` records (`/owner/events`).
-  - Typed key/value editor for `SiteSetting` records (`/owner/settings`).
-  - Live broadcast banner toggle and studio notice controls.
-- **Completion Criteria:**
-  - Studio events scheduled, published, and rendered on public schedule pages.
-  - Settings mutated dynamically without application redeployment.
-  - Section documentation created in `src/app/owner/events/README.md`.
+  - Dedicated `/owner/events` console for calendar, workshops, and exhibition scheduling.
+  - Dedicated `/owner/settings` console for studio metadata, operating hours, SEO tags, and contact configuration.
+  - Section Documentation: Create `src/app/owner/settings/README.md`.
 
 ### Deliverable 12.5 (Package W7): Media Library, Inquiries & Master Telemetry Verification
 - **Status:** Pending Implementation
 - **Target Scope:**
-  - Asset upload and media metadata registry (`/owner/media`).
-  - Inbound partner/client inquiry manager (`/owner/inquiries`) with status tracking (`NEW`, `CONTACTED`, `ARCHIVED`).
-  - Master telemetry analytics aggregator displaying live traffic, active products, and server operational metrics.
-- **Completion Criteria:**
-  - End-to-end audit trail and inquiry lifecycle verified.
-  - Section documentation created in `src/app/owner/telemetry/README.md`.
+  - Centralized `/owner/media` asset browser with Cloudflare/local asset upload and tagging.
+  - Complete `/owner/inquiries` management console with status workflows (Pending, Contacted, In Progress, Archived).
+  - Production readiness audit and live deployment smoke test on `haypstudios.com`.
+  - Section Documentation: Create `src/app/owner/inquiries/README.md`.
 
 ---
 
-## VERIFICATION & SAFETY INVARIANTS
-1. **Zero Guesswork / Zero Assumption:** All implementation plans are anchored strictly in Hydra-verified repository facts.
-2. **Fail-Closed Gate Discipline:** Every task runs pre-flight baseline commit assertions and quality gates (`bun test` + `bun run build`).
-3. **Documentation Preservation:** Every completed phase creates or updates a dedicated on-disk `README.md` before removal from active tracking.
-4. **Isolated Work Whitelists:** Commits touch only the explicit files authorized for the active package.
+## 🛡️ CORE ARCHITECTURAL INVARIANTS
+1. **Unadvertised Owner Console:** All owner features live exclusively under `/owner/*` and are guarded by session authentication.
+2. **Quality Gate Discipline:** Every phase must pass `bun test` and `bun run build` with zero errors before landing.
+3. **Fail-Closed Execution:** Zero speculation; every change verified against Hydra code audits.
