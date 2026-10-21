@@ -52,21 +52,21 @@ export default function OwnerOverviewPage() {
                 <p className="text-sm font-medium text-zinc-200">Products & Updates Console</p>
                 <p className="text-xs text-zinc-500">Package W5 • Deliverable 12.3</p>
               </div>
-              <span className="px-2 py-0.5 text-[10px] font-mono bg-zinc-800 text-zinc-300 rounded-md">QUEUED</span>
+              <span className="px-2 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-md">ACTIVE</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-zinc-950/60 border border-zinc-800/60 rounded-xl">
               <div>
                 <p className="text-sm font-medium text-zinc-200">Events & Studio Settings</p>
                 <p className="text-xs text-zinc-500">Package W6 • Deliverable 12.4</p>
               </div>
-              <span className="px-2 py-0.5 text-[10px] font-mono bg-zinc-800 text-zinc-300 rounded-md">QUEUED</span>
+              <span className="px-2 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-md">ACTIVE</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-zinc-950/60 border border-zinc-800/60 rounded-xl">
               <div>
                 <p className="text-sm font-medium text-zinc-200">Media & Inquiries Telemetry</p>
                 <p className="text-xs text-zinc-500">Package W7 • Deliverable 12.5</p>
               </div>
-              <span className="px-2 py-0.5 text-[10px] font-mono bg-zinc-800 text-zinc-300 rounded-md">QUEUED</span>
+              <span className="px-2 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-md">ACTIVE</span>
             </div>
           </div>
         </div>

@@ -14,6 +14,7 @@
 | **Package W2 (12.2A)** | Artist Roster & Profile Management Systems | `cd18ef1` (Consolidated) | `src/components/hayp/README.hayp-admin-portfolio.md` | COMPLETED & VERIFIED |
 | **Package W3 (12.2B)** | Studio Discography, Audio Previews & Release Catalogs | `cd18ef1` (Consolidated) | `src/components/hayp/README.hayp-admin-portfolio.md` | COMPLETED & VERIFIED |
 | **Package W4 (12.3)** | Studio Merch & Physical Product Management Consoles | `d4e5f6a` | `src/app/owner/products/README.md` | COMPLETED & VERIFIED |
+| **Package W5 (12.3B)** | Products & Product Updates Management Console | `1120e5a` | `src/app/owner/products/README.md` | COMPLETED & VERIFIED (Commit: 1120e5a) |
 | **Package W6 (12.4)** | Studio Events, Page Content & Key-Value Settings Consoles | `6ee419f` | `src/app/owner/events/README.md` & `src/app/owner/settings/README.md` | COMPLETED & VERIFIED (Commit: 6ee419f) |
 | **Package W7 (12.5)** | Media Asset Library & Client Inquiries Management Consoles | `1ad22e3` | `src/app/owner/media/README.md` & `src/app/owner/inquiries/README.md` | COMPLETED & VERIFIED (Commit: 1ad22e3) |
 
@@ -27,8 +28,9 @@
 - **Application Service:** PM2 process `hayp-frontend`
 - **Database Target:** `HaypStudios_db` on `localhost:5432` (`vortex`)
 - **Reverse Proxy:** Nginx / Caddy SSL configuration on ports 80/443
+- **Status Note:** Code complete & verified (Commit `afa6268`). Live deployment execution is paused pending creation of `/var/www/hayp-studios/.env` on Hetzner VPS `vortex` (`2.28.120.85`).
 - **Scope & Verification Steps:**
-  1. Pull verified commit `1ad22e3` on server `vortex`.
+  1. Pull verified commit `afa6268` on server `vortex`.
   2. Execute production Prisma schema push/migrations and client generation on server.
   3. Execute production build (`bun run build`).
   4. Reload PM2 service `hayp-frontend` without downtime.
