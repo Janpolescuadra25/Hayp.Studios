@@ -10,6 +10,7 @@ import {
   Calendar,
   Settings,
   MailCheck,
+  Image,
   ExternalLink,
   LogOut,
   ChevronRight,
@@ -28,6 +29,7 @@ const NAV_ITEMS = [
   { label: "Events", href: "/owner/events", icon: Calendar },
   { label: "Settings", href: "/owner/settings", icon: Settings },
   { label: "Inquiries", href: "/owner/inquiries", icon: MailCheck },
+  { label: "Media", href: "/owner/media", icon: Image },
   { label: "Legacy Admin", href: "/admin", icon: ExternalLink },
 ];
 
