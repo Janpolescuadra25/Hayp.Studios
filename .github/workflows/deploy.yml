@@ -43,7 +43,7 @@ jobs:
           script: |
             set -e
             echo "=== Starting Production Deployment for Hayp Studios ==="
-            cd /var/www/haypstudios
+            cd /var/www/hayp-studios
             git fetch origin main
             git reset --hard origin/main
             bun install --frozen-lockfile || bun install
