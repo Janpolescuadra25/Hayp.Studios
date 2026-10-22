@@ -30,6 +30,7 @@
 - **Reverse Proxy:** Nginx / Caddy SSL configuration on ports 80/443
 - **Status Note:** Code complete & verified (Commit `afa6268`). Live deployment execution is paused pending creation of `/var/www/hayp-studios/.env` on Hetzner VPS `vortex` (`2.28.120.85`).
 - **Scope & Verification Steps:**
+  0. Update prisma/schema.prisma to switch datasource provider from sqlite to postgresql to match production PostgreSQL requirements (resolves Prisma Error P1012)
   1. Pull verified commit `afa6268` on server `vortex`.
   2. Execute production Prisma schema push/migrations and client generation on server.
   3. Execute production build (`bun run build`).
@@ -39,8 +40,7 @@
 ---
 
 ## REPOSITORY INVARIANTS & POLICIES
-0. Update prisma/schema.prisma to switch datasource provider from sqlite to postgresql to match production PostgreSQL requirements (resolves Prisma Error P1012)
-1. **Single Source of Truth:** Codebase state is adjudicated strictly against Hydra forensic verification.
+1. **Single Source of Truth:**** Codebase state is adjudicated strictly against Hydra forensic verification.
 2. **Quality Gates:** `bun test` and `bun run build` must pass cleanly before any commit.
 3. **Fail-Closed Staging:** Whitelisted files only; no collateral commits of unstaged or dirty files.
 4. **Documentation Rule:** Every console section maintains a dedicated `README.md` marked `# STATUS: DONE - Fully Implemented & Verified`.
