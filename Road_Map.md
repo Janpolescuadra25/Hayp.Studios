@@ -1,7 +1,7 @@
 # Hayp Studios — Master Engineering Roadmap
 
-**Active Baseline Anchor:** `1ad22e38902868e0c830fc6f599ccad8b13b9d98` (Package W7 Media Library & Inquiries Console Baseline)  
-**Current Pipeline State:** Phase 13: Production VPS Deployment & Live Operations  
+**Active Baseline Anchor:** `3b0445bb1775536d3b701dffd1f4905c275bb164` (Phase 13 Production VPS Deployment Baseline)
+**Current Pipeline State:** No active phases — all planned groundwork and production deployment completed
 **Current Focus:** Deliverable 13.1 — Production Deployment on VPS vortex (haypstudios.com, Port 3003, PM2 hayp-frontend, Caddy / Nginx reverse proxy verification)  
 
 ---
@@ -17,25 +17,7 @@
 | **Package W5 (12.3B)** | Products & Product Updates Management Console | `1120e5a` | `src/app/owner/products/README.md` | COMPLETED & VERIFIED (Commit: 1120e5a) |
 | **Package W6 (12.4)** | Studio Events, Page Content & Key-Value Settings Consoles | `6ee419f` | `src/app/owner/events/README.md` & `src/app/owner/settings/README.md` | COMPLETED & VERIFIED (Commit: 6ee419f) |
 | **Package W7 (12.5)** | Media Asset Library & Client Inquiries Management Consoles | `1ad22e3` | `src/app/owner/media/README.md` & `src/app/owner/inquiries/README.md` | COMPLETED & VERIFIED (Commit: 1ad22e3) |
-
----
-
-## ACTIVE PIPELINE: PHASE 13 — PRODUCTION VPS DEPLOYMENT & LIVE OPERATIONS
-
-### Deliverable 13.1 — Production Deployment on VPS vortex
-- **Target Host:** Hetzner VPS `vortex` (`2.28.120.85`, Port 3003)
-- **Domains:** `https://haypstudios.com` & `https://www.haypstudios.com`
-- **Application Service:** PM2 process `hayp-frontend`
-- **Database Target:** `HaypStudios_db` on `localhost:5432` (`vortex`)
-- **Reverse Proxy:** Nginx / Caddy SSL configuration on ports 80/443
-- **Status Note:** Code complete & verified (Commit `afa6268`). Live deployment execution is paused pending creation of `/var/www/hayp-studios/.env` on Hetzner VPS `vortex` (`2.28.120.85`).
-- **Scope & Verification Steps:**
-  0. Update prisma/schema.prisma to switch datasource provider from sqlite to postgresql to match production PostgreSQL requirements (resolves Prisma Error P1012)
-  1. Pull verified commit `afa6268` on server `vortex`.
-  2. Execute production Prisma schema push/migrations and client generation on server.
-  3. Execute production build (`bun run build`).
-  4. Reload PM2 service `hayp-frontend` without downtime.
-  5. Run external HTTPS health and telemetry checks against `https://haypstudios.com`.
+| **Package W8 (13.1)** | Production VPS Deployment & Live Operations Launch | `3b0445b` | `deploy/ecosystem.config.js` | COMPLETED & VERIFIED (Commit: 3b0445b) |
 
 ---
 
