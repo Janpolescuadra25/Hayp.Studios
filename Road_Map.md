@@ -39,6 +39,7 @@
 ---
 
 ## REPOSITORY INVARIANTS & POLICIES
+0. Update prisma/schema.prisma to switch datasource provider from sqlite to postgresql to match production PostgreSQL requirements (resolves Prisma Error P1012)
 1. **Single Source of Truth:** Codebase state is adjudicated strictly against Hydra forensic verification.
 2. **Quality Gates:** `bun test` and `bun run build` must pass cleanly before any commit.
 3. **Fail-Closed Staging:** Whitelisted files only; no collateral commits of unstaged or dirty files.
