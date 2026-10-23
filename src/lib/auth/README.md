@@ -22,3 +22,8 @@ Secure authentication gateway for the Hayp Studios owner console (`/owner`), pow
 - Resolved `401 Unauthorized` error on production VPS `vortex` by standardizing `ADMIN_EMAIL` and `ADMIN_PASSWORD_HASH` in `/var/www/hayp-studios/.env`.
 - Cleaned syntax for `NEXTAUTH_URL="https://haypstudios.com"` and injected secure `NEXTAUTH_SECRET`.
 - Verified live end-to-end with HTTP 200 session responses.
+
+## Production Credential Synchronization (Package W9.1)
+- Dual-layer synchronization enforced across PostgreSQL (`OwnerAccount.passwordHash` and `User.passwordHash`) and VPS `.env` fallback (`ADMIN_PASSWORD_HASH` and `OWNER_PASSWORD_HASH`).
+- Repaired the stale `DATABASE_URL` password and synchronized the `postgres` role to the valid runtime value used by the live app.
+- Verified NextAuth CredentialsProvider bcrypt comparison against `paulescuadra25@gmail.com` and confirmed the protected `/owner` route returns HTTP 200 for an authenticated session.
