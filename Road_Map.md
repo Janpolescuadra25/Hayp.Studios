@@ -1,6 +1,6 @@
 # Hayp Studios — Master Engineering Roadmap
 
-**Active Baseline Anchor:** `3b0445bb1775536d3b701dffd1f4905c275bb164` (Phase 13 Production VPS Deployment Baseline)
+**Active Baseline Anchor:** `b58a70fb5c5f87b3226dbbf39ecffad951e7041a` (Package W9.1 Authentication Dual Sync Baseline)
 **Current Pipeline State:** No active phases — all planned groundwork and production deployment completed
 **Current Focus:** None — all planned groundwork, production deployment, and authentication hotfixes completed.
 
@@ -19,6 +19,7 @@
 | **Package W7 (12.5)** | Media Asset Library & Client Inquiries Management Consoles | `1ad22e3` | `src/app/owner/media/README.md` & `src/app/owner/inquiries/README.md` | COMPLETED & VERIFIED (Commit: 1ad22e3) |
 | **Package W8 (13.1)** | Production VPS Deployment & Live Operations Launch | `3b0445b` | `deploy/ecosystem.config.js` | COMPLETED & VERIFIED (Commit: 3b0445b) |
 | **Package W9 (13.2)** | Owner Login Authentication & VPS Serving Reconciliation | `9fe8df1` | `src/lib/auth/README.md` | COMPLETED & VERIFIED (Commit: 9fe8df1) |
+| **Package W9.1 (13.3)** | Production Credential Dual Sync & PostgreSQL Role Reconciliation | `b58a70f` | `src/lib/auth/README.md` | COMPLETED & VERIFIED (Commit: b58a70f) |
 
 ---
 
